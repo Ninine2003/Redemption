@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="meta-pixel-id" content="REPLACE_WITH_META_PIXEL_ID" />
+    <title>Paiement Wave | House of Redemption</title>
+    <link rel="icon" type="image/jpeg" href="img/logo.jpg" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="analytics.js" defer></script>
+    <style>
+        body {
+            min-height: 100vh;
+            background: #10bfe8;
+            color: #071015;
+            font-family: var(--font-body);
+            cursor: auto;
+        }
+
+        .wave-payment-page {
+            width: min(660px, calc(100% - 28px));
+            margin: 0 auto;
+            padding: clamp(18px, 4vw, 34px) 0;
+        }
+
+        .wave-card {
+            display: grid;
+            gap: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: #fff;
+            padding: clamp(18px, 3.6vw, 30px);
+            box-shadow: 0 18px 44px rgba(4, 40, 52, 0.16);
+        }
+
+        .wave-brand {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .wave-brand img {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .wave-title {
+            margin: 0;
+            color: #08bde7;
+            font-size: clamp(32px, 6.2vw, 52px);
+            line-height: 0.9;
+            text-transform: uppercase;
+        }
+
+        .wave-qr {
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            background: #fff;
+            padding: 14px;
+        }
+
+        .wave-qr img {
+            width: min(100%, 290px);
+            aspect-ratio: 1;
+        }
+
+        .wave-summary {
+            display: grid;
+            gap: 10px;
+            border: 1px solid rgba(7, 16, 21, 0.12);
+            background: #f6fbfd;
+            padding: 14px;
+        }
+
+        .wave-summary strong {
+            font-size: clamp(26px, 6vw, 36px);
+        }
+
+        .wave-items {
+            display: grid;
+            gap: 10px;
+        }
+
+        .wave-item {
+            display: grid;
+            grid-template-columns: 58px 1fr;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .wave-item img {
+            width: 58px;
+            height: 58px;
+            object-fit: cover;
+        }
+
+        .wave-item p {
+            margin: 0;
+        }
+
+        .wave-actions {
+            display: grid;
+            gap: 10px;
+        }
+
+        .wave-actions .btn {
+            width: 100%;
+            min-height: 56px;
+            justify-content: center;
+            text-align: center;
+            touch-action: manipulation;
+        }
+
+        .wave-note {
+            margin: 0;
+            color: #29424c;
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+
+        .wave-status {
+            margin: 0;
+            border: 1px solid rgba(7, 16, 21, 0.12);
+            background: #f6fbfd;
+            padding: 12px;
+            color: #29424c;
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .wave-status.is-waiting {
+            border-color: rgba(201, 168, 76, 0.45);
+            background: rgba(201, 168, 76, 0.13);
+            color: #071015;
+        }
+
+        .wave-status[hidden] {
+            display: none;
+        }
+
+        @media (min-width: 900px) {
+            .wave-brand img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .wave-brand {
+                align-items: start;
+            }
+
+            .wave-brand .btn {
+                min-height: 44px;
+                padding-inline: 16px;
+                font-size: 10px;
+            }
+
+            .wave-qr img {
+                width: min(100%, 280px);
+            }
+        }
+    </style>
+</head>
+
+<body class="system-cursor-page">
+    <main class="wave-payment-page">
+        <section class="wave-card">
+            <div class="wave-brand">
+                <img src="img/logo.jpg" alt="House of Redemption" />
+                <a class="btn btn-secondary" href="index.html#shop">Retour boutique</a>
+            </div>
+            <div>
+                <p class="eyebrow">Paiement obligatoire</p>
+                <h1 class="wave-title">Payez avec Wave</h1>
+                <p class="wave-note">Scanne le QR code ou ouvre Wave avec le bouton ci-dessous. Paie exactement le montant affiche pour que la commande puisse etre validee.</p>
+            </div>
+            <div class="wave-summary">
+                <span>Montant a payer</span>
+                <strong id="waveAmount">0 FCFA</strong>
+                <span>Reference: <b id="waveReference">-</b></span>
+            </div>
+            <div class="wave-qr">
+                <img id="waveQr" alt="QR code paiement Wave" />
+            </div>
+            <div id="waveItems" class="wave-items"></div>
+            <div class="wave-actions">
+                <a id="wavePayLink" class="btn btn-primary" href="https://pay.wave.com/m/M_ci_Qvc5tZTR0mJN/c/ci/" rel="noopener">Ouvrir Wave et payer</a>
+            </div>
+            <p id="waveStatus" class="wave-status" hidden></p>
+            <p class="wave-note">Apres paiement valide, la page de confirmation s'ouvrira automatiquement et l'equipe te contactera pour la livraison.</p>
+        </section>
+    </main>
+
+    <script>
+        // Configuration Wave : lien officiel et informations de la commande en cours.
+        const WAVE_PAYMENT_URL = "https://pay.wave.com/m/M_ci_Qvc5tZTR0mJN/c/ci/";
+        const checkout = readCheckout();
+        const amount = Number(checkout.amount || 0);
+        const reference = checkout.reference || new URLSearchParams(window.location.search).get("ref") || "";
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=640x640&data=${encodeURIComponent(WAVE_PAYMENT_URL)}`;
+        const payLink = document.getElementById("wavePayLink");
+        const statusNode = document.getElementById("waveStatus");
+        const hasCheckout = amount > 0 && Boolean(reference);
+        const fallbackStorageKey = `redemption_wave_fallback_${reference || "missing"}`;
+        let fallbackPaymentOpenedAt = Number(sessionStorage.getItem(fallbackStorageKey) || 0);
+        const checkoutSessionPromise = hasCheckout ? prepareWaveCheckout() : Promise.resolve({});
+
+        document.getElementById("waveAmount").textContent = formatPrice(amount);
+        document.getElementById("waveReference").textContent = reference || "-";
+        document.getElementById("waveQr").src = qrUrl;
+        payLink.href = WAVE_PAYMENT_URL;
+        document.getElementById("waveItems").innerHTML = renderItems(checkout.items || []);
+        // Securite : si la page est ouverte directement, on evite un paiement vide a 0 FCFA.
+        if (!hasCheckout) {
+            payLink.href = "index.html#shop";
+            payLink.textContent = "Retour boutique";
+            setStatus("Aucune commande en attente n'a ete trouvee. Ouvre la boutique, ajoute un article au panier, puis finalise la commande.", true);
+        }
+
+        payLink.addEventListener("click", async (event) => {
+            if (!hasCheckout) return;
+            event.preventDefault();
+            payLink.setAttribute("aria-busy", "true");
+            payLink.textContent = "Ouverture de Wave...";
+            setStatus("Preparation du paiement Wave avec le montant de ta commande.");
+
+            try {
+                const session = await checkoutSessionPromise;
+                if (session.wave_launch_url) {
+                    savePendingPayment("checkout_opened");
+                    sessionStorage.setItem("redemption_payment_success", JSON.stringify({
+                        reference,
+                        amount,
+                        checkout_id: session.id || "",
+                        opened_at: new Date().toISOString()
+                    }));
+                    window.location.href = session.wave_launch_url;
+                    return;
+                }
+                throw new Error("Session Wave indisponible");
+            } catch (error) {
+                console.warn("Wave checkout fallback:", error);
+                savePendingPayment("pending_review");
+                sessionStorage.setItem("redemption_payment_success", JSON.stringify({
+                    reference,
+                    amount,
+                    opened_at: new Date().toISOString()
+                }));
+                startFallbackPayment();
+                setStatus("Wave est ouvert. Apres le paiement, reviens ici: la confirmation s'ouvrira automatiquement.", true);
+                const openedWindow = window.open(WAVE_PAYMENT_URL, "_blank", "noopener");
+                if (!openedWindow) {
+                    window.location.href = WAVE_PAYMENT_URL;
+                    return;
+                }
+                payLink.removeAttribute("aria-busy");
+                payLink.textContent = "Paiement Wave en cours...";
+            }
+        });
+
+        // Retour de Wave : apres ouverture du paiement, la confirmation peut s'afficher au focus.
+        window.addEventListener("focus", redirectAfterFallbackPayment);
+        window.addEventListener("pageshow", redirectAfterFallbackPayment);
+        document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) redirectAfterFallbackPayment();
+        });
+
+        // Creation de la session Wave quand la fonction Netlify est disponible.
+        async function prepareWaveCheckout() {
+            try {
+                const session = await createWaveCheckout();
+                if (session.wave_launch_url) {
+                    payLink.href = session.wave_launch_url;
+                    document.getElementById("waveQr").src = `https://api.qrserver.com/v1/create-qr-code/?size=640x640&data=${encodeURIComponent(session.wave_launch_url)}`;
+                    return session;
+                }
+            } catch (error) {
+                console.warn("Wave checkout preparation failed:", error);
+            }
+            return {};
+        }
+
+        // Secours : si Wave s'ouvre en onglet externe, on confirme au retour client.
+        function redirectAfterFallbackPayment() {
+            fallbackPaymentOpenedAt = Number(sessionStorage.getItem(fallbackStorageKey) || fallbackPaymentOpenedAt || 0);
+            if (!fallbackPaymentOpenedAt) return;
+            if (Date.now() - fallbackPaymentOpenedAt < 5000) return;
+            savePendingPayment("pending_review");
+            sessionStorage.removeItem(fallbackStorageKey);
+            window.location.href = `payment-success.html?ref=${encodeURIComponent(reference)}`;
+        }
+
+        function startFallbackPayment() {
+            fallbackPaymentOpenedAt = Date.now();
+            sessionStorage.setItem(fallbackStorageKey, String(fallbackPaymentOpenedAt));
+        }
+
+        async function createWaveCheckout() {
+            const response = await fetch("/.netlify/functions/create-wave-checkout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    amount,
+                    reference,
+                    success_url: new URL(`payment-success.html?ref=${encodeURIComponent(reference)}`, window.location.href).href,
+                    error_url: window.location.href
+                })
+            });
+            if (!response.ok) throw new Error("Impossible de creer la session Wave");
+            return response.json();
+        }
+
+        function savePendingPayment(status) {
+            const payments = readJson("redemption_wave_payments", []);
+            const updated = payments.map((payment) => String(payment.reference) === String(reference)
+                ? { ...payment, status, customer_confirmed_at: new Date().toISOString() }
+                : payment);
+            localStorage.setItem("redemption_wave_payments", JSON.stringify(updated));
+        }
+
+        function setStatus(message, waiting = false) {
+            statusNode.textContent = message;
+            statusNode.classList.toggle("is-waiting", waiting);
+            statusNode.hidden = false;
+        }
+
+        // Lecture de commande : sessionStorage d'abord, puis localStorage via la reference URL.
+        function readCheckout() {
+            const urlReference = new URLSearchParams(window.location.search).get("ref") || "";
+            try {
+                const sessionCheckout = JSON.parse(sessionStorage.getItem("redemption_wave_checkout") || "{}");
+                if (sessionCheckout?.amount && (!urlReference || String(sessionCheckout.reference) === String(urlReference))) {
+                    return sessionCheckout;
+                }
+                const payments = readJson("redemption_wave_payments", []);
+                return payments.find((payment) => String(payment.reference) === String(urlReference)) || {};
+            } catch {
+                return {};
+            }
+        }
+
+        function readJson(key, fallback) {
+            try {
+                return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));
+            } catch {
+                return fallback;
+            }
+        }
+
+        function renderItems(items) {
+            if (!items.length) return "<p class=\"wave-note\">Article: commande House of Redemption.</p>";
+            return items.map((item) => `
+                <article class="wave-item">
+                    <img src="${escapeHtml(item.image || "img/logo.jpg")}" alt="${escapeHtml(item.name || "Article")}" />
+                    <div>
+                        <strong>${escapeHtml(item.name || "Article")}</strong>
+                        <p>${formatPrice(Number(item.price || 0))}</p>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        function formatPrice(price) {
+            return `${Number(price || 0).toLocaleString("fr-FR")} FCFA`;
+        }
+
+        function escapeHtml(value) {
+            return String(value || "").replace(/[&<>"']/g, (char) => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;",
+            }[char]));
+        }
+    </script>
+</body>
+
+</html>

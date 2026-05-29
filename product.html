@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Découvre les produits House of Redemption : streetwear chrétien premium, t-shirts, hoodies, casquettes et collections disponibles à Abidjan." />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#183d23" />
+    <meta name="meta-pixel-id" content="REPLACE_WITH_META_PIXEL_ID" />
+    <link rel="canonical" href="https://house-of-redemption.netlify.app/product.html" />
+    <meta property="og:locale" content="fr_CI" />
+    <meta property="og:type" content="product" />
+    <meta property="og:site_name" content="House of Redemption" />
+    <meta property="og:title" content="Produit House of Redemption | Streetwear chrétien premium" />
+    <meta property="og:description" content="Détail produit House of Redemption : vêtement chrétien premium disponible à la commande." />
+    <meta property="og:url" content="https://house-of-redemption.netlify.app/product.html" />
+    <meta property="og:image" content="https://house-of-redemption.netlify.app/img/logo.jpg" />
+    <meta property="og:image:secure_url" content="https://house-of-redemption.netlify.app/img/logo.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="1200" />
+    <meta property="og:image:alt" content="Produit House of Redemption" />
+    <meta property="product:brand" content="House of Redemption" />
+    <meta property="product:availability" content="in stock" />
+    <meta property="product:condition" content="new" />
+    <meta property="product:price:amount" content="0" />
+    <meta property="product:price:currency" content="XOF" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large" />
+    <meta name="product:retailer_item_id" content="house-of-redemption" />
+    <meta name="product:price:amount" content="0" />
+    <meta name="product:price:currency" content="XOF" />
+    <meta name="product:availability" content="in stock" />
+    <meta name="product:condition" content="new" />
+    <meta itemprop="name" content="Produit House of Redemption" />
+    <meta itemprop="description" content="Vêtement chrétien premium disponible à la commande." />
+    <meta itemprop="image" content="https://house-of-redemption.netlify.app/img/logo.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Produit House of Redemption" />
+    <meta name="twitter:description" content="Streetwear chrétien premium disponible à la commande." />
+    <meta name="twitter:image" content="https://house-of-redemption.netlify.app/img/logo.jpg" />
+    <title>Produit House of Redemption | Streetwear chrétien premium</title>
+    <link rel="icon" type="image/jpeg" href="img/logo.jpg" />
+    <link rel="apple-touch-icon" href="img/logo.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,600&family=DM+Sans:wght@300;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="analytics.js" defer></script>
+</head>
+
+<body class="product-page-body">
+    <!-- Navigation detail produit : retour rapide vers la boutique -->
+    <header class="product-page-nav">
+        <a href="index.html#home" class="nav-logo" aria-label="Accueil Redemption">
+            <img src="img/logo.jpg" alt="Logo Redemption" class="brand-logo" />
+        </a>
+        <a class="btn btn-secondary" href="index.html#shop">Retour boutique</a>
+    </header>
+
+    <!-- Detail produit : contenu rempli par JavaScript selon l'id dans l'URL -->
+    <main class="product-detail-page">
+        <section id="productDetail" class="product-detail-shell" aria-live="polite">
+            <div class="product-detail-loading">Chargement du produit...</div>
+        </section>
+    </main>
+
+    <script>
+        // Configuration produit : API, Supabase et URL publique du site.
+        const PRODUCTS_TABLE = "products";
+        const SITE_URL = "https://house-of-redemption.netlify.app";
+        const API_BASE = "/.netlify/functions/api";
+        const SUPABASE_URL = "https://mwbmzwohtisnpjayejkw.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_tSdbg0by8DZH635tdZdV9Q_OrHMvm5r";
+        const SUPABASE_CONFIG_STORAGE_KEY = "redemption_supabase_config";
+
+        // Produits de secours si l'API distante n'est pas disponible.
+        const defaultProducts = [];
+
+        const productDetail = document.getElementById("productDetail");
+        const productId = getProductIdFromUrl();
+
+        setupClientSourceDeterrents();
+
+        // Raccourci admin : Ctrl + Alt + A ouvre le dashboard.
+        document.addEventListener("keydown", (event) => {
+            if (!event.ctrlKey || !event.altKey || event.repeat) return;
+            if (event.key.toLowerCase() !== "a") return;
+            event.preventDefault();
+            window.open("dashboard.html", "_blank", "noopener");
+        });
+
+        if (!productId) {
+            window.location.replace("index.html#shop");
+        } else {
+            loadProduct();
+        }
+
+        // Chargement produit : recupere le produit courant puis construit la page.
+        async function loadProduct() {
+            const products = await getProducts();
+            const product = products.find((item) => String(item.id || item.name) === String(productId));
+
+            if (!product) {
+                updateMissingProductSeo();
+                productDetail.innerHTML = `
+                    <article class="product-detail-info">
+                        <p class="eyebrow">Boutique</p>
+                        <h1>Produit introuvable</h1>
+                        <p class="product-detail-description">Ce produit n'est plus disponible ou son lien n'est pas complet.</p>
+                        <div class="product-detail-actions">
+                            <a class="btn btn-primary" href="index.html#shop">Retour boutique</a>
+                        </div>
+                    </article>
+                `;
+                return;
+            }
+
+            const image = normalizeMediaUrl(product.image_url || product.image || "img/logo.jpg");
+            const images = getProductImages(product, image);
+            const video = product.video_url || "";
+            const price = Number(product.price || 0);
+            const relatedProducts = getRelatedProducts(product, products);
+            updateProductAdsMeta(product, images[0] || image, price);
+            trackMetaViewContent(product, price);
+
+            productDetail.innerHTML = `
+                ${renderProductMedia(product, images, video)}
+                <article class="product-detail-info">
+                    <p class="eyebrow">${escapeHtml(product.category_label || formatCategory(product.category))}</p>
+                    <h1>${escapeHtml(formatProductName(product))}</h1>
+                    <p class="product-detail-description">${escapeHtml(product.description || "")}</p>
+                    <div class="product-detail-meta">
+                        ${product.collection_name ? `<span>${escapeHtml(product.collection_name)}${product.subcollection_name ? ` / ${escapeHtml(product.subcollection_name)}` : ""}</span>` : ""}
+                        ${product.color ? `<span class="product-color-meta">${renderColorSwatch(product.color)}${escapeHtml(product.color)}</span>` : ""}
+                        ${renderProductSizes(product.sizes)}
+                        <strong>${formatPrice(price)}</strong>
+                    </div>
+                    <div class="product-detail-actions">
+                        <button class="btn btn-primary" type="button" id="orderProductBtn">Commander</button>
+                        <button class="btn btn-secondary" type="button" id="addProductBtn">Ajouter</button>
+                    </div>
+                </article>
+                ${renderRelatedProducts(relatedProducts)}
+            `;
+
+            productDetail.querySelectorAll(".product-gallery-thumb").forEach((button) => {
+                button.addEventListener("click", () => {
+                    const mainImage = document.getElementById("productMainImage");
+                    if (!mainImage) return;
+                    mainImage.src = button.dataset.image;
+                    productDetail.querySelectorAll(".product-gallery-thumb").forEach((thumb) => thumb.classList.remove("active"));
+                    button.classList.add("active");
+                });
+            });
+
+            // Commande depuis la fiche produit : ajoute au panier puis rouvre la boutique.
+            const addAndOpenCart = () => {
+                const cart = readCart();
+                cart.push({
+                    id: product.id || product.name,
+                    name: product.name,
+                    price,
+                    image: images[0] || image,
+                    category: product.category,
+                    collection_name: product.collection_name,
+                    subcollection_name: product.subcollection_name,
+                    color: product.color,
+                });
+                localStorage.setItem("redemption_cart", JSON.stringify(cart));
+                sessionStorage.setItem("redemption_open_cart", "true");
+                window.location.href = "index.html#shop";
+            };
+
+            document.getElementById("orderProductBtn").addEventListener("click", addAndOpenCart);
+            document.getElementById("addProductBtn").addEventListener("click", addAndOpenCart);
+        }
+
+        // SEO produit : met a jour title, meta tags et donnees structurees.
+        function updateProductSeo(product, image, price) {
+            const productName = formatProductName(product);
+            const description = product.description || `${productName} par House of Redemption, streetwear chrétien premium disponible à Abidjan.`;
+            const productUrl = getPublicProductUrl(product);
+            const imageUrl = absoluteUrl(image || "img/logo.jpg");
+
+            document.title = `${productName} | House of Redemption`;
+            setMeta('meta[name="description"]', description);
+            setMeta('link[rel="canonical"]', productUrl, "href");
+            setMeta('meta[property="og:title"]', `${productName} | House of Redemption`);
+            setMeta('meta[property="og:description"]', description);
+            setMeta('meta[property="og:url"]', productUrl);
+            setMeta('meta[property="og:image"]', imageUrl);
+            setMeta('meta[property="og:image:alt"]', productName);
+            setMeta('meta[name="twitter:title"]', `${productName} | House of Redemption`);
+            setMeta('meta[name="twitter:description"]', description);
+            setMeta('meta[name="twitter:image"]', imageUrl);
+
+            const schema = {
+                "@context": "https://schema.org",
+                "@type": "Product",
+                "name": productName,
+                "description": description,
+                "image": imageUrl,
+                "brand": {
+                    "@type": "Brand",
+                    "name": "House of Redemption"
+                },
+                "category": product.category_label || formatCategory(product.category),
+                "url": productUrl,
+                "offers": {
+                    "@type": "Offer",
+                    "priceCurrency": "XOF",
+                    "price": String(price || 0),
+                    "availability": "https://schema.org/InStock",
+                    "url": productUrl
+                }
+            };
+            let script = document.getElementById("productStructuredData");
+            if (!script) {
+                script = document.createElement("script");
+                script.type = "application/ld+json";
+                script.id = "productStructuredData";
+                document.head.appendChild(script);
+            }
+            script.textContent = JSON.stringify(schema);
+        }
+
+        function setMeta(selector, value, attribute = "content") {
+            const element = document.querySelector(selector);
+            if (element) element.setAttribute(attribute, value);
+        }
+
+        function updateProductAdsMeta(product, image, price) {
+            const productName = formatProductName(product);
+            const category = product.category_label || formatCategory(product.category);
+            const collection = product.collection_name ? ` - ${product.collection_name}` : "";
+            const color = product.color ? `, couleur ${product.color}` : "";
+            const description = cleanMetaText(
+                product.description ||
+                `${productName}${collection}${color}. ${category} House of Redemption disponible a la commande a Abidjan.`
+            );
+            const productUrl = getPublicProductUrl(product);
+            const imageUrl = absoluteUrl(image || "img/logo.jpg");
+            const allImages = getProductImages(product, image).map(absoluteUrl).filter(Boolean);
+            const safePrice = Math.max(Number(price || 0), 0);
+            const itemId = String(product.id || product.name || productName);
+            const title = `${productName} | House of Redemption`;
+            const shortDescription = truncateMeta(description, 155);
+            const availability = product.is_active === false ? "out of stock" : "in stock";
+            const schemaAvailability = product.is_active === false ? "https://schema.org/OutOfStock" : "https://schema.org/InStock";
+
+            document.title = title;
+            setMeta('meta[name="description"]', shortDescription);
+            setMeta('meta[name="robots"]', "index, follow, max-image-preview:large");
+            setMeta('meta[name="googlebot"]', "index, follow, max-image-preview:large");
+            setMeta('link[rel="canonical"]', productUrl, "href");
+            setMeta('meta[property="og:type"]', "product");
+            setMeta('meta[property="og:title"]', title);
+            setMeta('meta[property="og:description"]', shortDescription);
+            setMeta('meta[property="og:url"]', productUrl);
+            setMeta('meta[property="og:image"]', imageUrl);
+            setMeta('meta[property="og:image:secure_url"]', imageUrl);
+            setMeta('meta[property="og:image:width"]', "1200");
+            setMeta('meta[property="og:image:height"]', "1200");
+            setMeta('meta[property="og:image:alt"]', productName);
+            setMeta('meta[property="product:brand"]', "House of Redemption");
+            setMeta('meta[property="product:availability"]', availability);
+            setMeta('meta[property="product:condition"]', "new");
+            setMeta('meta[property="product:price:amount"]', String(safePrice));
+            setMeta('meta[property="product:price:currency"]', "XOF");
+            setMeta('meta[name="product:retailer_item_id"]', itemId);
+            setMeta('meta[name="product:price:amount"]', String(safePrice));
+            setMeta('meta[name="product:price:currency"]', "XOF");
+            setMeta('meta[name="product:availability"]', availability);
+            setMeta('meta[name="product:condition"]', "new");
+            setMeta('meta[itemprop="name"]', productName);
+            setMeta('meta[itemprop="description"]', shortDescription);
+            setMeta('meta[itemprop="image"]', imageUrl);
+            setMeta('meta[name="twitter:title"]', title);
+            setMeta('meta[name="twitter:description"]', shortDescription);
+            setMeta('meta[name="twitter:image"]', imageUrl);
+
+            const schema = {
+                "@context": "https://schema.org",
+                "@type": "Product",
+                "@id": `${productUrl}#product`,
+                "name": productName,
+                "description": description,
+                "image": allImages.length ? allImages : [imageUrl],
+                "sku": itemId,
+                "mpn": itemId,
+                "brand": {
+                    "@type": "Brand",
+                    "name": "House of Redemption"
+                },
+                "category": category,
+                "color": product.color || undefined,
+                "size": parseProductSizes(product.sizes).join(", ") || undefined,
+                "url": productUrl,
+                "offers": {
+                    "@type": "Offer",
+                    "priceCurrency": "XOF",
+                    "price": String(safePrice),
+                    "availability": schemaAvailability,
+                    "itemCondition": "https://schema.org/NewCondition",
+                    "url": productUrl,
+                    "priceValidUntil": getPriceValidUntil(),
+                    "seller": {
+                        "@type": "Organization",
+                        "name": "House of Redemption"
+                    }
+                }
+            };
+            setJsonLd("productStructuredData", schema);
+        }
+
+        function updateMissingProductSeo() {
+            const title = "Produit introuvable | House of Redemption";
+            const description = "Ce produit House of Redemption n'est plus disponible. Decouvre les articles actuellement publies dans la boutique.";
+            const url = `${SITE_URL}/product.html`;
+            const image = `${SITE_URL}/img/logo.jpg`;
+
+            document.title = title;
+            setMeta('meta[name="description"]', description);
+            setMeta('meta[name="robots"]', "noindex, follow");
+            setMeta('meta[name="googlebot"]', "noindex, follow");
+            setMeta('link[rel="canonical"]', url, "href");
+            setMeta('meta[property="og:type"]', "website");
+            setMeta('meta[property="og:title"]', title);
+            setMeta('meta[property="og:description"]', description);
+            setMeta('meta[property="og:url"]', url);
+            setMeta('meta[property="og:image"]', image);
+            setMeta('meta[property="og:image:secure_url"]', image);
+            setMeta('meta[property="og:image:alt"]', "House of Redemption");
+            setMeta('meta[name="twitter:title"]', title);
+            setMeta('meta[name="twitter:description"]', description);
+            setMeta('meta[name="twitter:image"]', image);
+        }
+
+        function setJsonLd(id, value) {
+            let script = document.getElementById(id);
+            if (!script) {
+                script = document.createElement("script");
+                script.type = "application/ld+json";
+                script.id = id;
+                document.head.appendChild(script);
+            }
+            script.textContent = JSON.stringify(value);
+        }
+
+        function cleanMetaText(value) {
+            return String(value || "")
+                .replace(/\s+/g, " ")
+                .replace(/[<>]/g, "")
+                .trim();
+        }
+
+        function truncateMeta(value, maxLength) {
+            const text = cleanMetaText(value);
+            if (text.length <= maxLength) return text;
+            return `${text.slice(0, maxLength - 3).replace(/\s+\S*$/, "")}...`;
+        }
+
+        function getPriceValidUntil() {
+            const date = new Date();
+            date.setFullYear(date.getFullYear() + 1);
+            return date.toISOString().slice(0, 10);
+        }
+
+        async function getProducts() {
+            let products = [...readLocalRecords("redemption_products"), ...defaultProducts];
+            const hiddenProductIds = readHiddenProductIds();
+            products = products
+                .filter((product) => !hiddenProductIds.has(String(product.id)))
+                .map((product) => ({ ...product, ...(readProductOverrides()[String(product.id)] || {}) }));
+
+            try {
+                const directProducts = await fetchProductsDirect();
+                if (directProducts) {
+                    const overrides = readProductOverrides();
+                    const syncedProducts = directProducts.map((product) => ({ ...product, ...(overrides[String(product.id)] || {}) }));
+                    products = [...syncedProducts, ...products];
+                    return dedupeProducts(products);
+                }
+
+                const response = await fetch(`${API_BASE}?table=${encodeURIComponent(PRODUCTS_TABLE)}`, { cache: "no-store" });
+                if (response.ok) {
+                    const data = await response.json();
+                    const overrides = readProductOverrides();
+                    const syncedProducts = data.map((product) => ({ ...product, ...(overrides[String(product.id)] || {}) }));
+                    products = [...syncedProducts, ...products];
+                }
+            } catch (error) {
+                console.error("Products fetch failed:", error);
+            }
+
+            return dedupeProducts(products);
+        }
+
+        async function fetchProductsDirect() {
+            const config = getSupabaseConfig();
+            if (!config.url || !config.anonKey) return null;
+
+            const query = new URLSearchParams({
+                select: "*",
+                order: "created_at.desc",
+                is_active: "eq.true",
+            });
+
+            try {
+                const response = await fetch(`${config.url.replace(/\/$/, "")}/rest/v1/${PRODUCTS_TABLE}?${query.toString()}`, {
+                    cache: "no-store",
+                    headers: {
+                        apikey: config.anonKey,
+                        authorization: `Bearer ${config.anonKey}`,
+                    },
+                });
+                return response.ok ? await response.json() : null;
+            } catch {
+                return null;
+            }
+        }
+
+        function getSupabaseConfig() {
+            if (SUPABASE_URL && SUPABASE_ANON_KEY) return { url: SUPABASE_URL, anonKey: SUPABASE_ANON_KEY };
+
+            try {
+                const saved = JSON.parse(localStorage.getItem(SUPABASE_CONFIG_STORAGE_KEY) || "{}");
+                return {
+                    url: normalizeText(saved.url),
+                    anonKey: normalizeText(saved.anonKey),
+                };
+            } catch {
+                return { url: "", anonKey: "" };
+            }
+        }
+
+        function renderProductMedia(product, images, video) {
+            const mainImage = images[0] || "img/logo.jpg";
+            return `
+                <div class="product-detail-gallery">
+                    <figure class="product-detail-media">
+                        <img id="productMainImage" src="${escapeHtml(mainImage)}" alt="${escapeHtml(product.name)}" decoding="async" />
+                    </figure>
+                    ${images.length > 1 ? `
+                        <div class="product-gallery-thumbs" aria-label="Autres images du produit">
+                            ${images.map((item, index) => `
+                                <button class="product-gallery-thumb${index === 0 ? " active" : ""}" type="button" data-image="${escapeHtml(item)}" aria-label="Voir une image de ${escapeHtml(product.name)}">
+                                    <img src="${escapeHtml(item)}" alt="" loading="lazy" decoding="async" />
+                                </button>
+                            `).join("")}
+                        </div>
+                    ` : ""}
+                    ${video ? `
+                        <figure class="product-detail-media product-detail-video">
+                            ${renderVideoMedia(video, mainImage, product.name)}
+                        </figure>
+                    ` : ""}
+                </div>
+            `;
+        }
+
+        function renderRelatedProducts(products) {
+            if (!products.length) return "";
+            return `
+                <section class="related-products" aria-label="Articles de la même collection">
+                    <div class="related-products-head">
+                        <p class="eyebrow">Même collection</p>
+                        <h2>Articles qui peuvent t'intéresser</h2>
+                    </div>
+                    <div class="related-products-grid">
+                        ${products.map((product) => {
+                            const image = getProductImages(product, normalizeMediaUrl(product.image_url || product.image || "img/logo.jpg"))[0] || "img/logo.jpg";
+                            const productUrl = getRelativeProductUrl(product);
+                            return `
+                                <a class="related-product-card" href="${productUrl}">
+                                    <img src="${escapeHtml(image)}" alt="${escapeHtml(product.name)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='img/logo.jpg';" />
+                                    <span>${escapeHtml(product.category_label || formatCategory(product.category))}</span>
+                                    <strong>${escapeHtml(formatProductName(product))}</strong>
+                                    <small>${formatPrice(Number(product.price || 0))}</small>
+                                </a>
+                            `;
+                        }).join("")}
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderVideoMedia(url, poster, label) {
+            const safeUrl = escapeHtml(url);
+            if (/^(data:video\/|https?:\/\/.+\.(mp4|webm|ogg|mov)(\?.*)?$)/i.test(url)) {
+                return `<video src="${safeUrl}" poster="${escapeHtml(poster)}" controls playsinline preload="metadata"></video>`;
+            }
+
+            const embedUrl = getVideoEmbedUrl(url);
+            if (embedUrl) {
+                return `<iframe src="${escapeHtml(embedUrl)}" title="${escapeHtml(label)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+            }
+
+            return `<a class="product-video-link" href="${safeUrl}" target="_blank" rel="noopener">Voir la video du produit</a>`;
+        }
+
+        function getVideoEmbedUrl(url) {
+            try {
+                const parsed = new URL(url);
+                if (parsed.hostname.includes("youtube.com")) {
+                    const id = parsed.searchParams.get("v") || parsed.pathname.split("/").filter(Boolean).pop();
+                    return id ? `https://www.youtube.com/embed/${encodeURIComponent(id)}` : "";
+                }
+                if (parsed.hostname.includes("youtu.be")) {
+                    const id = parsed.pathname.split("/").filter(Boolean)[0];
+                    return id ? `https://www.youtube.com/embed/${encodeURIComponent(id)}` : "";
+                }
+                if (parsed.hostname.includes("vimeo.com")) {
+                    const id = parsed.pathname.split("/").filter(Boolean).pop();
+                    return id ? `https://player.vimeo.com/video/${encodeURIComponent(id)}` : "";
+                }
+                if (parsed.hostname.includes("facebook.com") || parsed.hostname.includes("fb.watch")) {
+                    return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&width=734`;
+                }
+            } catch {
+                return "";
+            }
+            return "";
+        }
+
+        function readLocalRecords(key) {
+            try {
+                return JSON.parse(localStorage.getItem(key)) || [];
+            } catch {
+                return [];
+            }
+        }
+
+        function readProductOverrides() {
+            try {
+                return JSON.parse(localStorage.getItem("redemption_product_overrides")) || {};
+            } catch {
+                return {};
+            }
+        }
+
+        function readHiddenProductIds() {
+            try {
+                return new Set(JSON.parse(localStorage.getItem("redemption_hidden_products")) || []);
+            } catch {
+                return new Set();
+            }
+        }
+
+        function readCart() {
+            try {
+                return JSON.parse(localStorage.getItem("redemption_cart")) || [];
+            } catch {
+                return [];
+            }
+        }
+
+        function getProductImages(product, fallbackImage) {
+            const images = [
+                ...normalizeProductImages(product.image_url || product.image),
+                ...normalizeProductImages(product.image_urls || product.images),
+            ];
+            const allImages = [fallbackImage, ...images].map(normalizeMediaUrl).filter(Boolean);
+            return Array.from(new Set(allImages));
+        }
+
+        function normalizeProductImages(value) {
+            if (Array.isArray(value)) return value.map(normalizeMediaUrl).filter(Boolean);
+            if (!value) return [];
+            if (typeof value === "string") {
+                try {
+                    const parsed = JSON.parse(value);
+                    if (Array.isArray(parsed)) return parsed.map(normalizeMediaUrl).filter(Boolean);
+                } catch {
+                    if (value.includes("\n")) return value.split(/\r?\n/).map(normalizeMediaUrl).filter(Boolean);
+                    if (!value.trim().startsWith("data:") && value.includes(",")) {
+                        return value.split(",").map(normalizeMediaUrl).filter(Boolean);
+                    }
+                    return [normalizeMediaUrl(value)].filter(Boolean);
+                }
+            }
+            return [];
+        }
+
+        function getRelatedProducts(product, products) {
+            const collectionName = canonicalCollectionName(product.collection_name);
+            if (!collectionName) return [];
+            return products
+                .filter((item) =>
+                    String(item.id || item.name) !== String(product.id || product.name) &&
+                    canonicalCollectionName(item.collection_name) === collectionName
+                )
+                .slice(0, 4);
+        }
+
+        function renderProductSizes(value) {
+            const sizes = parseProductSizes(value);
+            if (!sizes.length) return "";
+            return `<span class="product-sizes product-detail-sizes">${sizes.map((size) => `<span>${escapeHtml(size)}</span>`).join("")}</span>`;
+        }
+
+        function parseProductSizes(value) {
+            if (Array.isArray(value)) return Array.from(new Set(value.map((item) => String(item || "").trim()).filter(Boolean)));
+            if (!value) return [];
+            if (typeof value === "string") {
+                try {
+                    const parsed = JSON.parse(value);
+                    if (Array.isArray(parsed) || parsed && typeof parsed === "object") return parseProductSizes(parsed);
+                    if (typeof parsed === "string" && parsed !== value) return parseProductSizes(parsed);
+                } catch {
+                    return Array.from(new Set(value.split(/\r?\n|,/).map((item) => item.trim()).filter(Boolean)));
+                }
+            }
+            if (typeof value === "object") {
+                const source = Array.isArray(value.sizes) ? value.sizes : Object.values(value);
+                return parseProductSizes(source);
+            }
+            return [];
+        }
+
+        function dedupeProducts(products) {
+            const seen = new Set();
+            const seenSignatures = new Set();
+            return products.filter((product) => {
+                const key = String(product.id || product.name);
+                const signature = [
+                    String(product.name || "").trim().toLowerCase(),
+                    String(product.category || "").trim().toLowerCase(),
+                    canonicalCollectionName(product.collection_name).toLowerCase(),
+                    String(product.color || "").trim().toLowerCase(),
+                ].join("|");
+                if (seen.has(key) || seenSignatures.has(signature)) return false;
+                seen.add(key);
+                if (String(product.name || "").trim()) seenSignatures.add(signature);
+                return true;
+            });
+        }
+
+        function formatCategory(category) {
+            return { tshirt: "T-shirt", hoodie: "Pull", longsleeve: "T-shirt manches longues", cap: "Casquette" }[category] || "Produit";
+        }
+
+        function formatProductName(product) {
+            const base = product.name || "Produit";
+            const category = formatCategory(product.category);
+            const normalizedBase = base.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            const normalizedCategory = category.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            const hasCategory = normalizedBase.includes(normalizedCategory)
+                || normalizedBase.includes("t-shirt")
+                || normalizedBase.includes("tshirt")
+                || normalizedBase.includes("manche longue")
+                || normalizedBase.includes("pull")
+                || normalizedBase.includes("casquette");
+            return `${hasCategory ? "" : `${category} `}${base}`.trim();
+        }
+
+        function detectColor(value) {
+            const text = String(value || "").toLowerCase();
+            return ["noir", "noire", "bleu", "vert", "verte", "beige", "blanc", "rouge", "gris", "marron"].find((color) => text.includes(color)) || "";
+        }
+
+        function canonicalCollectionName(value) {
+            const name = String(value || "").trim();
+            const key = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            if (key === "collection couronne d'epine") return "Collection couronne d'épine";
+            if (key === "collection rachat") return "Collection rachat";
+            if (key === "collection evangeliste yann dayere (ev.yd)") return "Collection evangeliste Yann Dayere (Ev.YD)";
+            return name;
+        }
+
+        function renderColorSwatch(color) {
+            return `<span class="site-color-swatch" style="--swatch: ${escapeHtml(colorHex(color))}" aria-hidden="true"></span>`;
+        }
+
+        function colorHex(color) {
+            const key = String(color || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            return {
+                noir: "#111111",
+                noire: "#111111",
+                blanc: "#ffffff",
+                blanche: "#ffffff",
+                rouge: "#7d6a38",
+                vert: "#1f7a3f",
+                verte: "#1f7a3f",
+                bleu: "#254331",
+                beige: "#d8c3a5",
+                gris: "#737373",
+                marron: "#7c4a2d",
+                turquoise: "#14b8a6",
+                jaune: "#f2c94c",
+            }[key] || "#d8c3a5";
+        }
+
+        function formatPrice(price) {
+            return `${price.toLocaleString("fr-FR")} FCFA`;
+        }
+
+        function normalizeMediaUrl(value) {
+            const url = String(value || "").trim().replace(/\s+/g, " ");
+            if (!url) return "";
+            if (/^(data:|blob:|\/|\.\/|\.\.\/)/i.test(url)) return url;
+            const withProtocol = url.startsWith("www.") ? `https://${url}` : url;
+            try {
+                const parsed = new URL(withProtocol);
+                if (parsed.hostname.includes("drive.google.com")) {
+                    const parts = parsed.pathname.split("/").filter(Boolean);
+                    const fileIndex = parts.indexOf("file");
+                    const id = parsed.searchParams.get("id") || (fileIndex >= 0 ? parts[fileIndex + 2] : "");
+                    return id ? `https://drive.google.com/uc?export=view&id=${encodeURIComponent(id)}` : withProtocol;
+                }
+                if (parsed.hostname.includes("dropbox.com")) {
+                    parsed.searchParams.set("raw", "1");
+                    return parsed.toString();
+                }
+            } catch {
+                return withProtocol;
+            }
+            return withProtocol;
+        }
+
+        function absoluteUrl(value) {
+            const url = normalizeMediaUrl(value);
+            if (!url) return `${SITE_URL}/img/logo.jpg`;
+            if (/^https?:\/\//i.test(url)) return url;
+            return `${SITE_URL}/${url.replace(/^\.?\//, "")}`;
+        }
+
+        function getProductIdFromUrl() {
+            const queryId = new URLSearchParams(window.location.search).get("id");
+            if (queryId) return queryId;
+
+            const pathParts = window.location.pathname.split("/").filter(Boolean);
+            if (pathParts[0] === "p" && pathParts[1]) return decodeURIComponent(pathParts[1]);
+            return "";
+        }
+
+        function getPublicProductUrl(product) {
+            return `${SITE_URL}${getRelativeProductUrl(product)}`;
+        }
+
+        function getRelativeProductUrl(product) {
+            return `/p/${encodeURIComponent(product.id || product.name)}`;
+        }
+
+        function trackMetaViewContent(product, price) {
+            if (typeof window.redemptionTrackMeta !== "function") return;
+            window.redemptionTrackMeta("ViewContent", {
+                content_ids: [String(product.id || product.name || "")],
+                content_name: formatProductName(product),
+                content_type: "product",
+                value: Math.max(Number(price || 0), 0),
+                currency: "XOF",
+            });
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+        function setupClientSourceDeterrents() {
+            document.addEventListener("contextmenu", (event) => event.preventDefault());
+            document.addEventListener("keydown", (event) => {
+                const key = event.key.toLowerCase();
+                const blocked =
+                    key === "f12" ||
+                    (event.ctrlKey && key === "u") ||
+                    (event.ctrlKey && event.shiftKey && ["i", "j", "c"].includes(key));
+                if (blocked) event.preventDefault();
+            }, true);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="House of Redemption - plateforme chrétienne et spirituelle." />
+    <meta name="keywords" content="streetwear chrétien, vêtement chrétien, t-shirt chrétien, hoodie chrétien, boutique chrétienne Abidjan, House of Redemption, Redemption Côte d'Ivoire" />
+    <meta name="author" content="House of Redemption" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#183d23" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Redemption" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="meta-pixel-id" content="REPLACE_WITH_META_PIXEL_ID" />
+    <link rel="canonical" href="https://house-of-redemption.netlify.app/" />
+    <link rel="preload" as="image" href="image hero/IMG-20260518-WA0018.jpg" fetchpriority="high" />
+    <meta property="og:locale" content="fr_CI" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="House of Redemption" />
+    <meta property="og:title" content="House of Redemption | Streetwear chrétien premium à Abidjan" />
+    <meta property="og:description" content="Découvre la boutique House of Redemption : vêtements chrétiens premium, drops, arrivages et commandes confirmées par WhatsApp à Abidjan." />
+    <meta property="og:url" content="https://house-of-redemption.netlify.app/" />
+    <meta property="og:image" content="https://house-of-redemption.netlify.app/img/logo.jpg" />
+    <meta property="og:image:alt" content="Logo House of Redemption" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="House of Redemption | Streetwear chrétien premium" />
+    <meta name="twitter:description" content="Boutique de vêtements chrétiens premium à Abidjan : t-shirts, hoodies, casquettes, collections et arrivages Redemption." />
+    <meta name="twitter:image" content="https://house-of-redemption.netlify.app/img/logo.jpg" />
+    <title>House of Redemption</title>
+    <link rel="icon" type="image/jpeg" href="img/logo.jpg" />
+    <link rel="apple-touch-icon" href="img/logo.jpg" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,600&family=DM+Sans:wght@300;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="analytics.js" defer></script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "ClothingStore",
+            "name": "House of Redemption",
+            "alternateName": "Redemption",
+            "description": "Boutique de streetwear chrétien premium à Abidjan : t-shirts, hoodies, casquettes et collections inspirées par la foi.",
+            "url": "https://house-of-redemption.netlify.app/",
+            "logo": "https://house-of-redemption.netlify.app/img/logo.jpg",
+            "image": "https://house-of-redemption.netlify.app/img/logo.jpg",
+            "email": "houseofredemption2003@gmail.com",
+            "telephone": "+2250152941104",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Abidjan",
+                "addressCountry": "CI"
+            },
+            "areaServed": {
+                "@type": "City",
+                "name": "Abidjan"
+            },
+            "sameAs": [
+                "https://www.instagram.com/re_dem_ption?igsh=MTZ6MHM3eTVnNWZnMw==",
+                "https://www.tiktok.com/@houseofredemption2021?_r=1&_t=ZS-96Ib5A2CMA3",
+                "https://wa.me/2250152941104"
+            ]
+        }
+    </script>
+</head>
+
+<body>
+    <!-- Effets globaux : texture, curseur personnalise et loader de demarrage -->
+    <div class="grain-overlay" aria-hidden="true"></div>
+    <div id="cursorDot" class="cursor-dot" aria-hidden="true"></div>
+    <div id="cursorRing" class="cursor-ring" aria-hidden="true"></div>
+
+    <div id="loader" class="loader" aria-hidden="true">
+        <div class="loader-inner">
+            <strong>R</strong>
+            <span></span>
+            <p>SAVED BY GRACE</p>
+        </div>
+    </div>
+    <script>
+        window.setTimeout(function () {
+            var loader = document.getElementById("loader");
+            if (loader) loader.classList.add("hidden");
+        }, 1100);
+    </script>
+
+    <!-- Navigation principale : liens desktop, actions panier/PWA et menu mobile -->
+    <header id="navbar" class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo" aria-label="Accueil Redemption">
+                <img src="img/logo.jpg" alt="Logo Redemption" class="brand-logo" />
+            </a>
+
+            <nav class="nav-menu" aria-label="Navigation principale">
+                <a href="#home">Accueil</a>
+                <a href="#shop">Boutique</a>
+                <a href="#collections">Collections</a>
+                <a href="#arrivals">Arrivage</a>
+                <a href="#contact">Aide commande</a>
+                <a href="#story">Histoire</a>
+                <a href="#gallery">Galerie</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="#shop" class="nav-shop">Acheter</a>
+                <button id="notifyBtn" class="icon-btn notify-btn" type="button" aria-label="Activer les notifications" hidden>
+                    <i class="fas fa-bell"></i>
+                </button>
+                <button id="installAppBtn" class="icon-btn install-app-btn" type="button" aria-label="Installer l'application">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button id="cartBtn" class="icon-btn cart-btn" type="button" aria-label="Ouvrir le panier">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cartCount" class="cart-count">0</span>
+                </button>
+                <button id="hamburger" class="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+
+        <nav id="mobileMenu" class="mobile-menu" aria-label="Navigation mobile">
+            <a href="#home">Accueil</a>
+            <a href="#shop">Boutique</a>
+            <a href="#collections">Collections</a>
+            <a href="#arrivals">Arrivage</a>
+            <a href="#contact">Aide commande</a>
+            <a href="#story">Histoire</a>
+            <a href="#gallery">Galerie</a>
+        </nav>
+    </header>
+
+    <!-- Panier lateral : articles selectionnes et bouton de passage a la commande -->
+    <aside id="cartSidebar" class="cart-sidebar" aria-label="Panier" aria-hidden="true">
+        <div class="cart-header">
+            <h2>Mon panier</h2>
+            <button id="cartClose" class="icon-btn" type="button" aria-label="Fermer le panier">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="cartItems" class="cart-items"></div>
+        <div id="cartFooter" class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <strong id="cartTotal">0 FCFA</strong>
+            </div>
+            <button id="btnCheckout" class="btn btn-primary" type="button">Passer la commande</button>
+        </div>
+    </aside>
+    <div id="cartOverlay" class="overlay" aria-hidden="true"></div>
+
+    <!-- Fenetre de finalisation de commande : formulaire client et paiement Wave -->
+    <div id="orderModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="orderTitle">
+        <div class="modal">
+            <!-- Bouton de fermeture de la commande -->
+            <button id="modalClose" class="icon-btn modal-close" type="button" aria-label="Fermer">
+                <i class="fas fa-times"></i>
+            </button>
+            <!-- Titre et texte d'introduction de la commande -->
+            <div class="modal-intro">
+                <span class="mark">R</span>
+                <h2 id="orderTitle">Finaliser ma commande</h2>
+                <p>Renseignez vos informations. L'équipe vous recontacte pour confirmer.</p>
+                <div class="checkout-trust-list" aria-label="Garanties de commande">
+                    <span><i class="fas fa-lock"></i> Paiement Wave sécurisé</span>
+                    <span><i class="fas fa-phone-volume"></i> Confirmation WhatsApp</span>
+                    <span><i class="fas fa-truck-fast"></i> Livraison suivie à Abidjan</span>
+                </div>
+            </div>
+
+            <!-- Champs client obligatoires avant paiement -->
+            <div id="orderPanel" class="order-panel" role="group" aria-labelledby="orderTitle">
+                <div class="form-grid">
+                    <label>Prénom *
+                        <input type="text" name="firstName" placeholder="Ninine" autocomplete="given-name" />
+                    </label>
+                    <label>Nom *
+                        <input type="text" name="lastName" placeholder="Junior" autocomplete="family-name" />
+                    </label>
+                </div>
+                <label>Email (optionnel)
+                    <input type="text" name="email" placeholder="exemple@email.com" autocomplete="email" />
+                </label>
+                <label>Téléphone *
+                    <input type="text" name="phone" placeholder="+225 07 00 00 00 00" autocomplete="tel" />
+                </label>
+                <div class="form-grid delivery-grid">
+                    <label>Commune de livraison *
+                        <input type="text" name="deliveryCommune" placeholder="Cocody, Yopougon..." autocomplete="address-level2" />
+                    </label>
+                    <label>Quartier / repere *
+                        <input type="text" name="deliveryDistrict" placeholder="Angre 8e tranche, Maroc..." autocomplete="address-line2" />
+                    </label>
+                </div>
+                <label>Complement d'adresse (optionnel)
+                    <input type="text" name="address" placeholder="Rue, immeuble, portail, repere precis" autocomplete="street-address" />
+                </label>
+                <div id="deliveryMapPanel" class="delivery-map-panel" hidden>
+                    <div class="delivery-map-top">
+                        <div>
+                            <strong>Position de livraison</strong>
+                            <span id="deliveryMapStatus">Renseigne la commune et le quartier.</span>
+                        </div>
+                        <button id="useCurrentLocationBtn" class="map-location-btn" type="button">
+                            <i class="fas fa-location-crosshairs"></i>
+                            Ma position
+                        </button>
+                    </div>
+                    <iframe id="deliveryMapFrame" title="Carte Google Maps du lieu de livraison" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <p id="deliveryCoordinates" class="delivery-coordinates"></p>
+                    <input type="hidden" name="latitude" />
+                    <input type="hidden" name="longitude" />
+                    <input type="hidden" name="locationAccuracy" />
+                </div>
+                <!-- Information paiement : Wave est le seul moyen de paiement actif -->
+                <label>Paiement *
+                    <span class="payment-wave-note">
+                        <img src="logo wave/logo wave.png" alt="Wave" />
+                        <span>Paiement obligatoire par Wave avant validation de la commande.</span>
+                    </span>
+                    <input type="hidden" name="payment" value="wave" />
+                </label>
+                <!-- Localisation optionnelle : ne doit jamais bloquer le paiement -->
+                <label class="privacy-check">
+                    <input type="checkbox" name="shareLocation" />
+                    Partager ma position pour faciliter la livraison. Optionnel.
+                </label>
+                <!-- Recapitulatif du panier avant validation -->
+                <div id="orderSummary" class="modal-summary"></div>
+                <!-- Bouton principal : enregistre la commande puis ouvre la page Wave -->
+                <button id="orderWaveButton" class="btn btn-primary order-wave-btn" type="button">Valider et payer avec Wave</button>
+            </div>
+
+            <!-- Bloc de succes garde en secours si une confirmation locale est affichee -->
+            <div id="orderSuccess" class="order-success" hidden>
+                <i class="fas fa-check-circle"></i>
+                <h3>Commande reçue</h3>
+                <p>Merci pour votre confiance. Nous vous contacterons dans les 24h pour la confirmation.</p>
+                <button id="successClose" class="btn btn-secondary" type="button">Retour à la boutique</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup newsletter : inscription rapide aux nouveautes et drops -->
+    <div id="newsletterPopup" class="modal-overlay newsletter-popup" role="dialog" aria-modal="true" aria-labelledby="newsletterPopupTitle">
+        <div class="modal newsletter-modal">
+            <button id="newsletterPopupClose" class="icon-btn modal-close" type="button" aria-label="Fermer">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-intro">
+                <span class="mark">R</span>
+                <h2 id="newsletterPopupTitle">Rejoins Redemption</h2>
+                <p>Inscris-toi pour recevoir les nouveautes, les drops et les offres de la marque.</p>
+            </div>
+            <form id="newsletterPopupForm" class="checkout-form">
+                <label>Prenom *
+                    <input type="text" name="firstName" placeholder="Votre prenom" />
+                </label>
+                <label>Email *
+                    <input type="email" name="email" placeholder="vous@email.com" />
+                </label>
+                <label>Numero WhatsApp *
+                    <input type="tel" name="whatsapp" placeholder="+225 07 00 00 00 00" />
+                </label>
+                <button class="btn btn-primary" type="submit">S'abonner</button>
+            </form>
+        </div>
+    </div>
+
+    <main>
+        <!-- Accueil : hero plein ecran avec images de marque et appel vers la boutique -->
+        <section id="home" class="hero">
+            <div class="hero-media" aria-hidden="true">
+                <div class="hero-track">
+                    <div class="hero-slide" style="background-image: url('image hero/IMG-20260518-WA0018.jpg');"></div>
+                    <div class="hero-slide" style="background-image: url('image hero/IMG-20260518-WA0019.jpg');"></div>
+                    <div class="hero-slide" style="background-image: url('image hero/IMG-20260518-WA0020.jpg');"></div>
+                    <div class="hero-slide" style="background-image: url('image hero/IMG-20260518-WA0021.jpg');"></div>
+                    <div class="hero-slide" style="background-image: url('image hero/IMG-20260518-WA0022.jpg');"></div>
+                    <div class="hero-slide" style="background-image: url('image hero/IMG-20260518-WA0023.jpg');"></div>
+                    <div class="hero-slide" style="background-image: url('image hero/IMG-20260518-WA0018.jpg');"></div>
+                    <div class="hero-slide" style="background-image: url('image hero/IMG-20260518-WA0019.jpg');"></div>
+                    <div class="hero-slide" style="background-image: url('image hero/IMG-20260518-WA0020.jpg');"></div>
+                    <div class="hero-slide" style="background-image: url('image hero/IMG-20260518-WA0021.jpg');"></div>
+                    <div class="hero-slide" style="background-image: url('image hero/IMG-20260518-WA0022.jpg');"></div>
+                    <div class="hero-slide" style="background-image: url('image hero/IMG-20260518-WA0023.jpg');"></div>
+                </div>
+            </div>
+            <div class="hero-content">
+                <h1>House of Redemption</h1>
+                <p class="hero-subtitle">Boutique officielle de streetwear chretien premium : choisis ta piece, ajoute au panier et confirme ta commande avec l'equipe.</p>
+                <p class="hero-note">T-shirts, hoodies, casquettes et drops Redemption disponibles a Abidjan.</p>
+                <div class="hero-actions">
+                    <a href="#shop" class="btn btn-primary">Shopper maintenant</a>
+                    <button class="btn btn-secondary hero-cart-trigger" type="button" onclick="document.getElementById('cartBtn')?.click()">Voir mon panier</button>
+                </div>
+                <div class="hero-commerce-panel" aria-label="Avantages boutique">
+                    <span><i class="fas fa-truck-fast"></i> Livraison a Abidjan</span>
+                    <span><i class="fas fa-money-bill-wave"></i> Paiement Wave obligatoire</span>
+                    <span><i class="fab fa-whatsapp"></i> Confirmation WhatsApp</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="marquee" aria-hidden="true">
+            <div class="marquee-track">
+                <span>Saved by Grace</span>
+                <span>Reborn with Purpose</span>
+                <span>Nouvelle créature</span>
+                <span>Redemption</span>
+                <span>Foi et grâce</span>
+                <span>Saved by Grace</span>
+                <span>Reborn with Purpose</span>
+                <span>Nouvelle créature</span>
+                <span>Redemption</span>
+                <span>Foi et grâce</span>
+            </div>
+        </div>
+
+        <!-- Boutique : filtres, recherche, tri et grille de produits chargee par JavaScript -->
+        <section id="shop" class="section shop-section">
+            <div class="container">
+                <div class="shop-heading">
+                    <div class="section-header">
+                        <p class="eyebrow">La boutique</p>
+                        <h2>Boutique streetwear chrétien à Abidjan</h2>
+                        <p>Catalogue premium House of Redemption : cherche une piece, filtre par collection, ajoute au panier, puis finalise ta commande.</p>
+                    </div>
+                    <div class="shop-support">
+                        <a href="https://wa.me/2250152941104" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Commander sur WhatsApp</a>
+                        <button class="shop-cart-mini" type="button" onclick="document.getElementById('cartBtn')?.click()"><i class="fas fa-shopping-bag"></i> Voir le panier</button>
+                    </div>
+                </div>
+
+                <div class="shop-toolbar" aria-label="Recherche et tri boutique">
+                    <label class="shop-search">
+                        <i class="fas fa-search"></i>
+                        <input id="productSearch" type="search" placeholder="Rechercher t-shirt, hoodie, couleur, collection..." aria-label="Rechercher un produit" />
+                    </label>
+                    <label class="shop-sort">
+                        <span>Trier</span>
+                        <select id="productSort" aria-label="Trier les produits">
+                            <option value="recent">Nouveautes</option>
+                            <option value="price-asc">Prix croissant</option>
+                            <option value="price-desc">Prix decroissant</option>
+                            <option value="name">Nom A-Z</option>
+                        </select>
+                    </label>
+                </div>
+
+                <p class="shop-helper">Besoin d'aide pour choisir une taille ou une couleur ? WhatsApp reste disponible avant la commande.</p>
+
+                <div id="collectionTabs" class="shop-filters" aria-label="Collections boutique">
+                    <button class="filter-btn active" type="button" data-collection="">Tout</button>
+                </div>
+
+                <p id="shopResults" class="shop-results" aria-live="polite"></p>
+
+                <div id="productsGrid" class="products-grid">
+                    <article class="product-empty">
+                        <i class="fas fa-shirt"></i>
+                        <p>Aucun produit publie pour le moment.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reassurance achat : informations courtes sur commande, paiement et livraison -->
+        <section class="commerce-assurance" aria-label="Informations achat">
+            <div class="container assurance-grid">
+                <article>
+                    <i class="fas fa-box-open"></i>
+                    <h3>Produits en drops</h3>
+                    <p>Les articles disponibles sont affiches directement depuis le dashboard.</p>
+                </article>
+                <article>
+                    <i class="fas fa-phone-volume"></i>
+                    <h3>Commande confirmee</h3>
+                    <p>Apres validation, l'equipe confirme la taille, la livraison et le paiement.</p>
+                </article>
+                <article>
+                    <i class="fas fa-shield-heart"></i>
+                    <h3>Achat accompagne</h3>
+                    <p>Besoin d'aide ? WhatsApp reste disponible avant et apres ta commande.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Guide achat : aide visuelle pour comprendre le parcours de commande -->
+        <section class="shopping-guide-section" aria-label="Guide achat">
+            <div class="container shopping-guide-grid service-guide-grid">
+                <article>
+                    <i class="fas fa-shield-heart"></i>
+                    <h3>Qualite garantie</h3>
+                    <p>Chaque piece est controlee avant expedition.</p>
+                </article>
+                <article>
+                    <i class="fas fa-location-dot"></i>
+                    <h3>Livraison Abidjan</h3>
+                    <p>1 000 a 3 000 FCFA selon votre zone.</p>
+                </article>
+                <article>
+                    <i class="fas fa-mobile-screen-button"></i>
+                    <h3>Commande simplifiee</h3>
+                    <p>Paiement Wave obligatoire avant validation.</p>
+                </article>
+                <article>
+                    <i class="fas fa-arrows-rotate"></i>
+                    <h3>Retours acceptes</h3>
+                    <p>Contactez-nous, nous trouverons une solution.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Collections : navigation par univers et sous-collections -->
+        <section id="collections" class="section collections-section">
+            <div class="container">
+                <div class="section-header">
+                    <p class="eyebrow">Collections</p>
+                    <h2>Collections chrétiennes House of Redemption</h2>
+                </div>
+                <button id="collectionsToggle" class="collections-toggle" type="button" aria-expanded="false" aria-controls="collectionProductsGrid">
+                    <span>Voir les collections des articles</span>
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </button>
+                <div id="collectionProductsGrid" class="collection-products-grid" aria-label="Collections des articles" hidden></div>
+            </div>
+        </section>
+
+        <!-- Citation de marque : message spirituel et positionnement Redemption -->
+        <section class="verse-section">
+            <div class="container">
+                <blockquote>"Si quelqu'un est en Christ, il est une nouvelle créature."</blockquote>
+                <cite>2 Corinthiens 5 : 17</cite>
+            </div>
+        </section>
+
+        <template id="storyOriginal" hidden>
+            <div class="container">
+                <div class="section-header">
+                    <p class="eyebrow">Notre histoire</p>
+                    <h2>Marque chrétienne née d'une histoire de foi</h2>
+                    <p>Redemption raconte un passage : l'ancienne vie quittée, la grâce reçue, puis une mission portée dans le vêtement.</p>
+                </div>
+                <div class="story-grid">
+                    <article>
+                        <span>01</span>
+                        <h3>L'obscurité</h3>
+                        <p>Une vie sans direction, marquée par les mauvaises fréquentations et la recherche d'un sens plus profond.</p>
+                    </article>
+                    <article>
+                        <span>02</span>
+                        <h3>La rencontre</h3>
+                        <p>Une expérience réelle avec Jésus-Christ, vécue comme un point de rupture et de renaissance.</p>
+                    </article>
+                    <article>
+                        <span>03</span>
+                        <h3>La transformation</h3>
+                        <p>La foi devient une discipline quotidienne, une identité nouvelle et une manière de marcher.</p>
+                    </article>
+                    <article>
+                        <span>04</span>
+                        <h3>La marque</h3>
+                        <p>Chaque pièce devient un rappel visible : la grâce peut réécrire une histoire.</p>
+                    </article>
+                </div>
+            </div>
+        </template>
+
+        <!-- Arrivages : derniers produits ajoutes ou mis en avant depuis le dashboard -->
+        <section id="arrivals" class="section arrivals-section">
+            <div class="container">
+                <div class="section-header">
+                    <p class="eyebrow">Arrivage en cours</p>
+                    <h2>Arrivages streetwear chrétien bientôt disponibles</h2>
+                    <p>Des pieces en preparation, pensees pour arriver bientot dans la boutique Redemption.</p>
+                </div>
+                <div id="arrivalsGrid" class="products-grid arrivals-grid" aria-label="Articles bientot disponibles"></div>
+            </div>
+        </section>
+
+        <!-- Galerie : images et videos de la marque -->
+        <section id="gallery" class="section gallery-section">
+            <div class="container">
+                <div class="section-header">
+                    <p class="eyebrow">Galerie</p>
+                    <h2>Galerie des vêtements House of Redemption</h2>
+                </div>
+                <button id="galleryToggle" class="collections-toggle gallery-toggle" type="button" aria-expanded="false" aria-controls="galleryGrid">
+                    <span>Voir la galerie des vêtements</span>
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </button>
+                <div id="galleryGrid" class="gallery-grid" aria-label="Galerie des images Redemption" hidden></div>
+            </div>
+        </section>
+
+        <!-- Histoire : valeurs, mission et vision de House of Redemption -->
+        <section id="story" class="section values-section">
+            <div class="container">
+                <div class="section-header">
+                    <p class="eyebrow">Notre histoire</p>
+                    <h2>La naissance d'une marque de foi</h2>
+                    <p>Redemption raconte un passage : l'ancienne vie quittée, la grâce reçue, puis une mission portée dans le vêtement.</p>
+                </div>
+                <div class="story-grid">
+                    <article>
+                        <span>01</span>
+                        <h3>L'obscurité</h3>
+                        <p>Une vie sans direction, marquée par les mauvaises fréquentations et la recherche d'un sens plus profond.</p>
+                    </article>
+                    <article>
+                        <span>02</span>
+                        <h3>La rencontre</h3>
+                        <p>Une expérience réelle avec Jésus-Christ, vécue comme un point de rupture et de renaissance.</p>
+                    </article>
+                    <article>
+                        <span>03</span>
+                        <h3>La transformation</h3>
+                        <p>La foi devient une discipline quotidienne, une identité nouvelle et une manière de marcher.</p>
+                    </article>
+                    <article>
+                        <span>04</span>
+                        <h3>La marque</h3>
+                        <p>Chaque pièce devient un rappel visible : la grâce peut réécrire une histoire.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter : formulaire d'inscription permanent en bas de page -->
+        <section class="newsletter-section">
+            <div class="container newsletter-inner">
+                <div>
+                    <p class="eyebrow">Newsletter</p>
+                    <h2>Newsletter House of Redemption</h2>
+                </div>
+                <form id="newsletterForm" class="newsletter-form">
+                    <input type="text" name="firstName" placeholder="ton prénom" aria-label="Prénom" />
+                    <input type="email" name="email" placeholder="ton@email.com" aria-label="Adresse email" />
+                    <input type="tel" name="whatsapp" placeholder="WhatsApp" aria-label="Numero WhatsApp" />
+                    <button class="btn btn-primary" type="submit">S'inscrire</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Contact : aide commande et formulaire de message client -->
+        <section id="contact" class="section contact-section">
+            <div class="container contact-grid">
+                <div>
+                    <p class="eyebrow">Contact</p>
+                    <h2>Contact et commande House of Redemption</h2>
+                </div>
+                <div class="contact-list">
+                    <a href="mailto:houseofredemption2003@gmail.com"><i class="fas fa-envelope"></i> houseofredemption2003@gmail.com</a>
+                    <a href="tel:+2250152941104"><i class="fas fa-phone"></i> +225 0152941104</a>
+                    <span><i class="fas fa-location-dot"></i> Abidjan, Côte d'Ivoire</span>
+                </div>
+                <form id="contactForm" class="contact-form">
+                    <div class="form-grid">
+                        <label>Prénom *
+                            <input type="text" name="firstName" placeholder="Votre prénom" />
+                        </label>
+                        <label>Nom *
+                            <input type="text" name="lastName" placeholder="Votre nom" />
+                        </label>
+                    </div>
+                    <label>Email *
+                        <input type="email" name="email" placeholder="vous@email.com" />
+                    </label>
+                    <label>Numero WhatsApp *
+                        <input type="tel" name="whatsapp" placeholder="+225 07 00 00 00 00" />
+                    </label>
+                    <label>Sujet *
+                        <select name="subject">
+                            <option value="">Choisir...</option>
+                            <option value="Commande/Livraison">Commande/Livraison</option>
+                            <option value="Collaboration">Collaboration</option>
+                            <option value="Question générale">Question générale</option>
+                            <option value="Autre">Autre</option>
+                        </select>
+                    </label>
+                    <label>Message *
+                        <textarea name="message" rows="5" placeholder="Votre message"></textarea>
+                    </label>
+                    <button class="btn btn-primary" type="submit">Envoyer le message</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Informations legales : paiement, livraison, confidentialite et retours -->
+        <section id="legal" class="section legal-section">
+            <div class="container">
+                <div class="section-header">
+                    <p class="eyebrow">Transparence</p>
+                    <h2>Mentions légales</h2>
+                </div>
+                <div class="legal-grid">
+                    <article>
+                        <h3>Éditeur du site</h3>
+                        <p>Redemption, fondateur Ninine Junior, Abidjan Côte d'Ivoire, email houseofredemption2003@gmail.com.</p>
+                    </article>
+                    <article>
+                        <h3>Hébergement</h3>
+                        <p>À compléter.</p>
+                    </article>
+                    <article>
+                        <h3>Propriété intellectuelle</h3>
+                        <p>Tous les visuels et contenus sont la propriété exclusive de Redemption.</p>
+                    </article>
+                    <article>
+                        <h3>Données personnelles</h3>
+                        <p>Les informations collectées via les formulaires sont utilisées uniquement pour le traitement des commandes et ne sont pas revendues.</p>
+                    </article>
+                    <article>
+                        <h3>Cookies</h3>
+                        <p>Le site n'utilise pas de cookies de traçage tiers.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="floating-socials" aria-label="Réseaux sociaux">
+        <a href="https://wa.me/2250152941104" target="_blank" rel="noopener" aria-label="WhatsApp Redemption"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.instagram.com/re_dem_ption?igsh=MTZ6MHM3eTVnNWZnMw==" target="_blank" rel="noopener" aria-label="Instagram Redemption"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@houseofredemption2021?_r=1&_t=ZS-96Ib5A2CMA3" target="_blank" rel="noopener" aria-label="TikTok Redemption"><i class="fab fa-tiktok"></i></a>
+    </div>
+    <a class="back-home-btn" href="#home" aria-label="Remonter à l'accueil"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- Pied de page : liens rapides, reseaux sociaux et copyright -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div>
+                <strong>REDEMPTION</strong>
+                <p>Saved by Grace. Reborn with Purpose.</p>
+                <p>© 2025 Redemption. Tous droits réservés.</p>
+            </div>
+            <nav aria-label="Navigation pied de page">
+                <a href="#story">Histoire</a>
+                <a href="#collections">Collections</a>
+                <a href="#shop">Boutique</a>
+                <a href="#arrivals">Arrivage</a>
+                <a href="#gallery">Galerie</a>
+                <a href="#legal">Mentions légales</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <div class="footer-socials">
+                <a href="https://wa.me/2250152941104" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/re_dem_ption?igsh=MTZ6MHM3eTVnNWZnMw==" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@houseofredemption2021?_r=1&_t=ZS-96Ib5A2CMA3" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Messages temporaires affiches par JavaScript -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <!-- Aide d'installation PWA pour iOS, Android et navigateur desktop -->
+    <div id="installHelpModal" class="install-help-modal" role="dialog" aria-modal="true" aria-labelledby="installHelpTitle" hidden>
+        <div class="install-help-card">
+            <button id="installHelpClose" class="modal-close install-help-close" type="button" aria-label="Fermer">
+                <i class="fas fa-times"></i>
+            </button>
+            <p class="eyebrow">Installer l'application</p>
+            <h2 id="installHelpTitle">House of Redemption sur iPhone/iPad</h2>
+            <ol>
+                <li>Ouvre ce site dans Safari.</li>
+                <li>Appuie sur le bouton Partager.</li>
+                <li>Choisis Ajouter a l'ecran d'accueil.</li>
+                <li>Valide avec Ajouter.</li>
+            </ol>
+            <p id="installHelpNote">Apres l'ajout, l'icone Redemption apparaitra sur ton ecran d'accueil.</p>
+            <button id="installHelpDone" class="btn btn-primary" type="button">J'ai compris</button>
+        </div>
+    </div>
+    <button id="updateAppBtn" class="update-app-btn" type="button" hidden>Mettre a jour l'application</button>
+    <!-- Scripts externes : animations, scroll fluide puis logique principale du site -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.19/dist/lenis.min.js" defer></script>
+    <script src="script.js" defer></script>
+    <script>
+        window.addEventListener("load", function () {
+            var gsap = window.gsap;
+            var ScrollTrigger = window.ScrollTrigger;
+
+            if (window.Lenis) {
+                var lenis = new window.Lenis({
+                    duration: 1.2,
+                    lerp: 0.1,
+                    smoothWheel: true,
+                    prevent: function (node) {
+                        return !!(node && node.closest && node.closest(".modal-overlay, .install-help-modal, .cart-sidebar"));
+                    }
+                });
+                window.redemptionLenis = lenis;
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+
+                if (ScrollTrigger) {
+                    lenis.on("scroll", ScrollTrigger.update);
+                }
+            }
+
+            if (!gsap || !ScrollTrigger) return;
+            gsap.registerPlugin(ScrollTrigger);
+
+            var heroTitle = document.querySelector(".hero h1");
+            if (heroTitle && !heroTitle.dataset.split) {
+                var text = heroTitle.textContent.trim();
+                heroTitle.dataset.split = "true";
+                heroTitle.setAttribute("aria-label", text);
+                var words = text.split(" ");
+                heroTitle.innerHTML = words.map(function (word, index) {
+                    var letters = word.split("").map(function (char) {
+                        return '<span class="hero-title-char" aria-hidden="true">' + char + "</span>";
+                    }).join("");
+                    var spacer = index < words.length - 1
+                        ? '<span class="hero-title-char hero-title-space" aria-hidden="true"> </span>'
+                        : "";
+                    var mobileBreak = index === 1 ? '<br class="hero-title-mobile-break" aria-hidden="true" />' : "";
+                    return letters + spacer + mobileBreak;
+                }).join("");
+            }
+
+            gsap.to(".hero-title-char", {
+                clipPath: "inset(0% 0 0 0)",
+                y: 0,
+                duration: 1.4,
+                ease: "power3.out",
+                stagger: 0.025
+            });
+
+            gsap.from(".hero-subtitle", {
+                opacity: 0,
+                y: 20,
+                duration: 0.9,
+                delay: 0.6,
+                ease: "power3.out"
+            });
+
+            gsap.from(".hero-actions .btn", {
+                opacity: 0,
+                y: 22,
+                duration: 0.75,
+                delay: 0.82,
+                ease: "power3.out",
+                stagger: 0.1
+            });
+
+            gsap.to(".hero-slide", {
+                scale: 1,
+                duration: 2,
+                ease: "power2.out"
+            });
+
+            gsap.utils.toArray(".section-header, .assurance-grid article, .shopping-guide-grid article, .legal-grid article, .gallery-item").forEach(function (item) {
+                gsap.from(item, {
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 85%",
+                        end: "top 20%",
+                        once: true
+                    },
+                    opacity: 0,
+                    y: 34,
+                    duration: 0.8,
+                    ease: "power2.out"
+                });
+            });
+
+            gsap.utils.toArray(".story-grid article").forEach(function (item) {
+                gsap.from(item, {
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 60%",
+                        end: "top 20%",
+                        once: true
+                    },
+                    opacity: 0,
+                    x: 60,
+                    duration: 0.75,
+                    ease: "power2.out"
+                });
+                gsap.from(item.querySelector("span"), {
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 60%",
+                        once: true
+                    },
+                    clipPath: "inset(100% 0 0 0)",
+                    duration: 0.8,
+                    ease: "power3.out"
+                });
+            });
+
+            function animateCards(scope) {
+                var products = gsap.utils.toArray((scope || document).querySelectorAll(".product-card:not([data-animated])"));
+                products.forEach(function (card) {
+                    card.dataset.animated = "true";
+                });
+                if (products.length) {
+                    gsap.from(products, {
+                        scrollTrigger: {
+                            trigger: products[0].parentElement,
+                            start: "top 85%",
+                            end: "top 20%",
+                            once: true
+                        },
+                        opacity: 0,
+                        duration: 0.75,
+                        ease: "power2.out",
+                        stagger: 0.12
+                    });
+                    gsap.from(products.map(function (card) { return card.querySelector(".product-info"); }).filter(Boolean), {
+                        scrollTrigger: {
+                            trigger: products[0].parentElement,
+                            start: "top 85%",
+                            once: true
+                        },
+                        opacity: 0,
+                        duration: 0.45,
+                        delay: 0.1,
+                        ease: "power2.out",
+                        stagger: 0.08
+                    });
+                }
+
+                var arrivals = gsap.utils.toArray((scope || document).querySelectorAll(".arrival-card:not([data-arrival-animated])"));
+                arrivals.forEach(function (card) {
+                    card.dataset.arrivalAnimated = "true";
+                });
+                arrivals.forEach(function (card) {
+                    gsap.from(card, {
+                        scrollTrigger: {
+                            trigger: card,
+                            start: "top 85%",
+                            end: "top 20%",
+                            once: true
+                        },
+                        opacity: 0,
+                        rotateY: 8,
+                        transformPerspective: 900,
+                        duration: 0.6,
+                        ease: "power2.out"
+                    });
+                });
+            }
+
+            animateCards(document);
+
+            var productTargets = ["productsGrid", "arrivalsGrid", "galleryGrid"].map(function (id) {
+                return document.getElementById(id);
+            }).filter(Boolean);
+
+            productTargets.forEach(function (target) {
+                new MutationObserver(function () {
+                    animateCards(target);
+                    ScrollTrigger.refresh();
+                }).observe(target, { childList: true, subtree: true });
+            });
+
+            var newsletterTitle = document.querySelector(".newsletter-inner h2");
+            if (newsletterTitle && !newsletterTitle.dataset.split) {
+                var newsletterText = newsletterTitle.textContent.trim();
+                newsletterTitle.dataset.split = "true";
+                newsletterTitle.setAttribute("aria-label", newsletterText);
+                newsletterTitle.innerHTML = newsletterText.split("").map(function (char) {
+                    return char === " "
+                        ? '<span class="newsletter-letter" aria-hidden="true">&nbsp;</span>'
+                        : '<span class="newsletter-letter" aria-hidden="true">' + char + "</span>";
+                }).join("");
+
+                gsap.from(".newsletter-letter", {
+                    scrollTrigger: {
+                        trigger: newsletterTitle,
+                        start: "top 85%",
+                        once: true
+                    },
+                    opacity: 0,
+                    y: 22,
+                    duration: 0.5,
+                    ease: "power2.out",
+                    stagger: 0.04
+                });
+            }
+
+            var cursor = document.getElementById("cursorRing");
+            if (cursor && window.matchMedia("(pointer: fine)").matches) {
+                document.addEventListener("mouseover", function (event) {
+                    if (event.target.closest("a, button, input, select, textarea, .product-card")) {
+                        cursor.classList.add("cursor-active");
+                    }
+                });
+                document.addEventListener("mouseout", function (event) {
+                    if (event.target.closest("a, button, input, select, textarea, .product-card")) {
+                        cursor.classList.remove("cursor-active");
+                    }
+                });
+            }
+
+            var backHome = document.querySelector(".back-home-btn");
+            var navbar = document.getElementById("navbar");
+            function handleScrollUI() {
+                var y = window.scrollY || document.documentElement.scrollTop;
+                if (backHome) backHome.classList.toggle("visible", y > 300);
+                if (navbar) navbar.classList.toggle("scrolled", y > 80);
+            }
+            handleScrollUI();
+            window.addEventListener("scroll", handleScrollUI, { passive: true });
+
+            var cartCount = document.getElementById("cartCount");
+            if (cartCount) {
+                new MutationObserver(function () {
+                    cartCount.classList.remove("bump");
+                    void cartCount.offsetWidth;
+                    cartCount.classList.add("bump");
+                }).observe(cartCount, { childList: true, characterData: true, subtree: true });
+            }
+        });
+    </script>
+</body>
+
+</html>

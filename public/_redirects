@@ -1,0 +1,4 @@
+/robots.txt /robots.txt 200
+/sitemap.xml /sitemap.xml 200
+/p/:id /.netlify/functions/product-page?id=:id 200
+/* /index.html 200

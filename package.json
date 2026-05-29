@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "build": "node scripts/build.js",
+    "deploy": "npm run build && netlify deploy --prod --no-build --dir dist"
+  }
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="meta-pixel-id" content="REPLACE_WITH_META_PIXEL_ID" />
+    <title>Paiement validé | House of Redemption</title>
+    <link rel="icon" type="image/jpeg" href="img/logo.jpg" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="analytics.js" defer></script>
+    <style>
+        body {
+            min-height: 100vh;
+            background: var(--cream);
+            color: var(--black);
+            font-family: var(--font-body);
+        }
+
+        .success-page {
+            display: grid;
+            min-height: 100vh;
+            place-items: center;
+            padding: 24px;
+        }
+
+        .success-card {
+            width: min(560px, 100%);
+            display: grid;
+            gap: 18px;
+            border: 1px solid rgba(13, 13, 11, 0.12);
+            background: #fff;
+            padding: clamp(24px, 6vw, 42px);
+            text-align: center;
+            box-shadow: 0 24px 70px rgba(13, 13, 11, 0.12);
+        }
+
+        .success-mark {
+            display: grid;
+            width: 72px;
+            height: 72px;
+            margin: 0 auto;
+            place-items: center;
+            border-radius: 50%;
+            background: #16c784;
+            color: #fff;
+            font-size: 34px;
+        }
+
+        .success-card h1 {
+            margin: 0;
+            color: var(--green);
+            font-size: clamp(38px, 11vw, 68px);
+            line-height: 0.95;
+        }
+
+        .success-card p {
+            margin: 0;
+            color: var(--body-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .success-ref {
+            display: block;
+            border: 1px solid rgba(13, 13, 11, 0.1);
+            background: rgba(201, 168, 76, 0.12);
+            padding: 12px;
+            color: var(--black);
+            font-size: 0.9rem;
+        }
+
+        .success-card .btn {
+            width: 100%;
+            min-height: 54px;
+        }
+    </style>
+</head>
+
+<body class="system-cursor-page">
+    <main class="success-page">
+        <section class="success-card" aria-labelledby="successTitle">
+            <div class="success-mark" aria-hidden="true">&#10003;</div>
+            <p class="eyebrow">House of Redemption</p>
+            <h1 id="successTitle">Paiement valid&eacute; avec succ&egrave;s</h1>
+            <p>Un agent vous contactera dans les 24h pour la livraison.</p>
+            <span id="successReference" class="success-ref" hidden></span>
+            <a class="btn btn-primary" href="index.html#shop">Retour a la boutique</a>
+        </section>
+    </main>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const reference = params.get("ref") || readSuccess().reference || "";
+        const referenceNode = document.getElementById("successReference");
+
+        if (reference) {
+            referenceNode.textContent = `Reference paiement: ${reference}`;
+            referenceNode.hidden = false;
+            markPaymentAsConfirmed(reference);
+            trackPurchase(reference);
+        }
+
+        function readSuccess() {
+            try {
+                return JSON.parse(sessionStorage.getItem("redemption_payment_success") || "{}");
+            } catch {
+                return {};
+            }
+        }
+
+        function markPaymentAsConfirmed(reference) {
+            try {
+                const payments = JSON.parse(localStorage.getItem("redemption_wave_payments") || "[]");
+                const updated = payments.map((payment) => String(payment.reference) === String(reference)
+                    ? { ...payment, status: "pending_review", customer_confirmed_at: new Date().toISOString() }
+                    : payment);
+                localStorage.setItem("redemption_wave_payments", JSON.stringify(updated));
+            } catch {
+                return;
+            }
+        }
+
+        function trackPurchase(reference) {
+            try {
+                const payments = JSON.parse(localStorage.getItem("redemption_wave_payments") || "[]");
+                const payment = payments.find((item) => String(item.reference) === String(reference)) || readSuccess();
+                if (typeof window.redemptionTrackMeta !== "function" || !payment?.amount) return;
+                window.redemptionTrackMeta("Purchase", {
+                    content_ids: (payment.items || []).map((item) => item.id).filter(Boolean),
+                    content_type: "product",
+                    num_items: (payment.items || []).length || undefined,
+                    value: Number(payment.amount || 0),
+                    currency: payment.currency || "XOF",
+                });
+            } catch {
+                return;
+            }
+        }
+    </script>
+</body>
+
+</html>

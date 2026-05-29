@@ -1,0 +1,4263 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>Dashboard Redemption</title>
+    <link rel="icon" type="image/jpeg" href="img/logo.jpg" />
+    <link rel="apple-touch-icon" href="img/logo.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #f6f7f4;
+            --surface: #ffffff;
+            --surface-2: #f2f4ee;
+            --ink: #151713;
+            --muted: #697066;
+            --green: #183f2a;
+            --gold: #b58a33;
+            --danger: #b7352f;
+            --line: rgba(21, 23, 19, 0.1);
+            --shadow: 0 18px 44px rgba(18, 24, 16, 0.08);
+            --font-title: "Cinzel", serif;
+            --font-body: "Outfit", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: var(--font-body);
+            font-size: 15px;
+            line-height: 1.55;
+        }
+
+        .screen {
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .login-screen {
+            display: grid;
+            place-items: center;
+        }
+
+        .login-card,
+        .panel,
+        .stat-card,
+        .record-card {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .login-card {
+            width: min(420px, 100%);
+            padding: 28px;
+        }
+
+        h1,
+        h2,
+        h3,
+        p {
+            margin-top: 0;
+        }
+
+        h1,
+        h2 {
+            font-family: var(--font-title);
+            line-height: 1.08;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+            color: var(--green);
+            font-size: clamp(1.35rem, 2.4vw, 2rem);
+        }
+
+        h2 {
+            margin-bottom: 8px;
+            font-size: 1.18rem;
+        }
+
+        h3 {
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        p {
+            color: var(--muted);
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            min-height: 42px;
+            border: 0;
+            border-radius: 7px;
+            background: var(--green);
+            color: #fff;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            min-height: 44px;
+            border: 1px solid var(--line);
+            border-radius: 7px;
+            background: #fff;
+            color: var(--ink);
+            padding: 0 12px;
+            outline: none;
+        }
+
+        textarea {
+            min-height: 92px;
+            padding: 12px;
+            resize: vertical;
+        }
+
+        label {
+            display: grid;
+            gap: 6px;
+            color: #514a40;
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        .field-hint {
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 500;
+            line-height: 1.35;
+        }
+
+        .color-picker {
+            display: grid;
+            gap: 10px;
+            margin: 14px 0;
+        }
+
+        .color-picker-title {
+            color: #514a40;
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        .color-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .color-option {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 38px;
+            border: 1px solid rgba(45, 74, 45, 0.16);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--ink);
+            padding: 0 12px 0 8px;
+            font-size: 0.82rem;
+            font-weight: 800;
+        }
+
+        .color-option.active {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(45, 74, 45, 0.12);
+        }
+
+        .color-swatch {
+            width: 20px;
+            height: 20px;
+            flex: 0 0 auto;
+            border: 1px solid rgba(22, 22, 21, 0.18);
+            border-radius: 50%;
+            background: var(--swatch, #ddd);
+        }
+
+        .size-picker {
+            display: grid;
+            gap: 10px;
+            margin: 14px 0;
+            padding: 14px;
+            border: 1px solid rgba(45, 74, 45, 0.16);
+            border-radius: 8px;
+            background: #fbfaf6;
+        }
+
+        .size-picker-title {
+            color: #514a40;
+            font-size: 0.84rem;
+            font-weight: 800;
+        }
+
+        .size-picker-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 8px;
+        }
+
+        .size-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 34px;
+        }
+
+        .size-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 32px;
+            border: 1px solid rgba(45, 74, 45, 0.16);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--ink);
+            padding: 0 10px;
+            font-size: 0.78rem;
+            font-weight: 900;
+        }
+
+        .size-pill button {
+            min-height: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            padding: 0;
+            line-height: 1;
+        }
+
+        form {
+            display: grid;
+            gap: 12px;
+        }
+
+        .ghost {
+            border: 1px solid var(--line);
+            background: #fff;
+            color: var(--ink);
+        }
+
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .dashboard-shell {
+            display: grid;
+            grid-template-columns: 270px minmax(0, 1fr);
+            gap: 20px;
+            max-width: 1480px;
+            margin: 0 auto;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 24px;
+            align-self: start;
+            padding: 18px;
+            background: #121911;
+            color: #fff;
+        }
+
+        .brand {
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .brand h1 {
+            font-size: 1.35rem;
+            color: #fff;
+        }
+
+        .brand p {
+            color: rgba(255, 255, 255, 0.68);
+        }
+
+        .tabs {
+            display: grid;
+            gap: 8px;
+        }
+
+        .tab-btn {
+            justify-content: flex-start;
+            padding: 0 14px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.68);
+            text-align: left;
+        }
+
+        .tab-btn.active {
+            background: #fff;
+            color: var(--green);
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .main {
+            display: grid;
+            gap: 18px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff, #eef3eb);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .stat-card {
+            min-width: 0;
+            padding: 12px 14px;
+            box-shadow: none;
+        }
+
+        .stat-card[data-tab] {
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card[data-tab]:hover {
+            transform: translateY(-2px);
+            border-color: rgba(181, 138, 51, 0.48);
+            box-shadow: 0 14px 28px rgba(18, 24, 16, 0.08);
+        }
+
+        .stat-card strong {
+            display: block;
+            color: var(--green);
+            font-size: clamp(1.18rem, 1.7vw, 1.45rem);
+            line-height: 1.1;
+            white-space: nowrap;
+        }
+
+        .stat-card span {
+            display: block;
+            margin-top: 4px;
+            overflow: hidden;
+            font-size: 0.84rem;
+            font-weight: 800;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .panel {
+            padding: 18px;
+        }
+
+        .panel-head,
+        .record-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .records-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .record-card {
+            padding: 16px;
+            box-shadow: none;
+        }
+
+        .meta {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .meta div,
+        .message-box {
+            min-width: 0;
+            padding: 11px;
+            border-radius: 8px;
+            background: var(--surface-2);
+            overflow-wrap: anywhere;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 999px;
+            background: rgba(184, 144, 62, 0.16);
+            color: #72571f;
+            padding: 5px 10px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .status-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .order-status-tabs,
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .order-status-tabs {
+            margin-bottom: 14px;
+        }
+
+        .wave-filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .wave-filter-btn {
+            min-height: 38px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: #fff;
+            color: var(--ink);
+            padding: 0 13px;
+            font-size: 0.82rem;
+        }
+
+        .wave-filter-btn.active {
+            border-color: var(--green);
+            background: var(--green);
+            color: #fff;
+        }
+
+        .order-status-card {
+            padding: 14px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: var(--surface-2);
+        }
+
+        .order-status-card strong {
+            display: block;
+            color: var(--green);
+            font-size: 1.6rem;
+        }
+
+        .analytics-card {
+            padding: 16px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--surface);
+        }
+
+        .analytics-card strong {
+            display: block;
+            color: var(--green);
+            font-size: 2rem;
+        }
+
+        .analytics-bar {
+            height: 9px;
+            margin-top: 12px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #eadfce;
+        }
+
+        .analytics-bar span {
+            display: block;
+            width: 0;
+            height: 100%;
+            border-radius: inherit;
+            background: var(--green);
+        }
+
+        .row-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .status-btn {
+            min-height: 36px;
+            padding: 0 12px;
+            color: #fff;
+            font-size: 0.82rem;
+        }
+
+        .delete-btn,
+        .edit-btn {
+            display: grid;
+            place-items: center;
+            min-width: 36px;
+            min-height: 36px;
+            padding: 0 12px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+        }
+
+        .delete-btn {
+            background: #b7352f;
+        }
+
+        .wave-delete-btn {
+            display: grid;
+            width: 38px;
+            min-width: 38px;
+            height: 38px;
+            min-height: 38px;
+            place-items: center;
+            border-radius: 50%;
+            background: #dc2626;
+            color: #fff;
+            font-size: 1.05rem;
+            line-height: 1;
+        }
+
+        .order-delete-btn {
+            min-height: 36px;
+            padding: 0 12px;
+            border-radius: 999px;
+            background: #171713;
+            color: #fff;
+            font-size: 0.82rem;
+        }
+
+        .edit-btn {
+            background: #22462d;
+        }
+
+        .bulk-delete-btn {
+            min-height: 38px;
+            padding: 0 13px;
+            border: 1px solid rgba(220, 38, 38, 0.28);
+            border-radius: 999px;
+            background: #fff5f5;
+            color: #b91c1c;
+            font-size: 0.82rem;
+            font-weight: 900;
+            box-shadow: none;
+        }
+
+        .bulk-delete-btn:hover {
+            border-color: rgba(220, 38, 38, 0.55);
+            background: #fee2e2;
+            color: #7f1d1d;
+        }
+
+        .status-cancelled,
+        .status-btn[data-status="cancelled"] {
+            background: #b7352f;
+        }
+
+        .status-shipping,
+        .status-btn[data-status="shipping"] {
+            background: #2563eb;
+        }
+
+        .status-delivered,
+        .status-btn[data-status="delivered"] {
+            background: #18834a;
+        }
+
+        .status-succeeded,
+        .wave-card-succeeded .pill-status {
+            background: #18834a;
+            color: #fff;
+        }
+
+        .status-pending,
+        .status-pending_review,
+        .wave-card-pending .pill-status,
+        .wave-card-pending_review .pill-status {
+            background: #d99a22;
+            color: #171713;
+        }
+
+        .status-cancelled,
+        .status-failed,
+        .wave-card-cancelled .pill-status,
+        .wave-card-failed .pill-status {
+            background: #b7352f;
+            color: #fff;
+        }
+
+        .wave-card-succeeded {
+            border-color: rgba(24, 131, 74, 0.34);
+            background: linear-gradient(135deg, #ffffff, #f0fbf5);
+        }
+
+        .wave-card-cancelled,
+        .wave-card-failed {
+            border-color: rgba(183, 53, 47, 0.34);
+            background: linear-gradient(135deg, #ffffff, #fff2f1);
+        }
+
+        .product-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .order-items,
+        .products-list,
+        .videos-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .order-item,
+        .product-row,
+        .video-row {
+            display: grid;
+            grid-template-columns: 76px 1fr auto;
+            gap: 12px;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            background: var(--surface-2);
+        }
+
+        .order-item img,
+        .product-row img,
+        .video-row video,
+        .video-row .video-preview,
+        .collection-badge {
+            width: 76px;
+            height: 76px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #ece4d7;
+        }
+
+        .collection-badge {
+            display: grid;
+            place-items: center;
+            padding: 8px;
+            background: #183f2a;
+            color: #fff;
+            font-size: 0.78rem;
+            font-weight: 900;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .video-preview {
+            display: grid;
+            place-items: center;
+        }
+
+        .video-upload-frame {
+            display: grid;
+            gap: 8px;
+            padding: 18px;
+            border: 1px dashed rgba(24, 63, 42, 0.38);
+            border-radius: 8px;
+            background: rgba(236, 228, 215, 0.42);
+            cursor: pointer;
+        }
+
+        .video-upload-frame strong {
+            font-size: 0.95rem;
+        }
+
+        .video-upload-frame span {
+            color: var(--muted);
+            font-size: 0.88rem;
+            line-height: 1.45;
+        }
+
+        .video-upload-frame input {
+            padding: 0;
+            border: 0;
+            background: transparent;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .incoming-items {
+            display: grid;
+            gap: 18px;
+        }
+
+        .incoming-item {
+            min-width: 0;
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .incoming-item legend {
+            padding: 0 8px;
+            color: var(--gold);
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error {
+            min-height: 20px;
+            color: var(--danger);
+        }
+
+        .status {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        strong {
+            color: var(--green);
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .tabs,
+            .stats-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .order-status-tabs,
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                font-size: 13px;
+                line-height: 1.45;
+            }
+
+            .screen {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.25rem;
+            }
+
+            h2 {
+                font-size: 1rem;
+            }
+
+            p,
+            label,
+            input,
+            select,
+            textarea,
+            button {
+                font-size: 0.86rem;
+            }
+
+            .panel,
+            .record-card,
+            .stat-card {
+                padding: 12px;
+            }
+
+            .brand h1 {
+                font-size: 1.1rem;
+            }
+
+            .stat-card strong {
+                font-size: 1.35rem;
+            }
+
+            .topbar,
+            .panel-head,
+            .record-top {
+                flex-direction: column;
+            }
+
+            .tabs,
+            .stats-grid,
+            .meta,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .order-item,
+            .product-row,
+            .video-row {
+                grid-template-columns: 60px 1fr;
+            }
+
+            .order-item img,
+            .product-row img,
+            .video-row video,
+            .video-row .video-preview {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        /* Professional dashboard skin: overrides the older admin styling without changing data logic. */
+        :root {
+            --bg: #eef2f6;
+            --surface: rgba(255, 255, 255, 0.9);
+            --surface-2: #f7f8fb;
+            --ink: #111827;
+            --muted: #64748b;
+            --green: #0f3d33;
+            --gold: #c8953d;
+            --danger: #dc2626;
+            --line: rgba(15, 23, 42, 0.1);
+            --shadow: 0 22px 60px rgba(15, 23, 42, 0.1);
+            --font-title: "Syne", sans-serif;
+            --font-body: "Plus Jakarta Sans", sans-serif;
+        }
+
+        html {
+            overflow-x: hidden;
+            text-rendering: geometricPrecision;
+        }
+
+        body {
+            overflow-x: hidden;
+            background:
+                radial-gradient(circle at 8% 8%, rgba(200, 149, 61, 0.18), transparent 28%),
+                radial-gradient(circle at 94% 2%, rgba(14, 116, 144, 0.14), transparent 30%),
+                linear-gradient(135deg, #f8fafc 0%, #edf2f7 47%, #f5f1e9 100%);
+            letter-spacing: 0;
+        }
+
+        body::before {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            content: "";
+            background-image:
+                linear-gradient(rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent 78%);
+        }
+
+        .screen {
+            padding: 28px;
+        }
+
+        .login-screen {
+            background:
+                linear-gradient(135deg, rgba(8, 17, 23, 0.86), rgba(15, 61, 51, 0.82)),
+                url("img/logo.jpg") center / min(460px, 78vw) no-repeat;
+        }
+
+        .login-card,
+        .panel,
+        .stat-card,
+        .record-card {
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            border-radius: 8px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+        }
+
+        .login-card {
+            position: relative;
+            overflow: hidden;
+            width: min(460px, 100%);
+            padding: 34px;
+        }
+
+        .login-card::before,
+        .topbar::before,
+        .sidebar::before {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            content: "";
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 42%);
+        }
+
+        h1,
+        h2,
+        h3,
+        p,
+        span,
+        strong,
+        button,
+        label,
+        input,
+        select,
+        textarea {
+            min-width: 0;
+        }
+
+        h1,
+        h2 {
+            letter-spacing: 0;
+        }
+
+        h1 {
+            font-size: clamp(1.55rem, 3vw, 2.55rem);
+        }
+
+        h2 {
+            color: #0f172a;
+            font-size: clamp(1.1rem, 1.8vw, 1.55rem);
+        }
+
+        p {
+            max-width: 72ch;
+            margin-bottom: 0;
+            overflow-wrap: anywhere;
+        }
+
+        button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #0f3d33, #145c4f);
+            box-shadow: 0 12px 24px rgba(15, 61, 51, 0.16);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 30px rgba(15, 61, 51, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        input,
+        select,
+        textarea {
+            border-color: rgba(15, 23, 42, 0.13);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.88);
+            transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: rgba(20, 92, 79, 0.55);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(20, 92, 79, 0.12);
+        }
+
+        label {
+            color: #334155;
+            overflow-wrap: anywhere;
+        }
+
+        .dashboard-shell {
+            grid-template-columns: 292px minmax(0, 1fr);
+            gap: 22px;
+            max-width: 1560px;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 28px;
+            overflow: hidden;
+            border-color: rgba(255, 255, 255, 0.16);
+            background:
+                linear-gradient(160deg, rgba(6, 19, 26, 0.96), rgba(13, 55, 47, 0.94)),
+                url("img/logo.jpg") center bottom 18px / 170px auto no-repeat;
+            box-shadow: 0 26px 70px rgba(8, 17, 23, 0.24);
+        }
+
+        .brand {
+            position: relative;
+            border-bottom-color: rgba(255, 255, 255, 0.14);
+        }
+
+        .brand h1 {
+            margin-bottom: 10px;
+            color: #fff;
+            font-size: 1.45rem;
+        }
+
+        .brand h1::after {
+            display: block;
+            width: 54px;
+            height: 3px;
+            margin-top: 12px;
+            border-radius: 999px;
+            content: "";
+            background: linear-gradient(90deg, #c8953d, #38bdf8);
+        }
+
+        .brand p {
+            color: rgba(226, 232, 240, 0.78);
+            font-size: 0.83rem;
+        }
+
+        .tabs {
+            position: relative;
+            gap: 7px;
+        }
+
+        .tab-btn {
+            justify-content: flex-start;
+            min-height: 42px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: none;
+            color: rgba(226, 232, 240, 0.78);
+            font-size: 0.86rem;
+            line-height: 1.2;
+            overflow-wrap: anywhere;
+            white-space: normal;
+        }
+
+        .tab-btn::before {
+            width: 8px;
+            height: 8px;
+            flex: 0 0 auto;
+            border-radius: 999px;
+            content: "";
+            background: rgba(200, 149, 61, 0.45);
+            box-shadow: 0 0 0 4px rgba(200, 149, 61, 0.08);
+        }
+
+        .tab-btn.active {
+            border-color: rgba(255, 255, 255, 0.22);
+            background: #f8fafc;
+            color: #0f3d33;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+        }
+
+        .tab-btn.active::before {
+            background: #0f3d33;
+        }
+
+        .main {
+            gap: 20px;
+        }
+
+        .topbar {
+            position: relative;
+            overflow: hidden;
+            align-items: center;
+            min-height: 148px;
+            padding: 24px;
+            border-color: rgba(255, 255, 255, 0.78);
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(241, 245, 249, 0.78)),
+                linear-gradient(90deg, rgba(200, 149, 61, 0.2), transparent);
+        }
+
+        .topbar h2 {
+            margin-bottom: 10px;
+            font-size: clamp(1.35rem, 3vw, 2.35rem);
+        }
+
+        .topbar p {
+            color: #475569;
+            font-size: 0.95rem;
+        }
+
+        .ghost {
+            border-color: rgba(15, 23, 42, 0.12);
+            background: rgba(255, 255, 255, 0.78);
+            box-shadow: none;
+            color: #0f172a;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(6, minmax(130px, 1fr));
+        }
+
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+            min-height: 112px;
+            padding: 16px;
+            border-color: rgba(255, 255, 255, 0.78);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 252, 0.72));
+        }
+
+        .stat-card::after {
+            position: absolute;
+            right: -18px;
+            bottom: -18px;
+            width: 70px;
+            height: 70px;
+            border: 1px solid rgba(200, 149, 61, 0.28);
+            border-radius: 50%;
+            content: "";
+        }
+
+        .stat-card[data-tab]:hover {
+            border-color: rgba(20, 92, 79, 0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 24px 52px rgba(15, 23, 42, 0.12);
+        }
+
+        .stat-card strong {
+            color: #0f3d33;
+            font-size: clamp(1.25rem, 1.55vw, 1.7rem);
+            overflow-wrap: anywhere;
+            white-space: normal;
+        }
+
+        .stat-card span {
+            color: #64748b;
+            font-size: 0.78rem;
+            letter-spacing: 0;
+            text-transform: uppercase;
+            white-space: normal;
+        }
+
+        .panel {
+            padding: 22px;
+        }
+
+        .tab-panel {
+            animation: panelIn 0.32s ease both;
+        }
+
+        .panel-head,
+        .record-top {
+            align-items: flex-start;
+        }
+
+        .panel-head h2,
+        .record-top h3 {
+            margin-bottom: 6px;
+        }
+
+        .records-grid,
+        .products-list,
+        .videos-list {
+            gap: 14px;
+        }
+
+        .record-card {
+            overflow: hidden;
+            padding: 18px;
+            border-color: rgba(255, 255, 255, 0.72);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.8));
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+
+        .record-card:hover {
+            border-color: rgba(20, 92, 79, 0.18);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 46px rgba(15, 23, 42, 0.09);
+        }
+
+        .meta {
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        }
+
+        .meta div,
+        .message-box,
+        .order-status-card,
+        .analytics-card,
+        .size-picker,
+        .incoming-item {
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            border-radius: 8px;
+            background: rgba(248, 250, 252, 0.82);
+            overflow-wrap: anywhere;
+        }
+
+        .pill,
+        .size-pill,
+        .color-option,
+        .wave-filter-btn,
+        .status-btn,
+        .bulk-delete-btn,
+        .delete-btn,
+        .edit-btn,
+        .order-delete-btn {
+            border-radius: 8px;
+            overflow-wrap: anywhere;
+            white-space: normal;
+        }
+
+        .pill {
+            background: rgba(200, 149, 61, 0.14);
+            color: #7c5b19;
+        }
+
+        .order-status-tabs,
+        .analytics-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .order-status-card,
+        .analytics-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.72));
+        }
+
+        .order-status-card strong,
+        .analytics-card strong {
+            color: #0f3d33;
+        }
+
+        .analytics-bar {
+            background: rgba(15, 23, 42, 0.08);
+        }
+
+        .analytics-bar span {
+            background: linear-gradient(90deg, #0f3d33, #38bdf8);
+        }
+
+        .row-actions,
+        .status-actions {
+            align-items: center;
+        }
+
+        .order-item,
+        .product-row,
+        .video-row {
+            grid-template-columns: 78px minmax(0, 1fr) auto;
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            background: rgba(248, 250, 252, 0.86);
+        }
+
+        .order-item > div,
+        .product-row > div,
+        .video-row > div {
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .order-item img,
+        .product-row img,
+        .video-row video,
+        .video-row .video-preview,
+        .collection-badge {
+            border-radius: 8px;
+        }
+
+        .collection-badge {
+            background: linear-gradient(135deg, #0f3d33, #145c4f);
+            overflow-wrap: anywhere;
+        }
+
+        .form-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .incoming-item {
+            background: rgba(248, 250, 252, 0.72);
+        }
+
+        .incoming-item legend {
+            color: #7c5b19;
+            letter-spacing: 0.08em;
+        }
+
+        .status {
+            overflow-wrap: anywhere;
+        }
+
+        .error {
+            overflow-wrap: anywhere;
+        }
+
+        @keyframes panelIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        @media (max-width: 1180px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 900px) {
+            .screen {
+                padding: 16px;
+            }
+
+            .dashboard-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: auto;
+                background: linear-gradient(135deg, rgba(6, 19, 26, 0.98), rgba(13, 55, 47, 0.94));
+            }
+
+            .tabs {
+                display: flex;
+                gap: 8px;
+                overflow-x: auto;
+                padding-bottom: 4px;
+                scroll-snap-type: x proximity;
+            }
+
+            .tab-btn {
+                min-width: max-content;
+                scroll-snap-align: start;
+                white-space: nowrap;
+            }
+
+            .topbar {
+                min-height: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                font-size: 13.5px;
+            }
+
+            .screen {
+                padding: 10px;
+            }
+
+            .login-card,
+            .panel,
+            .record-card,
+            .stat-card {
+                border-radius: 8px;
+            }
+
+            .login-card {
+                padding: 22px;
+            }
+
+            .dashboard-shell,
+            .main {
+                gap: 12px;
+            }
+
+            .sidebar,
+            .topbar,
+            .panel {
+                padding: 14px;
+            }
+
+            .brand h1 {
+                font-size: 1.18rem;
+            }
+
+            .topbar {
+                align-items: stretch;
+            }
+
+            .topbar h2 {
+                font-size: 1.38rem;
+            }
+
+            .stats-grid,
+            .order-status-tabs,
+            .analytics-grid,
+            .meta,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                min-height: 86px;
+            }
+
+            .panel-head,
+            .record-top {
+                gap: 10px;
+            }
+
+            .row-actions {
+                justify-content: flex-start;
+                width: 100%;
+            }
+
+            .row-actions button,
+            .status-actions button,
+            .bulk-delete-btn,
+            .wave-filter-btn {
+                flex: 1 1 132px;
+                min-width: 0;
+            }
+
+            .order-item,
+            .product-row,
+            .video-row {
+                grid-template-columns: 58px minmax(0, 1fr);
+            }
+
+            .order-item .row-actions,
+            .product-row .row-actions,
+            .video-row .row-actions {
+                grid-column: 1 / -1;
+            }
+
+            .order-item img,
+            .product-row img,
+            .video-row video,
+            .video-row .video-preview,
+            .collection-badge {
+                width: 58px;
+                height: 58px;
+            }
+
+            .size-picker-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main id="loginScreen" class="screen login-screen">
+        <section class="login-card">
+            <h1>REDEMPTION</h1>
+            <p>Connexion administrateur</p>
+            <form id="loginForm">
+                <label>Utilisateur
+                    <input type="text" name="username" required autocomplete="username" />
+                </label>
+                <label>Mot de passe
+                    <input type="password" name="password" required autocomplete="current-password" />
+                </label>
+                <button type="submit">Se connecter</button>
+                <p id="loginError" class="error"></p>
+            </form>
+        </section>
+    </main>
+
+    <main id="dashboard" class="screen dashboard">
+        <div class="dashboard-shell">
+            <aside class="sidebar panel">
+                <div class="brand">
+                    <h1>Dashboard</h1>
+                    <p class="status" id="statusText">Chargement...</p>
+                </div>
+                <nav class="tabs" aria-label="Sections dashboard">
+                    <button class="tab-btn active" type="button" data-tab="ordersPanel">Commandes</button>
+                    <button class="tab-btn" type="button" data-tab="abandonedCheckoutsPanel">Paniers abandonnes</button>
+                    <button class="tab-btn" type="button" data-tab="wavePaymentsPanel">Paiements Wave</button>
+                    <button class="tab-btn" type="button" data-tab="waveHistoryPanel">Historique Wave</button>
+                    <button class="tab-btn" type="button" data-tab="statsPanel">Statistique</button>
+                    <button class="tab-btn" type="button" data-tab="cancelledOrdersPanel">Annule</button>
+                    <button class="tab-btn" type="button" data-tab="shippingOrdersPanel">En cours de livraison</button>
+                    <button class="tab-btn" type="button" data-tab="deliveredOrdersPanel">Livre</button>
+                    <button class="tab-btn" type="button" data-tab="productsPanel">Produits</button>
+                    <button class="tab-btn" type="button" data-tab="incomingPanel">Arrivage en cours</button>
+                    <button class="tab-btn" type="button" data-tab="messagesPanel">Formulaire</button>
+                    <button class="tab-btn" type="button" data-tab="newsletterPanel">Newsletter</button>
+                </nav>
+            </aside>
+
+            <section class="main">
+                <header class="topbar panel">
+                    <div>
+                        <h2>Gestion Redemption</h2>
+                        <p>Commandes, produits, messages et abonnes organises au meme endroit.</p>
+                    </div>
+                    <button id="logoutBtn" class="ghost" type="button">Deconnexion</button>
+                </header>
+
+                <section class="stats-grid" aria-label="Resume">
+                    <article class="stat-card" data-tab="ordersPanel" role="button" tabindex="0"><strong id="ordersCount">0</strong><span>Commandes</span></article>
+                    <article class="stat-card" data-tab="productsPanel" role="button" tabindex="0"><strong id="productsCount">0</strong><span>Produits</span></article>
+                    <article class="stat-card" data-tab="incomingPanel" role="button" tabindex="0"><strong id="incomingCount">0</strong><span>Arrivages</span></article>
+                    <article class="stat-card" data-tab="messagesPanel" role="button" tabindex="0"><strong id="messagesCount">0</strong><span>Messages</span></article>
+                    <article class="stat-card" data-tab="newsletterPanel" role="button" tabindex="0"><strong id="newsletterCount">0</strong><span>Newsletter</span></article>
+                    <article class="stat-card" data-tab="waveHistoryPanel" role="button" tabindex="0"><strong id="waveSuccessTotal">0 FCFA</strong><span>Total Wave succes</span></article>
+                </section>
+
+                <section id="statsPanel" class="panel tab-panel hidden" aria-live="polite">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Statistique des commandes</h2>
+                            <p>Evolution des articles selon leur statut de traitement.</p>
+                        </div>
+                    </div>
+                    <div class="analytics-grid">
+                        <article class="analytics-card">
+                            <span>Articles annules</span>
+                            <strong id="cancelledCount">0</strong>
+                            <div class="analytics-bar"><span id="cancelledBar"></span></div>
+                        </article>
+                        <article class="analytics-card">
+                            <span>Articles en cours</span>
+                            <strong id="shippingCount">0</strong>
+                            <div class="analytics-bar"><span id="shippingBar"></span></div>
+                        </article>
+                        <article class="analytics-card">
+                            <span>Articles livres</span>
+                            <strong id="deliveredCount">0</strong>
+                            <div class="analytics-bar"><span id="deliveredBar"></span></div>
+                        </article>
+                    </div>
+                </section>
+
+                <section id="ordersPanel" class="panel tab-panel" aria-live="polite">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Commandes recues</h2>
+                            <p>Chaque commande affiche les informations client et les images produits.</p>
+                        </div>
+                        <button class="bulk-delete-btn" type="button" data-bulk-delete="orders">Tout supprimer</button>
+                    </div>
+                    <div class="order-status-tabs" aria-label="Resume par statut">
+                        <article class="order-status-card"><span>Annule</span><strong id="ordersCancelledMini">0</strong></article>
+                        <article class="order-status-card"><span>En cours</span><strong id="ordersShippingMini">0</strong></article>
+                        <article class="order-status-card"><span>Livre</span><strong id="ordersDeliveredMini">0</strong></article>
+                    </div>
+                    <div id="ordersGrid" class="records-grid"></div>
+                </section>
+
+                <section id="abandonedCheckoutsPanel" class="panel tab-panel hidden" aria-live="polite">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Paniers abandonnes</h2>
+                            <p>Clients qui ont rempli le formulaire sans finaliser la commande. Utilise ces informations pour les relancer.</p>
+                        </div>
+                        <button class="bulk-delete-btn" type="button" data-bulk-delete="abandoned">Tout supprimer</button>
+                    </div>
+                    <div id="abandonedCheckoutsGrid" class="records-grid"></div>
+                </section>
+
+                <section id="wavePaymentsPanel" class="panel tab-panel hidden" aria-live="polite">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Paiements Wave</h2>
+                            <p>Paiements en attente ou confirmes apres verification Wave.</p>
+                        </div>
+                        <button class="bulk-delete-btn" type="button" data-bulk-delete="waveActive">Tout supprimer</button>
+                    </div>
+                    <div class="wave-filter-tabs" aria-label="Filtrer les paiements Wave">
+                        <button class="wave-filter-btn active" type="button" data-wave-filter="active">Paiements actifs</button>
+                        <button class="wave-filter-btn" type="button" data-wave-filter="cancelled">Paiements annules</button>
+                    </div>
+                    <div id="wavePaymentsGrid" class="records-grid"></div>
+                </section>
+
+                <section id="waveHistoryPanel" class="panel tab-panel hidden" aria-live="polite">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Historique Wave</h2>
+                            <p>Tous les paiements Wave avec couleurs par statut: valide, annule ou a verifier.</p>
+                        </div>
+                        <button class="bulk-delete-btn" type="button" data-bulk-delete="waveHistory">Tout supprimer</button>
+                    </div>
+                    <div id="waveHistoryGrid" class="records-grid"></div>
+                </section>
+
+                <section id="cancelledOrdersPanel" class="panel tab-panel hidden" aria-live="polite">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Commandes annulees</h2>
+                            <p>Toutes les commandes marquees comme annulees.</p>
+                        </div>
+                        <button class="bulk-delete-btn" type="button" data-bulk-delete="cancelledOrders">Tout supprimer</button>
+                    </div>
+                    <div id="cancelledOrdersGrid" class="records-grid"></div>
+                </section>
+
+                <section id="shippingOrdersPanel" class="panel tab-panel hidden" aria-live="polite">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Commandes en cours de livraison</h2>
+                            <p>Commandes encore en traitement ou en livraison.</p>
+                        </div>
+                        <button class="bulk-delete-btn" type="button" data-bulk-delete="shippingOrders">Tout supprimer</button>
+                    </div>
+                    <div id="shippingOrdersGrid" class="records-grid"></div>
+                </section>
+
+                <section id="deliveredOrdersPanel" class="panel tab-panel hidden" aria-live="polite">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Commandes livrees</h2>
+                            <p>Historique des commandes terminees.</p>
+                        </div>
+                        <button class="bulk-delete-btn" type="button" data-bulk-delete="deliveredOrders">Tout supprimer</button>
+                    </div>
+                    <div id="deliveredOrdersGrid" class="records-grid"></div>
+                </section>
+
+                <section id="productsPanel" class="panel tab-panel hidden" aria-live="polite">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Ajouter un produit</h2>
+                            <p>Le produit apparaitra dans la boutique apres sauvegarde Supabase.</p>
+                        </div>
+                        <button class="bulk-delete-btn" type="button" data-bulk-delete="products">Tout supprimer</button>
+                    </div>
+                    <form id="productForm">
+                        <input type="hidden" name="id" />
+                        <div class="form-grid">
+                            <label>Nom du produit
+                                <input type="text" name="name" required placeholder="T-shirt Redemption Noir" />
+                            </label>
+                            <label>Prix FCFA
+                                <input type="number" name="price" required min="0" step="500" placeholder="7000" />
+                            </label>
+                        </div>
+                        <div class="form-grid">
+                            <label>Categorie
+                                <select name="category" required>
+                                    <option value="tshirt">T-shirt</option>
+                                    <option value="hoodie">Pull</option>
+                                    <option value="longsleeve">T-shirt manches longues</option>
+                                    <option value="cap">Casquette</option>
+                                </select>
+                            </label>
+                            <label>Lien image du produit
+                                <input type="text" name="image_url" placeholder="img/mon-produit.jpg ou https://..." />
+                            </label>
+                        </div>
+                        <div class="form-grid">
+                            <label>Lien video du produit
+                                <input type="text" name="video_url" placeholder="TikTok, Facebook, YouTube, Vimeo, MP4..." />
+                            </label>
+                            <label>Ou importer une video produit
+                                <input type="file" name="video_file" accept="video/*" />
+                            </label>
+                        </div>
+                        <div class="form-grid">
+                            <label>Collection
+                                <select name="collection_name" id="productCollectionSelect">
+                                    <option value="">Sans collection</option>
+                                    <option value="Collection couronne d'épine">Collection couronne d'épine</option>
+                                    <option value="Collection rachat">Collection rachat</option>
+                                    <option value="Collection evangeliste Yann Dayere (Ev.YD)">Collection evangeliste Yann Dayere (Ev.YD)</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="color-picker" data-color-picker>
+                            <span class="color-picker-title">Couleur / variante</span>
+                            <input type="hidden" name="color" required />
+                            <div class="color-options" aria-label="Choisir une couleur produit"></div>
+                            <span class="field-hint">Clique sur une couleur. Elle s'affichera sur le site du produit.</span>
+                        </div>
+                        <div class="size-picker" data-size-picker>
+                            <span class="size-picker-title">Tailles des articles</span>
+                            <input type="hidden" name="sizes" />
+                            <div class="size-picker-row">
+                                <select data-size-select aria-label="Choisir une taille">
+                                    <option value="">Choisir une taille</option>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="2XL">2XL</option>
+                                    <option value="3XL">3XL</option>
+                                    <option value="4XL">4XL</option>
+                                    <option value="5XL">5XL</option>
+                                    <option value="Taille unique">Taille unique</option>
+                                </select>
+                                <button class="ghost" type="button" data-size-add>Ajouter</button>
+                            </div>
+                            <div class="size-list" data-size-list aria-live="polite"></div>
+                            <span class="field-hint">Ajoute toutes les tailles disponibles. Elles s'afficheront sur la fiche produit.</span>
+                        </div>
+                        <label>Ou importer des images depuis l'ordinateur
+                            <input type="file" name="image_file" accept="image/*" multiple />
+                            <span class="field-hint">Image 1 = avant du t-shirt. Image 2 = arriere affiche au survol. Les autres images restent disponibles sur la page produit.</span>
+                        </label>
+                        <label>Description
+                            <textarea name="description" required placeholder="Coton premium, coupe oversize..."></textarea>
+                        </label>
+                        <button type="submit">Ajouter le produit</button>
+                        <button id="cancelProductEdit" class="ghost hidden" type="button">Annuler la modification</button>
+                    </form>
+                    <div class="products-list" id="productsGrid"></div>
+                </section>
+
+                <section id="incomingPanel" class="panel tab-panel hidden" aria-live="polite">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Arrivage en cours</h2>
+                            <p>Ajoute les articles bientot disponibles. Ils s'affichent sur le site sans bouton d'achat.</p>
+                        </div>
+                        <button class="bulk-delete-btn" type="button" data-bulk-delete="incoming">Tout supprimer</button>
+                    </div>
+                    <form id="incomingForm">
+                        <input type="hidden" name="id" />
+                        <div id="incomingItems" class="incoming-items">
+                            <fieldset class="incoming-item" data-incoming-item>
+                                <legend>Arrivage 1</legend>
+                                <div class="form-grid">
+                                    <label>Nom de l'article
+                                        <input type="text" name="name" required placeholder="T-shirt Redemption Edition Grace" />
+                                    </label>
+                                    <label>Prix annonce FCFA
+                                        <input type="number" name="price" min="0" step="500" placeholder="7000" />
+                                    </label>
+                                </div>
+                                <div class="form-grid">
+                                    <label>Categorie
+                                        <select name="category" required>
+                                            <option value="tshirt">T-shirt</option>
+                                            <option value="hoodie">Pull</option>
+                                            <option value="longsleeve">T-shirt manches longues</option>
+                                            <option value="cap">Casquette</option>
+                                        </select>
+                                    </label>
+                                    <label>Date prevue
+                                        <input type="date" name="release_date" />
+                                    </label>
+                                </div>
+                                <div class="form-grid">
+                                    <label>Lien image
+                                        <input type="text" name="image_url" placeholder="img/arrivage.jpg ou https://..." />
+                                    </label>
+                                    <label>Ou importer une image
+                                        <input type="file" name="image_file" accept="image/*" />
+                                        <span class="field-hint">Cette image affichera le badge Bientot disponible sur le site.</span>
+                                    </label>
+                                </div>
+                                <div class="color-picker" data-color-picker>
+                                    <span class="color-picker-title">Couleur / variante</span>
+                                    <input type="hidden" name="color" required />
+                                    <div class="color-options" aria-label="Choisir une couleur arrivage"></div>
+                                    <span class="field-hint">Clique sur une couleur. Elle s'affichera avec l'arrivage sur le site.</span>
+                                </div>
+                                <div class="size-picker" data-size-picker>
+                                    <span class="size-picker-title">Tailles des articles</span>
+                                    <input type="hidden" name="sizes" />
+                                    <div class="size-picker-row">
+                                        <select data-size-select aria-label="Choisir une taille">
+                                            <option value="">Choisir une taille</option>
+                                            <option value="XS">XS</option>
+                                            <option value="S">S</option>
+                                            <option value="M">M</option>
+                                            <option value="L">L</option>
+                                            <option value="XL">XL</option>
+                                            <option value="2XL">2XL</option>
+                                            <option value="3XL">3XL</option>
+                                            <option value="4XL">4XL</option>
+                                            <option value="5XL">5XL</option>
+                                            <option value="Taille unique">Taille unique</option>
+                                        </select>
+                                        <button class="ghost" type="button" data-size-add>Ajouter</button>
+                                    </div>
+                                    <div class="size-list" data-size-list aria-live="polite"></div>
+                                    <span class="field-hint">Ajoute toutes les tailles prevues pour cet arrivage.</span>
+                                </div>
+                                <label>Description courte
+                                    <textarea name="description" required placeholder="Piece en preparation, coupe, couleur, intention du drop..."></textarea>
+                                </label>
+                                <button class="ghost remove-incoming-item hidden" type="button">Retirer cet arrivage</button>
+                            </fieldset>
+                        </div>
+                        <button id="addIncomingItem" class="ghost" type="button">Ajouter un autre arrivage</button>
+                        <button type="submit">Ajouter l'arrivage</button>
+                        <button id="cancelIncomingEdit" class="ghost hidden" type="button">Annuler la modification</button>
+                    </form>
+                    <div class="products-list" id="incomingGrid"></div>
+                </section>
+
+                <section id="messagesPanel" class="panel tab-panel hidden" aria-live="polite">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Messages formulaire</h2>
+                            <p>Demandes client, collaborations et questions generales.</p>
+                        </div>
+                        <button class="bulk-delete-btn" type="button" data-bulk-delete="messages">Tout supprimer</button>
+                    </div>
+                    <div id="messagesGrid" class="records-grid"></div>
+                </section>
+
+                <section id="newsletterPanel" class="panel tab-panel hidden" aria-live="polite">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Newsletter</h2>
+                            <p>Liste des abonnes qui veulent suivre Redemption.</p>
+                        </div>
+                        <button class="bulk-delete-btn" type="button" data-bulk-delete="newsletter">Tout supprimer</button>
+                    </div>
+                    <div id="newsletterGrid" class="records-grid"></div>
+                </section>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = "https://mwbmzwohtisnpjayejkw.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_tSdbg0by8DZH635tdZdV9Q_OrHMvm5r";
+        const SUPABASE_CONFIG_STORAGE_KEY = "redemption_supabase_config";
+        const TABLES = {
+            orders: "orders",
+            products: "products",
+            incoming: "incoming_products",
+            collections: "collections",
+            videos: "site_videos",
+            messages: "contact_messages",
+            newsletter: "newsletter_subscribers",
+            wavePayments: "wave_payments",
+            abandonedCheckouts: "abandoned_checkouts",
+        };
+        const VIDEO_BUCKET = "site-videos";
+        const IMAGE_BUCKET = "site-images";
+        const DASHBOARD_USERNAME = "YOUR_DASHBOARD_USERNAME";
+        const DASHBOARD_PASSWORD = "YOUR_DASHBOARD_PASSWORD";
+        setupDashboardSourceDeterrents();
+        let supabaseClient = createSupabaseClient();
+
+        const defaultProducts = [];
+
+        const defaultCollections = [
+            { id: "default-tshirt-crown", category: "tshirt", name: "Couronne d'Epine", short_name: "", subcollections: ["Signature", "Crown"], is_active: true },
+            { id: "default-tshirt-rachat", category: "tshirt", name: "Rachat", short_name: "", subcollections: ["2 Corinthiens 5:17", "Grace"], is_active: true },
+            { id: "default-tshirt-evyd", category: "tshirt", name: "Collection Evangeliste Yann Dayere", short_name: "Ev. YD", subcollections: ["Predication", "Mission"], is_active: true },
+            { id: "default-hoodie-rachat", category: "hoodie", name: "Rachat", short_name: "", subcollections: ["Reborn", "Purpose"], is_active: true },
+            { id: "default-longsleeve-rachat", category: "longsleeve", name: "Rachat", short_name: "", subcollections: ["Manches longues"], is_active: true },
+            { id: "default-cap-crown", category: "cap", name: "Couronne d'Epine", short_name: "", subcollections: ["Crown", "Forest"], is_active: true },
+        ];
+        const predefinedColors = [
+            { name: "Noir", value: "#111111" },
+            { name: "Blanc", value: "#ffffff" },
+            { name: "Rouge", value: "#b91c1c" },
+            { name: "Vert", value: "#1f7a3f" },
+            { name: "Bleu", value: "#1d4ed8" },
+            { name: "Beige", value: "#d8c3a5" },
+            { name: "Gris", value: "#737373" },
+            { name: "Marron", value: "#7c4a2d" },
+            { name: "Turquoise", value: "#14b8a6" },
+            { name: "Jaune", value: "#f2c94c" },
+        ];
+
+        const loginScreen = document.getElementById("loginScreen");
+        const dashboard = document.getElementById("dashboard");
+        const loginForm = document.getElementById("loginForm");
+        const loginError = document.getElementById("loginError");
+        const logoutBtn = document.getElementById("logoutBtn");
+        const statusText = document.getElementById("statusText");
+        const collectionForm = document.getElementById("collectionForm");
+        const productForm = document.getElementById("productForm");
+        const incomingForm = document.getElementById("incomingForm");
+        const videoForm = document.getElementById("videoForm");
+        const cancelCollectionEdit = document.getElementById("cancelCollectionEdit");
+        const cancelProductEdit = document.getElementById("cancelProductEdit");
+        const cancelIncomingEdit = document.getElementById("cancelIncomingEdit");
+        const productCollectionSelect = document.getElementById("productCollectionSelect");
+        const incomingItems = document.getElementById("incomingItems");
+        const addIncomingItem = document.getElementById("addIncomingItem");
+        const ordersGrid = document.getElementById("ordersGrid");
+        const abandonedCheckoutsGrid = document.getElementById("abandonedCheckoutsGrid");
+        const cancelledOrdersGrid = document.getElementById("cancelledOrdersGrid");
+        const shippingOrdersGrid = document.getElementById("shippingOrdersGrid");
+        const deliveredOrdersGrid = document.getElementById("deliveredOrdersGrid");
+        const collectionsGrid = document.getElementById("collectionsGrid");
+        const productsGrid = document.getElementById("productsGrid");
+        const incomingGrid = document.getElementById("incomingGrid");
+        const messagesGrid = document.getElementById("messagesGrid");
+        const newsletterGrid = document.getElementById("newsletterGrid");
+        const wavePaymentsGrid = document.getElementById("wavePaymentsGrid");
+        const waveHistoryGrid = document.getElementById("waveHistoryGrid");
+        const ordersCount = document.getElementById("ordersCount");
+        const waveSuccessTotal = document.getElementById("waveSuccessTotal");
+        const cancelledCount = document.getElementById("cancelledCount");
+        const shippingCount = document.getElementById("shippingCount");
+        const deliveredCount = document.getElementById("deliveredCount");
+        const cancelledBar = document.getElementById("cancelledBar");
+        const shippingBar = document.getElementById("shippingBar");
+        const deliveredBar = document.getElementById("deliveredBar");
+        const ordersCancelledMini = document.getElementById("ordersCancelledMini");
+        const ordersShippingMini = document.getElementById("ordersShippingMini");
+        const ordersDeliveredMini = document.getElementById("ordersDeliveredMini");
+        const collectionsCount = document.getElementById("collectionsCount");
+        const productsCount = document.getElementById("productsCount");
+        const incomingCount = document.getElementById("incomingCount");
+        const messagesCount = document.getElementById("messagesCount");
+        const newsletterCount = document.getElementById("newsletterCount");
+        let currentOrders = [];
+        let currentAbandonedCheckouts = [];
+        let currentProducts = [];
+        let currentIncomingProducts = [];
+        let currentCollections = [];
+        let currentMessages = [];
+        let currentNewsletter = [];
+        let currentWavePayments = [];
+        let currentWaveFilter = "active";
+        setupColorPicker(productForm);
+        setupColorPicker(incomingForm);
+        setupSizePickers(document);
+        if (sessionStorage.getItem("redemption_admin") === "true") showDashboard();
+
+        loginForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const data = Object.fromEntries(new FormData(loginForm));
+            if (data.username === DASHBOARD_USERNAME && data.password === DASHBOARD_PASSWORD) {
+                sessionStorage.setItem("redemption_admin", "true");
+                showDashboard();
+                return;
+            }
+            loginError.textContent = "Identifiants incorrects.";
+        });
+
+        logoutBtn.addEventListener("click", () => {
+            sessionStorage.removeItem("redemption_admin");
+            dashboard.classList.remove("active");
+            loginScreen.style.display = "grid";
+        });
+
+        statusText?.addEventListener("click", () => {
+            if (!supabaseClient) promptSupabaseSetup();
+        });
+
+        document.querySelectorAll(".tab-btn").forEach((button) => {
+            button.addEventListener("click", () => {
+                activateDashboardTab(button.dataset.tab);
+            });
+        });
+
+        document.querySelectorAll(".stat-card[data-tab]").forEach((card) => {
+            card.addEventListener("click", () => activateDashboardTab(card.dataset.tab));
+            card.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    activateDashboardTab(card.dataset.tab);
+                }
+            });
+        });
+
+        document.querySelectorAll(".wave-filter-btn").forEach((button) => {
+            button.addEventListener("click", () => {
+                currentWaveFilter = button.dataset.waveFilter || "active";
+                document.querySelectorAll(".wave-filter-btn").forEach((item) => item.classList.remove("active"));
+                button.classList.add("active");
+                renderWavePayments(currentWavePayments);
+            });
+        });
+
+        dashboard.addEventListener("click", async (event) => {
+            const bulkDeleteButton = event.target.closest("[data-bulk-delete]");
+            if (bulkDeleteButton) {
+                await handleBulkDelete(bulkDeleteButton.dataset.bulkDelete, bulkDeleteButton);
+                return;
+            }
+            if (event.target.closest(".wave-paid-btn, .wave-cancel-btn, .wave-delete-btn")) return;
+            const button = event.target.closest(".status-btn");
+            const deleteOrderButton = event.target.closest(".order-delete-btn");
+            if (button?.dataset.orderId) {
+                await updateOrderStatus(button.dataset.orderId, button.dataset.status);
+                return;
+            }
+            if (deleteOrderButton?.dataset.orderId) {
+                if (!confirm("Supprimer cette commande du dashboard ?")) return;
+                await deleteOrder(deleteOrderButton.dataset.orderId);
+            }
+        });
+
+        wavePaymentsGrid?.addEventListener("click", async (event) => {
+            const paidButton = event.target.closest(".wave-paid-btn");
+            const cancelButton = event.target.closest(".wave-cancel-btn");
+            const deleteButton = event.target.closest(".wave-delete-btn");
+            if (paidButton?.dataset.reference) {
+                event.preventDefault();
+                event.stopPropagation();
+                if (!confirm("Marquer ce paiement Wave comme valide apres verification ?")) return;
+                await updateWavePaymentStatus(paidButton.dataset.reference, "succeeded");
+                return;
+            }
+            if (cancelButton?.dataset.reference) {
+                event.preventDefault();
+                event.stopPropagation();
+                if (!confirm("Marquer ce paiement Wave comme annule ?")) return;
+                await updateWavePaymentStatus(cancelButton.dataset.reference, "cancelled");
+                return;
+            }
+            if (deleteButton?.dataset.reference) {
+                event.preventDefault();
+                event.stopPropagation();
+                if (!confirm("Supprimer ce paiement Wave recu du dashboard ?")) return;
+                await deleteWavePayment(deleteButton.dataset.reference);
+            }
+        });
+
+        waveHistoryGrid?.addEventListener("click", async (event) => {
+            const deleteButton = event.target.closest(".wave-delete-btn");
+            if (!deleteButton?.dataset.reference) return;
+            event.preventDefault();
+            event.stopPropagation();
+            if (!confirm("Supprimer ce paiement Wave recu du dashboard ?")) return;
+            await deleteWavePayment(deleteButton.dataset.reference);
+        });
+
+        abandonedCheckoutsGrid?.addEventListener("click", async (event) => {
+            const deleteButton = event.target.closest(".delete-abandoned-btn");
+            if (!deleteButton?.dataset.abandonedId) return;
+            if (!confirm("Supprimer ce panier abandonne du dashboard ?")) return;
+            await deleteAbandonedCheckout(deleteButton.dataset.abandonedId);
+        });
+
+        function activateDashboardTab(tabId) {
+            if (!tabId) return;
+            document.querySelectorAll(".tab-btn").forEach((item) => item.classList.toggle("active", item.dataset.tab === tabId));
+            document.querySelectorAll(".tab-panel").forEach((panel) => panel.classList.add("hidden"));
+            document.getElementById(tabId)?.classList.remove("hidden");
+        }
+
+        productsGrid.addEventListener("click", async (event) => {
+            const deleteButton = event.target.closest(".delete-btn");
+            const editButton = event.target.closest(".edit-btn");
+
+            if (deleteButton?.dataset.productId) {
+                if (!confirm("Supprimer ce produit du site ?")) return;
+                await deleteProduct(deleteButton.dataset.productId);
+                return;
+            }
+
+            if (editButton?.dataset.productId) {
+                startProductEdit(editButton.dataset.productId);
+            }
+        });
+
+        incomingGrid.addEventListener("click", async (event) => {
+            const deleteButton = event.target.closest(".delete-btn");
+            const editButton = event.target.closest(".edit-btn");
+
+            if (deleteButton?.dataset.incomingId) {
+                if (!confirm("Supprimer cet arrivage du site ?")) return;
+                await deleteIncomingProduct(deleteButton.dataset.incomingId);
+                return;
+            }
+
+            if (editButton?.dataset.incomingId) {
+                startIncomingEdit(editButton.dataset.incomingId);
+            }
+        });
+
+        collectionsGrid?.addEventListener("click", async (event) => {
+            const deleteButton = event.target.closest(".delete-collection-btn");
+            const editButton = event.target.closest(".edit-collection-btn");
+
+            if (deleteButton?.dataset.collectionId) {
+                if (!confirm("Desactiver cette collection ?")) return;
+                await deleteCollection(deleteButton.dataset.collectionId);
+                return;
+            }
+
+            if (editButton?.dataset.collectionId) {
+                startCollectionEdit(editButton.dataset.collectionId);
+            }
+        });
+
+        messagesGrid.addEventListener("click", async (event) => {
+            const deleteButton = event.target.closest(".delete-message-btn");
+            if (!deleteButton?.dataset.messageId) return;
+            if (!confirm("Supprimer ce message du formulaire ?")) return;
+            await deleteMessage(deleteButton.dataset.messageId);
+        });
+
+        newsletterGrid.addEventListener("click", async (event) => {
+            const deleteButton = event.target.closest(".delete-newsletter-btn");
+            if (!deleteButton?.dataset.subscriberId) return;
+            if (!confirm("Supprimer cet abonne newsletter ?")) return;
+            await deleteNewsletterSubscriber(deleteButton.dataset.subscriberId);
+        });
+
+        cancelProductEdit.addEventListener("click", () => resetProductForm());
+        cancelIncomingEdit.addEventListener("click", () => resetIncomingForm());
+        cancelCollectionEdit?.addEventListener("click", () => resetCollectionForm());
+        addIncomingItem?.addEventListener("click", () => addIncomingItemBlock());
+        incomingItems?.addEventListener("click", (event) => {
+            const removeButton = event.target.closest(".remove-incoming-item");
+            if (!removeButton) return;
+            removeButton.closest("[data-incoming-item]")?.remove();
+            refreshIncomingItemState();
+        });
+        productForm.elements.category.addEventListener("change", () => {
+            updateProductCollectionOptions(productForm.elements.collection_name.value);
+        });
+
+        collectionForm?.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const formData = Object.fromEntries(new FormData(collectionForm));
+            const collection = {
+                category: formData.category,
+                name: normalizeText(formData.name),
+                short_name: normalizeText(formData.short_name),
+                subcollections: normalizeTextList(formData.subcollections),
+                is_active: true,
+                created_at: new Date().toISOString(),
+            };
+
+            const button = collectionForm.querySelector('button[type="submit"]');
+            button.disabled = true;
+            button.textContent = formData.id ? "Modification..." : "Ajout...";
+            const result = formData.id ? await updateCollection(formData.id, collection) : await saveCollection(collection);
+            button.disabled = false;
+            resetCollectionForm();
+            statusText.textContent = result.saved ? "Collection synchronisee avec Supabase." : result.error || "Collection gardee localement.";
+            await loadDashboard();
+        });
+
+        productForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const rawFormData = new FormData(productForm);
+            const formData = Object.fromEntries(rawFormData);
+            const imageFiles = rawFormData.getAll("image_file").filter((file) => file && file.size);
+            const videoFile = rawFormData.get("video_file");
+            let uploadedImageUrls = [];
+            if (imageFiles.length) {
+                statusText.textContent = "Telechargement des images produit...";
+                const uploadResult = await uploadImageFiles(imageFiles);
+                if (uploadResult.error) {
+                    statusText.textContent = uploadResult.error;
+                    return;
+                }
+                uploadedImageUrls = uploadResult.urls;
+            }
+            const imageUrl = uploadedImageUrls[0] || normalizeMediaUrl(formData.image_url);
+            let videoUrl = normalizeMediaUrl(formData.video_url);
+            if (videoFile && videoFile.size) {
+                if (videoFile.size > 100 * 1024 * 1024) {
+                    statusText.textContent = "Video trop lourde. Limite actuelle: 100 MB.";
+                    return;
+                }
+                statusText.textContent = "Telechargement de la video produit...";
+                const upload = await uploadVideoFile(videoFile);
+                if (!upload.url) {
+                    statusText.textContent = upload.error || "Impossible de telecharger la video produit.";
+                    return;
+                }
+                videoUrl = upload.url;
+            }
+            const existingProduct = currentProducts.find((product) => String(product.id) === String(formData.id));
+            const finalImageUrl = normalizeMediaUrl(imageUrl || existingProduct?.image_url);
+            const finalImageUrls = uploadedImageUrls.length
+                ? uploadedImageUrls.map(normalizeMediaUrl).filter(Boolean)
+                : normalizeProductImages(existingProduct?.image_urls || existingProduct?.images || existingProduct?.image_url);
+            const finalVideoUrl = normalizeMediaUrl(videoUrl || existingProduct?.video_url || "");
+
+            if (!finalImageUrl) {
+                statusText.textContent = "Ajoute un lien image ou importe une image depuis ton ordinateur.";
+                return;
+            }
+            const selectedCollectionName = canonicalCollectionName(formData.collection_name);
+            const selectedCollection = currentCollections.find((collection) => collection.name === selectedCollectionName);
+            if (!normalizeText(formData.color)) {
+                statusText.textContent = "Choisis une couleur dans la liste.";
+                return;
+            }
+
+            const product = {
+                name: normalizeText(formData.name),
+                category: formData.category,
+                category_label: formatCategory(formData.category),
+                collection_id: isSupabaseProductId(selectedCollection?.id) ? selectedCollection.id : null,
+                collection_name: selectedCollectionName,
+                subcollection_name: "",
+                color: normalizeText(formData.color),
+                sizes: parseSizes(formData.sizes),
+                description: normalizeText(formData.description),
+                image_url: finalImageUrl,
+                image_urls: finalImageUrls.length ? finalImageUrls : [finalImageUrl],
+                video_url: finalVideoUrl,
+                price: normalizePrice(formData.price),
+                is_active: true,
+                created_at: new Date().toISOString(),
+            };
+
+            const button = productForm.querySelector('button[type="submit"]');
+            button.disabled = true;
+            button.textContent = formData.id ? "Modification..." : "Ajout...";
+            const result = formData.id ? await updateProduct(formData.id, product) : await saveProduct(product);
+            button.disabled = false;
+            resetProductForm();
+            statusText.textContent = result.saved ? "Produit synchronise avec Supabase." : result.error || "Produit garde localement.";
+            await loadDashboard();
+        });
+
+        incomingForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const button = incomingForm.querySelector('button[type="submit"]');
+            const formData = Object.fromEntries(new FormData(incomingForm));
+            const isEditing = Boolean(formData.id);
+            button.disabled = true;
+            button.textContent = isEditing ? "Modification..." : "Ajout...";
+            const result = isEditing ? await saveSingleIncomingFromForm(formData.id) : await saveIncomingItemsFromForm();
+            button.disabled = false;
+            if (result.saved) resetIncomingForm();
+            statusText.textContent = result.saved
+                ? `${result.count || 1} arrivage${(result.count || 1) > 1 ? "s" : ""} synchronise${(result.count || 1) > 1 ? "s" : ""} avec Supabase.`
+                : result.error || "Arrivage garde localement.";
+            await loadDashboard();
+        });
+
+        async function showDashboard() {
+            loginScreen.style.display = "none";
+            dashboard.classList.add("active");
+            await loadDashboard();
+        }
+
+        async function loadDashboard() {
+            const [orders, abandonedCheckouts, collections, products, incomingProducts, messages, newsletter, rawWavePayments] = await Promise.all([
+                loadRecords(TABLES.orders, "redemption_orders"),
+                loadRecords(TABLES.abandonedCheckouts, "redemption_abandoned_checkouts"),
+                loadCollections(),
+                loadProducts(),
+                loadIncomingProducts(),
+                loadRecords(TABLES.messages, "redemption_contact_messages"),
+                loadRecords(TABLES.newsletter, "redemption_newsletter_subscribers"),
+                loadRecords(TABLES.wavePayments, "redemption_wave_payments"),
+            ]);
+            const wavePayments = applyWavePaymentOverrides(rawWavePayments);
+
+            ordersCount.textContent = orders.length;
+            if (collectionsCount) collectionsCount.textContent = collections.length;
+            productsCount.textContent = products.length;
+            incomingCount.textContent = incomingProducts.length;
+            messagesCount.textContent = messages.length;
+            newsletterCount.textContent = newsletter.length;
+            if (waveSuccessTotal) waveSuccessTotal.textContent = formatPrice(getWaveSuccessTotal(wavePayments));
+            statusText.textContent = "Dashboard connecte a Supabase.";
+            currentOrders = orders;
+            currentAbandonedCheckouts = abandonedCheckouts;
+            currentCollections = collections;
+            currentProducts = products;
+            currentIncomingProducts = incomingProducts;
+            currentMessages = messages;
+            currentNewsletter = newsletter;
+            currentWavePayments = wavePayments;
+
+            renderOrders(orders);
+            renderAbandonedCheckouts(abandonedCheckouts);
+            renderOrderStats(orders);
+            renderCollections(collections);
+            updateProductCollectionOptions(productForm.elements.collection_name.value);
+            renderProducts(products);
+            renderIncomingProducts(incomingProducts);
+            renderMessages(messages);
+            renderNewsletter(newsletter);
+            renderWavePayments(wavePayments);
+            renderWaveHistory(wavePayments);
+        }
+
+        async function loadRecords(table, localKey) {
+            const apiResult = await dashboardApi("read", table);
+            if (apiResult.ok) return filterHiddenDashboardRecords(table, apiResult.data || []);
+
+            if (supabaseClient) {
+                const { data, error } = await supabaseClient
+                    .from(table)
+                    .select("*")
+                    .order("created_at", { ascending: false });
+                if (!error) return filterHiddenDashboardRecords(table, data || []);
+                console.error(`Supabase select failed for ${table}:`, error);
+            }
+
+            return filterHiddenDashboardRecords(table, readLocalRecords(localKey));
+        }
+
+        async function loadCollections() {
+            const hiddenCollectionIds = readHiddenCollectionIds();
+            const hiddenCollectionNames = readHiddenCollectionNames();
+            let collections = [...readLocalRecords("redemption_collections"), ...defaultCollections];
+            collections = collections.filter((collection) =>
+                !hiddenCollectionIds.has(String(collection.id)) && !hiddenCollectionNames.has(collection.name)
+            );
+            const apiResult = await dashboardApi("read", TABLES.collections);
+            if (apiResult.ok && apiResult.data) {
+                collections = [...apiResult.data, ...collections].filter((collection) =>
+                    !hiddenCollectionIds.has(String(collection.id)) && !hiddenCollectionNames.has(collection.name)
+                );
+                return dedupeCollections(collections);
+            }
+            if (supabaseClient) {
+                const { data, error } = await supabaseClient
+                    .from(TABLES.collections)
+                    .select("*")
+                    .eq("is_active", true)
+                    .order("created_at", { ascending: false });
+                if (!error && data) collections = [...data, ...collections].filter((collection) =>
+                    !hiddenCollectionIds.has(String(collection.id)) && !hiddenCollectionNames.has(collection.name)
+                );
+                if (error) console.error("Supabase collections select failed:", error);
+            }
+            return dedupeCollections(collections);
+        }
+
+        async function loadProducts() {
+            const hiddenProductIds = readHiddenProductIds();
+            const defaultProductOverrides = readProductOverrides();
+            const visibleDefaultProducts = defaultProducts
+                .filter((product) => !hiddenProductIds.has(String(product.id)))
+                .map((product) => ({ ...product, ...(defaultProductOverrides[String(product.id)] || {}) }));
+            let products = [...readLocalRecords("redemption_products"), ...visibleDefaultProducts];
+            const apiResult = await dashboardApi("read", TABLES.products);
+            if (apiResult.ok && apiResult.data) {
+                const syncedProducts = apiResult.data.map((product) => ({ ...product, ...(defaultProductOverrides[String(product.id)] || {}) }));
+                products = [...syncedProducts, ...readLocalRecords("redemption_products"), ...visibleDefaultProducts]
+                    .filter((product) => !hiddenProductIds.has(String(product.id)));
+                return dedupeProducts(products);
+            }
+            if (supabaseClient) {
+                const { data, error } = await supabaseClient
+                    .from(TABLES.products)
+                    .select("*")
+                    .eq("is_active", true)
+                    .order("created_at", { ascending: false });
+                if (!error && data) {
+                    const syncedProducts = data.map((product) => ({ ...product, ...(defaultProductOverrides[String(product.id)] || {}) }));
+                    products = [...syncedProducts, ...readLocalRecords("redemption_products"), ...visibleDefaultProducts]
+                        .filter((product) => !hiddenProductIds.has(String(product.id)));
+                }
+                if (error) console.error("Supabase products select failed:", error);
+            }
+            return dedupeProducts(products);
+        }
+
+        async function loadIncomingProducts() {
+            const hiddenIncoming = readHiddenDashboardRecords(TABLES.incoming);
+            let products = readLocalRecords("redemption_incoming_products");
+            const apiResult = await dashboardApi("read", TABLES.incoming);
+            if (apiResult.ok && apiResult.data) return dedupeProducts([...apiResult.data, ...products].filter((product) => !hiddenIncoming.has(String(product.id))));
+            if (supabaseClient) {
+                const { data, error } = await supabaseClient
+                    .from(TABLES.incoming)
+                    .select("*")
+                    .eq("is_active", true)
+                    .order("created_at", { ascending: false });
+                if (!error && data) products = [...data, ...products].filter((product) => !hiddenIncoming.has(String(product.id)));
+                if (error) console.error("Supabase incoming products select failed:", error);
+            }
+            return dedupeProducts(products.filter((product) => !hiddenIncoming.has(String(product.id))));
+        }
+
+        async function saveCollection(collection) {
+            const localCollection = { ...collection, id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) };
+            const apiResult = await dashboardApi("insert", TABLES.collections, collection);
+            if (apiResult.ok) return { saved: true };
+
+            if (!supabaseClient) {
+                saveLocalRecord("redemption_collections", localCollection);
+                return { saved: false, error: apiResult.error || "Supabase n'est pas configure. Collection gardee localement." };
+            }
+
+            const { error } = await supabaseClient.from(TABLES.collections).insert(collection).select("id").single();
+            if (error) {
+                console.error("Supabase collection insert failed:", error);
+                saveLocalRecord("redemption_collections", localCollection);
+                return { saved: false, error: `Erreur Supabase collection: ${error.message}` };
+            }
+            return { saved: true };
+        }
+
+        async function updateCollection(collectionId, collection) {
+            if (!isSupabaseProductId(collectionId)) {
+                const localCollections = readLocalRecords("redemption_collections").map((item) =>
+                    String(item.id) === String(collectionId) ? { ...item, ...collection, id: collectionId } : item
+                );
+                localStorage.setItem("redemption_collections", JSON.stringify(localCollections));
+                return { saved: false, error: "Collection par defaut modifiee localement. Pour la synchroniser, cree-la dans Supabase." };
+            }
+
+            const apiResult = await dashboardApi("update", TABLES.collections, collection, collectionId);
+            if (apiResult.ok) return { saved: true };
+
+            if (!supabaseClient) return { saved: false, error: apiResult.error || "Supabase n'est pas configure. Collection modifiee localement." };
+
+            const { error } = await supabaseClient
+                .from(TABLES.collections)
+                .update({
+                    category: collection.category,
+                    name: collection.name,
+                    short_name: collection.short_name,
+                    subcollections: collection.subcollections,
+                    is_active: true,
+                })
+                .eq("id", collectionId);
+
+            if (error) {
+                console.error("Supabase collection update failed:", error);
+                return { saved: false, error: `Erreur Supabase modification collection: ${error.message}` };
+            }
+            return { saved: true };
+        }
+
+        async function deleteCollection(collectionId) {
+            const deletedCollection = currentCollections.find((item) => String(item.id) === String(collectionId));
+            const hiddenCollectionIds = Array.from(readHiddenCollectionIds());
+            if (!hiddenCollectionIds.includes(String(collectionId))) hiddenCollectionIds.push(String(collectionId));
+            localStorage.setItem("redemption_hidden_collections", JSON.stringify(hiddenCollectionIds));
+            if (deletedCollection?.name) {
+                const hiddenCollectionNames = Array.from(readHiddenCollectionNames());
+                if (!hiddenCollectionNames.includes(deletedCollection.name)) hiddenCollectionNames.push(deletedCollection.name);
+                localStorage.setItem("redemption_hidden_collection_names", JSON.stringify(hiddenCollectionNames));
+            }
+
+            const localCollections = readLocalRecords("redemption_collections").filter((item) => String(item.id) !== String(collectionId));
+            localStorage.setItem("redemption_collections", JSON.stringify(localCollections));
+            const localProducts = readLocalRecords("redemption_products").map((product) =>
+                String(product.collection_id) === String(collectionId) || product.collection_name === deletedCollection?.name
+                    ? { ...product, collection_id: null, collection_name: "", subcollection_name: "" }
+                    : product
+            );
+            localStorage.setItem("redemption_products", JSON.stringify(localProducts));
+            currentCollections = currentCollections.filter((item) => String(item.id) !== String(collectionId));
+            currentProducts = currentProducts.map((product) =>
+                String(product.collection_id) === String(collectionId) || product.collection_name === deletedCollection?.name
+                    ? { ...product, collection_id: null, collection_name: "", subcollection_name: "" }
+                    : product
+            );
+            renderCollections(currentCollections);
+            renderProducts(currentProducts);
+            if (collectionsCount) collectionsCount.textContent = currentCollections.length;
+
+            if (supabaseClient && isSupabaseProductId(collectionId)) {
+                const apiResult = await dashboardApi("delete", TABLES.collections, {}, collectionId);
+                const { error } = apiResult.ok
+                    ? { error: null }
+                    : await supabaseClient
+                        .from(TABLES.collections)
+                        .update({ is_active: false })
+                        .eq("id", collectionId);
+                if (error) {
+                    console.error("Supabase collection delete failed:", error);
+                    statusText.textContent = `Erreur suppression collection: ${error.message}`;
+                    return;
+                }
+
+                await supabaseClient
+                    .from(TABLES.products)
+                    .update({ collection_id: null, collection_name: "", subcollection_name: "" })
+                    .eq("collection_id", collectionId);
+            }
+
+            statusText.textContent = "Collection desactivee.";
+            await loadDashboard();
+        }
+
+        async function saveProduct(product) {
+            const localProduct = { ...product, id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) };
+            const apiResult = await dashboardApi("insert", TABLES.products, productPayloadForSupabase(product, true, true));
+            if (apiResult.ok) {
+                const savedId = apiResult.data?.[0]?.id || apiResult.data?.id;
+                if (product.image_urls?.length > 1 && savedId) {
+                    const overrides = readProductOverrides();
+                    overrides[String(savedId)] = { image_urls: product.image_urls };
+                    localStorage.setItem("redemption_product_overrides", JSON.stringify(overrides));
+                }
+                return { saved: true };
+            }
+
+            if (!supabaseClient) {
+                saveLocalRecord("redemption_products", localProduct);
+                return { saved: false, error: apiResult.error || "Supabase n'est pas configure. Produit garde localement." };
+            }
+
+            let { data, error } = await supabaseClient.from(TABLES.products).insert(productPayloadForSupabase(product, true, true)).select("id").single();
+            if (error && isMissingProductImageUrlsColumnError(error)) {
+                ({ data, error } = await supabaseClient.from(TABLES.products).insert(productPayloadForSupabase(product, false, true, true)).select("id").single());
+            }
+            if (error) {
+                console.error("Supabase product insert failed:", error);
+                saveLocalRecord("redemption_products", localProduct);
+                return { saved: false, error: `Erreur Supabase produit: ${error.message}. Execute le schema SQL puis recharge le dashboard.` };
+            }
+            if (product.image_urls?.length > 1 && data?.id) {
+                const overrides = readProductOverrides();
+                overrides[String(data.id)] = { image_urls: product.image_urls };
+                localStorage.setItem("redemption_product_overrides", JSON.stringify(overrides));
+            }
+            return { saved: true };
+        }
+
+        async function updateProduct(productId, product) {
+            if (!isSupabaseProductId(productId)) {
+                const overrides = readProductOverrides();
+                overrides[String(productId)] = { ...product, id: productId };
+                localStorage.setItem("redemption_product_overrides", JSON.stringify(overrides));
+                return { saved: false, error: "Produit par defaut modifie localement. Pour le synchroniser, cree-le dans Supabase." };
+            }
+
+            const localProducts = readLocalRecords("redemption_products").map((item) =>
+                String(item.id) === String(productId) ? { ...item, ...product, id: productId } : item
+            );
+            localStorage.setItem("redemption_products", JSON.stringify(localProducts));
+            if (product.image_urls?.length) {
+                const overrides = readProductOverrides();
+                overrides[String(productId)] = { ...(overrides[String(productId)] || {}), image_urls: product.image_urls };
+                localStorage.setItem("redemption_product_overrides", JSON.stringify(overrides));
+            }
+
+            const apiResult = await dashboardApi("update", TABLES.products, {
+                ...productPayloadForSupabase(product, true),
+                is_active: true,
+            }, productId);
+            if (apiResult.ok) return { saved: true };
+
+            if (!supabaseClient) return { saved: false, error: apiResult.error || "Supabase n'est pas configure. Produit modifie localement." };
+
+            let { error } = await supabaseClient
+                .from(TABLES.products)
+                .update({
+                    ...productPayloadForSupabase(product, true),
+                    is_active: true,
+                })
+                .eq("id", productId);
+            if (error && isMissingProductImageUrlsColumnError(error)) {
+                ({ error } = await supabaseClient
+                    .from(TABLES.products)
+                    .update({
+                        ...productPayloadForSupabase(product, false, false, true),
+                        is_active: true,
+                    })
+                    .eq("id", productId));
+            }
+
+            if (error) {
+                console.error("Supabase product update failed:", error);
+                return { saved: false, error: `Erreur Supabase modification produit: ${error.message}` };
+            }
+            return { saved: true };
+        }
+
+        async function deleteProduct(productId) {
+            addHiddenProductId(productId);
+            currentProducts = currentProducts.filter((item) => String(item.id) !== String(productId));
+            renderProducts(currentProducts);
+            productsCount.textContent = currentProducts.length;
+
+            if (!isSupabaseProductId(productId)) {
+                statusText.textContent = "Produit supprime du site.";
+                await loadDashboard();
+                return;
+            }
+
+            const localProducts = readLocalRecords("redemption_products").filter((item) => String(item.id) !== String(productId));
+            localStorage.setItem("redemption_products", JSON.stringify(localProducts));
+
+            if (supabaseClient || isSupabaseProductId(productId)) {
+                const apiResult = await dashboardApi("delete", TABLES.products, {}, productId);
+                const { error } = apiResult.ok
+                    ? { error: null }
+                    : supabaseClient
+                        ? await supabaseClient
+                            .from(TABLES.products)
+                            .update({ is_active: false })
+                            .eq("id", productId)
+                        : { error: { message: apiResult.error || "Supabase n'est pas configure." } };
+                if (error) {
+                    console.error("Supabase product delete failed:", error);
+                    const { error: deleteError } = supabaseClient
+                        ? await supabaseClient
+                            .from(TABLES.products)
+                            .delete()
+                            .eq("id", productId)
+                        : { error };
+                    if (deleteError) {
+                        console.error("Supabase product hard delete failed:", deleteError);
+                        statusText.textContent = `Produit retire du dashboard. Supabase: ${deleteError.message}`;
+                        await loadDashboard();
+                        return;
+                    }
+                }
+            }
+
+            statusText.textContent = "Produit supprime du site.";
+            await loadDashboard();
+        }
+
+        async function saveSingleIncomingFromForm(productId) {
+            const item = incomingItems?.querySelector("[data-incoming-item]");
+            const incomingProduct = await incomingProductFromItem(item, productId);
+            if (incomingProduct.error) return { saved: false, error: incomingProduct.error };
+            return updateIncomingProduct(productId, incomingProduct.product);
+        }
+
+        async function saveIncomingItemsFromForm() {
+            const items = Array.from(incomingItems?.querySelectorAll("[data-incoming-item]") || []);
+            if (!items.length) return { saved: false, error: "Ajoute au moins un arrivage." };
+
+            const products = [];
+            for (let index = 0; index < items.length; index += 1) {
+                statusText.textContent = `Preparation arrivage ${index + 1}/${items.length}...`;
+                const result = await incomingProductFromItem(items[index]);
+                if (result.error) return { saved: false, error: result.error };
+                products.push(result.product);
+            }
+
+            for (let index = 0; index < products.length; index += 1) {
+                statusText.textContent = `Synchronisation arrivage ${index + 1}/${products.length}...`;
+                const result = await saveIncomingProduct(products[index]);
+                if (!result.saved) return result;
+            }
+
+            return { saved: true, count: products.length };
+        }
+
+        async function incomingProductFromItem(item, productId = "") {
+            if (!item) return { error: "Arrivage introuvable dans le formulaire." };
+            const existingProduct = currentIncomingProducts.find((product) => String(product.id) === String(productId));
+            const imageFile = item.querySelector('input[name="image_file"]')?.files?.[0];
+            let uploadedImageUrl = "";
+            if (imageFile && imageFile.size) {
+                const uploadResult = await uploadImageFiles([imageFile]);
+                if (uploadResult.error) return { error: uploadResult.error };
+                uploadedImageUrl = uploadResult.urls[0] || "";
+            }
+
+            const name = normalizeText(item.querySelector('input[name="name"]')?.value);
+            const category = item.querySelector('select[name="category"]')?.value || "tshirt";
+            const imageUrl = normalizeMediaUrl(item.querySelector('input[name="image_url"]')?.value);
+            const finalImageUrl = normalizeMediaUrl(uploadedImageUrl || imageUrl || existingProduct?.image_url);
+            const color = normalizeText(item.querySelector('input[name="color"]')?.value);
+            const sizes = parseSizes(item.querySelector('input[name="sizes"]')?.value);
+            const description = normalizeText(item.querySelector('textarea[name="description"]')?.value);
+
+            if (!name) return { error: "Renseigne le nom de chaque arrivage." };
+            if (!finalImageUrl) return { error: `Ajoute une image pour l'arrivage "${name}".` };
+            if (!color) return { error: `Choisis une couleur pour l'arrivage "${name}".` };
+            if (!description) return { error: `Ajoute une description pour l'arrivage "${name}".` };
+
+            return {
+                product: {
+                    name,
+                    category,
+                    category_label: formatCategory(category),
+                    description,
+                    image_url: finalImageUrl,
+                    color,
+                    sizes,
+                    price: Number(item.querySelector('input[name="price"]')?.value || 0),
+                    release_date: item.querySelector('input[name="release_date"]')?.value || null,
+                    is_active: true,
+                    created_at: new Date().toISOString(),
+                },
+            };
+        }
+
+        async function saveIncomingProduct(product) {
+            const localProduct = { ...product, id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) };
+            const apiResult = await dashboardApi("insert", TABLES.incoming, incomingPayloadForSupabase(product, true));
+            if (apiResult.ok) return { saved: true };
+
+            if (!supabaseClient) {
+                saveLocalRecord("redemption_incoming_products", localProduct);
+                return { saved: false, error: apiResult.error || "Supabase n'est pas configure. Arrivage garde localement." };
+            }
+
+            let { error } = await supabaseClient.from(TABLES.incoming).insert(incomingPayloadForSupabase(product, true, true));
+            if (error && isMissingIncomingColorColumnError(error)) {
+                ({ error } = await supabaseClient.from(TABLES.incoming).insert(incomingPayloadForSupabase(product, false, true)));
+            }
+            if (error) {
+                console.error("Supabase incoming product insert failed:", error);
+                saveLocalRecord("redemption_incoming_products", localProduct);
+                return { saved: false, error: `Erreur Supabase arrivage: ${error.message}. Execute le schema SQL puis recharge le dashboard.` };
+            }
+            return { saved: true };
+        }
+
+        async function updateIncomingProduct(productId, product) {
+            const localProducts = readLocalRecords("redemption_incoming_products").map((item) =>
+                String(item.id) === String(productId) ? { ...item, ...product, id: productId } : item
+            );
+            localStorage.setItem("redemption_incoming_products", JSON.stringify(localProducts));
+
+            if (!isSupabaseProductId(productId)) return { saved: false, error: "Arrivage modifie localement." };
+
+            const apiResult = await dashboardApi("update", TABLES.incoming, incomingPayloadForSupabase(product, true), productId);
+            if (apiResult.ok) return { saved: true };
+
+            if (!supabaseClient) return { saved: false, error: apiResult.error || "Supabase n'est pas configure. Arrivage modifie localement." };
+
+            let { error } = await supabaseClient
+                .from(TABLES.incoming)
+                .update({
+                    name: product.name,
+                    category: product.category,
+                    category_label: product.category_label,
+                    description: product.description,
+                    image_url: product.image_url,
+                    color: product.color,
+                    sizes: product.sizes || [],
+                    price: normalizePrice(product.price),
+                    release_date: product.release_date,
+                    is_active: true,
+                })
+                .eq("id", productId);
+            if (error && isMissingIncomingColorColumnError(error)) {
+                ({ error } = await supabaseClient
+                    .from(TABLES.incoming)
+                    .update(incomingPayloadForSupabase(product, false, true))
+                    .eq("id", productId));
+            }
+
+            if (error) {
+                console.error("Supabase incoming product update failed:", error);
+                return { saved: false, error: `Erreur modification arrivage: ${error.message}` };
+            }
+            return { saved: true };
+        }
+
+        async function deleteIncomingProduct(productId) {
+            addHiddenDashboardRecord(TABLES.incoming, productId);
+            currentIncomingProducts = currentIncomingProducts.filter((item) => String(item.id) !== String(productId));
+            renderIncomingProducts(currentIncomingProducts);
+            incomingCount.textContent = currentIncomingProducts.length;
+
+            const localProducts = readLocalRecords("redemption_incoming_products").filter((item) => String(item.id) !== String(productId));
+            localStorage.setItem("redemption_incoming_products", JSON.stringify(localProducts));
+
+            if (!isSupabaseProductId(productId)) {
+                statusText.textContent = "Arrivage supprime du site.";
+                return;
+            }
+            if (supabaseClient || isSupabaseProductId(productId)) {
+                const apiResult = await dashboardApi("delete", TABLES.incoming, {}, productId);
+                const { error } = apiResult.ok
+                    ? { error: null }
+                    : supabaseClient
+                        ? await supabaseClient
+                            .from(TABLES.incoming)
+                            .update({ is_active: false })
+                            .eq("id", productId)
+                        : { error: { message: apiResult.error || "Supabase n'est pas configure." } };
+                if (error) {
+                    console.error("Supabase incoming product delete failed:", error);
+                    statusText.textContent = `Arrivage retire du dashboard. Supabase: ${error.message}`;
+                    await loadDashboard();
+                    return;
+                }
+            }
+            statusText.textContent = "Arrivage supprime du site.";
+            await loadDashboard();
+        }
+
+        async function saveVideo(video) {
+            const localVideo = { ...video, id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) };
+            if (!supabaseClient) {
+                saveLocalRecord("redemption_videos", localVideo);
+                return { saved: false, error: "Supabase n'est pas configure. Video gardee localement." };
+            }
+
+            const { error } = await supabaseClient.from(TABLES.videos).insert(video).select("id").single();
+            if (error) {
+                console.error("Supabase video insert failed:", error);
+                saveLocalRecord("redemption_videos", localVideo);
+                return { saved: false, error: `Erreur Supabase video: ${error.message}` };
+            }
+            return { saved: true };
+        }
+
+        async function uploadVideoFile(file) {
+            if (!supabaseClient) return { url: "", error: "Supabase n'est pas configure. Ajoute SUPABASE_URL et SUPABASE_ANON_KEY pour telecharger la video." };
+
+            const extension = (file.name.split(".").pop() || "mp4").toLowerCase().replace(/[^a-z0-9]/g, "") || "mp4";
+            const safeTitle = file.name
+                .replace(/\.[^/.]+$/, "")
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-+|-+$/g, "")
+                .slice(0, 48) || "video";
+            const filePath = `${Date.now()}-${safeTitle}.${extension}`;
+
+            const { error } = await supabaseClient.storage
+                .from(VIDEO_BUCKET)
+                .upload(filePath, file, {
+                    cacheControl: "3600",
+                    contentType: file.type || "video/mp4",
+                    upsert: false,
+                });
+
+            if (error) {
+                console.error("Supabase video upload failed:", error);
+                return { url: "", error: `Erreur upload video: ${error.message}. Execute le schema SQL puis recharge le dashboard.` };
+            }
+
+            const { data } = supabaseClient.storage
+                .from(VIDEO_BUCKET)
+                .getPublicUrl(filePath);
+
+            return { url: data?.publicUrl || "", error: "" };
+        }
+
+        async function uploadImageFiles(files) {
+            if (!files.length) return { urls: [], error: "" };
+
+            const urls = [];
+            for (const file of files) {
+                if (!file.type.startsWith("image/")) {
+                    return { urls: [], error: "Choisis uniquement des fichiers image." };
+                }
+                if (file.size > 10 * 1024 * 1024) {
+                    return { urls: [], error: "Image trop lourde. Limite actuelle: 10 MB par image." };
+                }
+
+                if (!supabaseClient) return { urls: [], error: "Supabase n'est pas configure. Ajoute SUPABASE_URL et SUPABASE_PUBLISHABLE_KEY pour telecharger l'image." };
+
+                const extension = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
+                const safeTitle = file.name
+                    .replace(/\.[^/.]+$/, "")
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, "-")
+                    .replace(/^-+|-+$/g, "")
+                    .slice(0, 48) || "image";
+                const filePath = `${Date.now()}-${crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2)}-${safeTitle}.${extension}`;
+
+                const { error } = await supabaseClient.storage
+                    .from(IMAGE_BUCKET)
+                    .upload(filePath, file, {
+                        cacheControl: "31536000",
+                        contentType: file.type || "image/jpeg",
+                        upsert: false,
+                    });
+
+                if (error) {
+                    console.error("Supabase image upload failed:", error);
+                    return { urls: [], error: `Erreur upload image: ${error.message}. Execute le schema SQL puis recharge le dashboard.` };
+                }
+
+                const { data } = supabaseClient.storage
+                    .from(IMAGE_BUCKET)
+                    .getPublicUrl(filePath);
+                if (data?.publicUrl) urls.push(data.publicUrl);
+            }
+
+            return { urls, error: "" };
+        }
+
+        async function dashboardApi(adminAction, table = "", payload = {}, id = "") {
+            return { ok: false, data: null, error: "" };
+        }
+
+        function createSupabaseClient() {
+            if (!window.supabase) return null;
+            const config = getSupabaseConfig();
+            if (!config.url || !config.anonKey) return null;
+            return window.supabase.createClient(config.url, config.anonKey);
+        }
+
+        function setupDashboardSourceDeterrents() {
+            document.addEventListener("contextmenu", (event) => event.preventDefault());
+            document.addEventListener("dragstart", (event) => event.preventDefault());
+            document.addEventListener("keydown", (event) => {
+                const key = String(event.key || "").toLowerCase();
+                const blocked =
+                    key === "f12" ||
+                    (event.ctrlKey && key === "u") ||
+                    (event.ctrlKey && key === "s") ||
+                    (event.ctrlKey && event.shiftKey && ["i", "j", "c", "k"].includes(key)) ||
+                    (event.metaKey && event.altKey && ["i", "j", "c"].includes(key));
+                if (!blocked) return;
+                event.preventDefault();
+                event.stopPropagation();
+            }, true);
+        }
+
+        function getSupabaseConfig() {
+            if (SUPABASE_URL && SUPABASE_ANON_KEY) return { url: SUPABASE_URL, anonKey: SUPABASE_ANON_KEY };
+
+            try {
+                const saved = JSON.parse(localStorage.getItem(SUPABASE_CONFIG_STORAGE_KEY) || "{}");
+                return {
+                    url: normalizeText(saved.url),
+                    anonKey: normalizeText(saved.anonKey),
+                };
+            } catch {
+                return { url: "", anonKey: "" };
+            }
+        }
+
+        function promptSupabaseSetup(force = true) {
+            if (!window.supabase) {
+                statusText.textContent = "La librairie Supabase n'est pas chargee. Verifie ta connexion internet.";
+                return false;
+            }
+
+            const current = getSupabaseConfig();
+            const url = window.prompt("Colle ton SUPABASE_URL", current.url || SUPABASE_URL);
+            if (!url) {
+                if (force) statusText.textContent = "Connexion Supabase annulee.";
+                return false;
+            }
+
+            const anonKey = window.prompt("Colle ton SUPABASE_PUBLISHABLE_KEY ou SUPABASE_ANON_KEY", current.anonKey || "");
+            if (!anonKey) {
+                if (force) statusText.textContent = "Cle Supabase manquante. Supabase non connecte.";
+                return false;
+            }
+
+            localStorage.setItem(SUPABASE_CONFIG_STORAGE_KEY, JSON.stringify({
+                url: normalizeText(url),
+                anonKey: normalizeText(anonKey),
+            }));
+            supabaseClient = createSupabaseClient();
+            statusText.textContent = supabaseClient ? "Connecte a Supabase." : "Connexion Supabase impossible.";
+            return Boolean(supabaseClient);
+        }
+
+        async function deleteVideo(videoId) {
+            const localVideos = readLocalRecords("redemption_videos").filter((item) => String(item.id) !== String(videoId));
+            localStorage.setItem("redemption_videos", JSON.stringify(localVideos));
+
+            if (supabaseClient && isSupabaseProductId(videoId)) {
+                const { error } = await supabaseClient
+                    .from(TABLES.videos)
+                    .update({ status: "inactive" })
+                    .eq("id", videoId);
+                if (error) {
+                    console.error("Supabase video soft delete failed:", error);
+                    const { error: deleteError } = await supabaseClient
+                        .from(TABLES.videos)
+                        .delete()
+                        .eq("id", videoId);
+                    if (deleteError) {
+                        console.error("Supabase video hard delete failed:", deleteError);
+                        statusText.textContent = `Erreur suppression video: ${deleteError.message}`;
+                        return;
+                    }
+                }
+            }
+
+            statusText.textContent = "Video supprimee du site.";
+            await loadDashboard();
+        }
+
+        async function deleteMessage(messageId) {
+            addHiddenDashboardRecord(TABLES.messages, messageId);
+            const localMessages = readLocalRecords("redemption_contact_messages").filter((message) =>
+                !recordMatchesDashboardId(message, messageId)
+            );
+            localStorage.setItem("redemption_contact_messages", JSON.stringify(localMessages));
+
+            if (supabaseClient) {
+                const query = supabaseClient.from(TABLES.messages).delete();
+                const { error } = isSupabaseProductId(messageId)
+                    ? await query.eq("id", messageId)
+                    : await query.eq("created_at", messageId);
+                if (error) {
+                    console.error("Supabase message delete failed:", error);
+                    statusText.textContent = `Message retire du dashboard. Supabase: ${error.message}`;
+                    await loadDashboard();
+                    return;
+                }
+            }
+
+            statusText.textContent = "Message supprime du dashboard.";
+            await loadDashboard();
+        }
+
+        async function deleteNewsletterSubscriber(subscriberId) {
+            addHiddenDashboardRecord(TABLES.newsletter, subscriberId);
+            const localSubscribers = readLocalRecords("redemption_newsletter_subscribers").filter((subscriber) =>
+                !recordMatchesDashboardId(subscriber, subscriberId)
+            );
+            localStorage.setItem("redemption_newsletter_subscribers", JSON.stringify(localSubscribers));
+
+            if (supabaseClient) {
+                const query = supabaseClient.from(TABLES.newsletter).delete();
+                const { error } = isSupabaseProductId(subscriberId)
+                    ? await query.eq("id", subscriberId)
+                    : String(subscriberId).includes("@")
+                        ? await query.eq("email", subscriberId)
+                        : await query.eq("created_at", subscriberId);
+                if (error) {
+                    console.error("Supabase newsletter delete failed:", error);
+                    statusText.textContent = `Abonne retire du dashboard. Supabase: ${error.message}`;
+                    await loadDashboard();
+                    return;
+                }
+            }
+
+            statusText.textContent = "Abonne newsletter supprime.";
+            await loadDashboard();
+        }
+
+        async function updateOrderStatus(orderId, status) {
+            if (!orderId) return;
+
+            const localOrders = readLocalRecords("redemption_orders").map((order) =>
+                String(order.id || order.created_at) === String(orderId) ? { ...order, status } : order
+            );
+            localStorage.setItem("redemption_orders", JSON.stringify(localOrders));
+
+            if (supabaseClient) {
+                const { error } = await supabaseClient
+                    .from(TABLES.orders)
+                    .update({ status })
+                    .eq("id", orderId);
+                if (error) console.error("Supabase order status update failed:", error);
+            }
+
+            await loadDashboard();
+        }
+
+        async function deleteOrder(orderId) {
+            if (!orderId) return;
+            addHiddenDashboardRecord(TABLES.orders, orderId);
+
+            const localOrders = readLocalRecords("redemption_orders").filter((order) =>
+                String(order.id || order.created_at) !== String(orderId)
+            );
+            localStorage.setItem("redemption_orders", JSON.stringify(localOrders));
+
+            if (supabaseClient && isSupabaseProductId(orderId)) {
+                const { error } = await supabaseClient
+                    .from(TABLES.orders)
+                    .delete()
+                    .eq("id", orderId);
+                if (error) {
+                    console.error("Supabase order delete failed:", error);
+                    statusText.textContent = `Commande retiree du dashboard. Supabase: ${error.message}`;
+                    await loadDashboard();
+                    return;
+                }
+            }
+
+            statusText.textContent = "Commande supprimee du dashboard.";
+            await loadDashboard();
+        }
+
+        async function deleteAbandonedCheckout(checkoutId) {
+            addHiddenDashboardRecord(TABLES.abandonedCheckouts, checkoutId);
+            const localCheckouts = readLocalRecords("redemption_abandoned_checkouts").filter((checkout) =>
+                !recordMatchesDashboardId(checkout, checkoutId)
+            );
+            localStorage.setItem("redemption_abandoned_checkouts", JSON.stringify(localCheckouts));
+
+            if (supabaseClient) {
+                const { error } = await supabaseClient
+                    .from(TABLES.abandonedCheckouts)
+                    .delete()
+                    .eq("id", checkoutId);
+                if (error) {
+                    console.error("Supabase abandoned checkout delete failed:", error);
+                    statusText.textContent = `Panier abandonne retire du dashboard. Supabase: ${error.message}`;
+                    await loadDashboard();
+                    return;
+                }
+            }
+
+            statusText.textContent = "Panier abandonne supprime.";
+            await loadDashboard();
+        }
+
+        async function updateWavePaymentStatus(reference, status) {
+            setWavePaymentOverride(reference, { status, validated_at: new Date().toISOString() });
+            const localPayments = readLocalRecords("redemption_wave_payments").map((payment) =>
+                String(payment.reference) === String(reference)
+                    ? { ...payment, status, validated_at: new Date().toISOString() }
+                    : payment
+            );
+            localStorage.setItem("redemption_wave_payments", JSON.stringify(localPayments));
+
+            if (supabaseClient) {
+                const { error } = await supabaseClient
+                    .from(TABLES.wavePayments)
+                    .update({ status, validated_at: new Date().toISOString() })
+                    .eq("reference", reference);
+                if (error) {
+                    console.error("Supabase Wave payment update failed:", error);
+                    statusText.textContent = `Paiement Wave mis a jour localement. Supabase: ${error.message}`;
+                    await loadDashboard();
+                    return;
+                }
+            }
+
+            statusText.textContent = status === "succeeded" ? "Paiement Wave marque comme valide." : "Paiement Wave mis a jour.";
+            await loadDashboard();
+        }
+
+        async function deleteWavePayment(reference) {
+            addHiddenDashboardRecord(TABLES.wavePayments, reference);
+            removeWavePaymentOverride(reference);
+            const localPayments = readLocalRecords("redemption_wave_payments").filter((payment) =>
+                String(payment.reference) !== String(reference)
+            );
+            localStorage.setItem("redemption_wave_payments", JSON.stringify(localPayments));
+            currentWavePayments = currentWavePayments.filter((payment) => String(payment.reference) !== String(reference));
+            renderWavePayments(currentWavePayments);
+            renderWaveHistory(currentWavePayments);
+            if (waveSuccessTotal) waveSuccessTotal.textContent = formatPrice(getWaveSuccessTotal(currentWavePayments));
+
+            if (supabaseClient) {
+                const { error } = await supabaseClient
+                    .from(TABLES.wavePayments)
+                    .delete()
+                    .eq("reference", reference);
+                if (error) {
+                    console.error("Supabase Wave payment delete failed:", error);
+                    statusText.textContent = `Paiement retire du dashboard. Supabase: ${error.message}`;
+                    await loadDashboard();
+                    return;
+                }
+            }
+
+            statusText.textContent = "Paiement Wave supprime du dashboard.";
+            await loadDashboard();
+        }
+
+        async function handleBulkDelete(type, button) {
+            const config = getBulkDeleteConfig(type);
+            if (!config || !config.records.length) {
+                statusText.textContent = "Aucun element a supprimer dans cet onglet.";
+                return;
+            }
+
+            const count = config.records.length;
+            if (!confirm(`Supprimer ${count} element${count > 1 ? "s" : ""} de "${config.label}" ? Cette action retire tout de cet onglet.`)) return;
+
+            const originalText = button?.textContent || "Tout supprimer";
+            if (button) {
+                button.disabled = true;
+                button.textContent = "Suppression...";
+            }
+            statusText.textContent = `Suppression de ${count} element${count > 1 ? "s" : ""}...`;
+
+            try {
+                markBulkRecordsHidden(config);
+                removeBulkLocalRecords(config);
+                const syncError = await syncBulkDelete(config);
+                await loadDashboard();
+                statusText.textContent = syncError
+                    ? `${count} element${count > 1 ? "s" : ""} retire${count > 1 ? "s" : ""} du dashboard. Supabase: ${syncError}`
+                    : `${count} element${count > 1 ? "s" : ""} supprime${count > 1 ? "s" : ""}.`;
+            } finally {
+                if (button) {
+                    button.disabled = false;
+                    button.textContent = originalText;
+                }
+            }
+        }
+
+        function getBulkDeleteConfig(type) {
+            const byStatus = (status) => currentOrders.filter((order) => (order.status || "shipping") === status);
+            const waveActive = currentWavePayments.filter((payment) =>
+                currentWaveFilter === "cancelled" ? isWavePaymentCancelled(payment.status) : !isWavePaymentCancelled(payment.status)
+            );
+            const configs = {
+                orders: { label: "Commandes recues", table: TABLES.orders, localKey: "redemption_orders", records: currentOrders, mode: "hard" },
+                cancelledOrders: { label: "Commandes annulees", table: TABLES.orders, localKey: "redemption_orders", records: byStatus("cancelled"), mode: "hard" },
+                shippingOrders: { label: "Commandes en cours", table: TABLES.orders, localKey: "redemption_orders", records: byStatus("shipping"), mode: "hard" },
+                deliveredOrders: { label: "Commandes livrees", table: TABLES.orders, localKey: "redemption_orders", records: byStatus("delivered"), mode: "hard" },
+                abandoned: { label: "Paniers abandonnes", table: TABLES.abandonedCheckouts, localKey: "redemption_abandoned_checkouts", records: currentAbandonedCheckouts, mode: "hard" },
+                products: { label: "Produits", table: TABLES.products, localKey: "redemption_products", records: currentProducts, mode: "soft", productHidden: true },
+                incoming: { label: "Arrivage en cours", table: TABLES.incoming, localKey: "redemption_incoming_products", records: currentIncomingProducts, mode: "soft" },
+                messages: { label: "Messages formulaire", table: TABLES.messages, localKey: "redemption_contact_messages", records: currentMessages, mode: "hard" },
+                newsletter: { label: "Newsletter", table: TABLES.newsletter, localKey: "redemption_newsletter_subscribers", records: currentNewsletter, mode: "hard" },
+                waveActive: { label: currentWaveFilter === "cancelled" ? "Paiements Wave annules" : "Paiements Wave actifs", table: TABLES.wavePayments, localKey: "redemption_wave_payments", records: waveActive, mode: "hard", referenceField: true },
+                waveHistory: { label: "Historique Wave", table: TABLES.wavePayments, localKey: "redemption_wave_payments", records: currentWavePayments, mode: "hard", referenceField: true },
+            };
+            const config = configs[type];
+            if (!config) return null;
+            return {
+                ...config,
+                records: config.records.filter(Boolean),
+                ids: config.records.map(getDashboardRecordId).filter(Boolean),
+            };
+        }
+
+        function markBulkRecordsHidden(config) {
+            config.records.forEach((record) => {
+                const id = getDashboardRecordId(record);
+                if (!id) return;
+                if (config.productHidden) {
+                    addHiddenProductId(id);
+                    return;
+                }
+                addHiddenDashboardRecord(config.table, id);
+                if (config.referenceField) removeWavePaymentOverride(id);
+            });
+        }
+
+        function removeBulkLocalRecords(config) {
+            if (!config.localKey) return;
+            const ids = new Set(config.ids.map(String));
+            const records = readLocalRecords(config.localKey).filter((record) =>
+                !Array.from(ids).some((id) => recordMatchesDashboardId(record, id))
+            );
+            localStorage.setItem(config.localKey, JSON.stringify(records));
+        }
+
+        async function syncBulkDelete(config) {
+            if (!supabaseClient || !config.records.length) return "";
+            try {
+                if (config.referenceField) {
+                    const references = config.records.map((record) => normalizeText(record.reference)).filter(Boolean);
+                    if (references.length) {
+                        const { error } = await supabaseClient.from(config.table).delete().in("reference", references);
+                        if (error) return error.message;
+                    }
+                    return "";
+                }
+
+                const supabaseIds = config.records.map((record) => record.id).filter((id) => isSupabaseProductId(id));
+                if (!supabaseIds.length) return "";
+                const query = supabaseClient.from(config.table);
+                const { error } = config.mode === "soft"
+                    ? await query.update({ is_active: false }).in("id", supabaseIds)
+                    : await query.delete().in("id", supabaseIds);
+                return error ? error.message : "";
+            } catch (error) {
+                return error?.message || "Erreur inconnue";
+            }
+        }
+
+        function getDashboardRecordId(record) {
+            return normalizeText(record?.id || record?.reference || record?.email || record?.created_at || "");
+        }
+
+        function renderOrderStats(orders) {
+            const orderStats = getOrderStats(orders);
+            const itemStats = getOrderItemStats(orders);
+            const totalItems = Math.max(itemStats.cancelled + itemStats.shipping + itemStats.delivered, 1);
+
+            cancelledCount.textContent = itemStats.cancelled;
+            shippingCount.textContent = itemStats.shipping;
+            deliveredCount.textContent = itemStats.delivered;
+            ordersCancelledMini.textContent = orderStats.cancelled;
+            ordersShippingMini.textContent = orderStats.shipping;
+            ordersDeliveredMini.textContent = orderStats.delivered;
+            cancelledBar.style.width = `${Math.round((itemStats.cancelled / totalItems) * 100)}%`;
+            shippingBar.style.width = `${Math.round((itemStats.shipping / totalItems) * 100)}%`;
+            deliveredBar.style.width = `${Math.round((itemStats.delivered / totalItems) * 100)}%`;
+        }
+
+        function getOrderStats(orders) {
+            return orders.reduce((stats, order) => {
+                const status = order.status || "shipping";
+                stats[status] = (stats[status] || 0) + 1;
+                return stats;
+            }, { cancelled: 0, shipping: 0, delivered: 0 });
+        }
+
+        function getOrderItemStats(orders) {
+            return orders.reduce((stats, order) => {
+                const status = order.status || "shipping";
+                stats[status] = (stats[status] || 0) + countOrderItems(order);
+                return stats;
+            }, { cancelled: 0, shipping: 0, delivered: 0 });
+        }
+
+        function countOrderItems(order) {
+            return Array.isArray(order.items) && order.items.length ? order.items.length : 1;
+        }
+
+        function renderOrders(orders) {
+            renderOrdersList(ordersGrid, orders, "Aucune commande pour le moment.");
+            renderOrdersList(cancelledOrdersGrid, orders.filter((order) => (order.status || "shipping") === "cancelled"), "Aucune commande annulee.");
+            renderOrdersList(shippingOrdersGrid, orders.filter((order) => (order.status || "shipping") === "shipping"), "Aucune commande en cours de livraison.");
+            renderOrdersList(deliveredOrdersGrid, orders.filter((order) => (order.status || "shipping") === "delivered"), "Aucune commande livree.");
+        }
+
+        function renderOrdersList(target, orders, emptyMessage) {
+            if (!target) return;
+            if (!orders.length) {
+                target.innerHTML = emptyState(emptyMessage);
+                return;
+            }
+
+            target.innerHTML = orders.map((order) => {
+                const items = Array.isArray(order.items) ? order.items : [];
+                const name = [order.first_name, order.last_name].filter(Boolean).join(" ") || "Client";
+                const orderId = order.id || order.created_at;
+                const status = order.status || "shipping";
+                const locationLink = getLocationLink(order);
+                return `
+                    <article class="record-card">
+                        <div class="record-top">
+                            <div>
+                                <h2>${escapeHtml(name)}</h2>
+                                <p>${formatDate(order.created_at)}</p>
+                            </div>
+                            <span class="pill">${formatPrice(Number(order.total || 0))}</span>
+                        </div>
+                        <span class="pill status-${escapeHtml(status)}">${formatStatus(status)}</span>
+                        <div class="status-actions">
+                            <button class="status-btn" type="button" data-order-id="${escapeHtml(orderId)}" data-status="cancelled">Annule</button>
+                            <button class="status-btn" type="button" data-order-id="${escapeHtml(orderId)}" data-status="shipping">En cours de livraison</button>
+                            <button class="status-btn" type="button" data-order-id="${escapeHtml(orderId)}" data-status="delivered">Livre</button>
+                            <button class="order-delete-btn" type="button" data-order-id="${escapeHtml(orderId)}">Supprimer</button>
+                        </div>
+                        <div class="meta">
+                            <div><strong>Email</strong><br>${escapeHtml(order.email || "-")}</div>
+                            <div><strong>Telephone</strong><br>${escapeHtml(order.phone || "-")}</div>
+                            <div><strong>Paiement</strong><br>${escapeHtml(order.payment_method || "-")}</div>
+                            <div><strong>Adresse</strong><br>${escapeHtml(order.address || "-")}</div>
+                            <div><strong>Position GPS</strong><br>${locationLink || "-"}</div>
+                        </div>
+                        <div class="order-items">
+                            ${items.map((item) => `
+                                <div class="order-item">
+                                    <img src="${escapeHtml(item.image || "img/logo.jpg")}" alt="${escapeHtml(item.name || "Produit")}" loading="lazy">
+                                    <div>
+                                        <strong>${escapeHtml(item.name || "Produit")}</strong>
+                                        <p>${escapeHtml(formatCategory(item.category))}</p>
+                                    </div>
+                                    <span class="pill">${formatPrice(Number(item.price || 0))}</span>
+                                </div>
+                            `).join("") || "<p>Aucun article.</p>"}
+                        </div>
+                    </article>
+                `;
+            }).join("");
+        }
+
+        function renderAbandonedCheckouts(checkouts) {
+            if (!abandonedCheckoutsGrid) return;
+            const openCheckouts = checkouts.filter((checkout) => (checkout.status || "open") !== "converted");
+            if (!openCheckouts.length) {
+                abandonedCheckoutsGrid.innerHTML = emptyState("Aucun panier abandonne pour le moment.");
+                return;
+            }
+
+            abandonedCheckoutsGrid.innerHTML = openCheckouts.map((checkout) => {
+                const items = Array.isArray(checkout.items) ? checkout.items : parseJsonList(checkout.items);
+                const checkoutId = checkout.id || checkout.updated_at || checkout.created_at;
+                const name = [checkout.first_name, checkout.last_name].filter(Boolean).join(" ") || "Client a relancer";
+                return `
+                    <article class="record-card">
+                        <div class="record-top">
+                            <div>
+                                <h2>${escapeHtml(name)}</h2>
+                                <p>Mis a jour ${formatDate(checkout.updated_at || checkout.created_at)}</p>
+                            </div>
+                            <div class="row-actions">
+                                <span class="pill">${formatPrice(Number(checkout.total || 0))}</span>
+                                <button class="delete-btn delete-abandoned-btn" type="button" data-abandoned-id="${escapeHtml(checkoutId)}" aria-label="Supprimer le panier abandonne">X</button>
+                            </div>
+                        </div>
+                        <div class="meta">
+                            <div><strong>Email</strong><br>${escapeHtml(checkout.email || "-")}</div>
+                            <div><strong>Telephone</strong><br>${escapeHtml(checkout.phone || "-")}</div>
+                            <div><strong>Adresse</strong><br>${escapeHtml(checkout.address || "-")}</div>
+                        </div>
+                        <div class="order-items">
+                            ${items.length ? items.map((item) => `
+                                <div class="order-item">
+                                    <img src="${escapeHtml(item.image || "img/logo.jpg")}" alt="${escapeHtml(item.name || "Produit")}" loading="lazy">
+                                    <div>
+                                        <strong>${escapeHtml(item.name || "Produit")}</strong>
+                                        <p>${escapeHtml(formatCategory(item.category))}</p>
+                                    </div>
+                                    <span class="pill">${formatPrice(Number(item.price || 0))}</span>
+                                </div>
+                            `).join("") : "<p>Aucun article detaille.</p>"}
+                        </div>
+                    </article>
+                `;
+            }).join("");
+        }
+
+        function renderCollections(collections) {
+            if (!collectionsGrid) return;
+            if (!collections.length) {
+                collectionsGrid.innerHTML = emptyState("Aucune collection pour le moment.");
+                return;
+            }
+
+            collectionsGrid.innerHTML = collections.map((collection) => {
+                const subcollections = parseSubcollections(collection.subcollections);
+                return `
+                    <article class="product-row">
+                        <div class="collection-badge">${escapeHtml(collection.short_name || formatCategory(collection.category)).slice(0, 8)}</div>
+                        <div>
+                            <strong>${escapeHtml(collection.name)}</strong>
+                            <p>${escapeHtml(formatCategory(collection.category))}</p>
+                            <div class="product-meta">
+                                ${subcollections.map((item) => `<span class="pill">${escapeHtml(item)}</span>`).join("") || '<span class="pill">Sans sous-collection</span>'}
+                            </div>
+                        </div>
+                        <div class="row-actions">
+                            <button class="edit-btn edit-collection-btn" type="button" data-collection-id="${escapeHtml(collection.id)}">Modifier</button>
+                            <button class="delete-btn delete-collection-btn" type="button" data-collection-id="${escapeHtml(collection.id)}" aria-label="Supprimer ${escapeHtml(collection.name)}">X</button>
+                        </div>
+                    </article>
+                `;
+            }).join("");
+        }
+
+        function renderProducts(products) {
+            if (!products.length) {
+                productsGrid.innerHTML = emptyState("Aucun produit pour le moment.");
+                return;
+            }
+
+            productsGrid.innerHTML = products.map((product) => `
+                <article class="product-row">
+                    <img src="${escapeHtml(normalizeMediaUrl(product.image_url || "img/logo.jpg"))}" alt="${escapeHtml(product.name)}" loading="lazy" onerror="this.onerror=null;this.src='img/logo.jpg';">
+                    <div>
+                        <strong>${escapeHtml(formatProductName(product))}</strong>
+                        <p>${escapeHtml(product.description || "")}</p>
+                        <div class="product-meta">
+                            <span class="pill">${escapeHtml(formatCategory(product.category))}</span>
+                            ${product.collection_name ? `<span class="pill">${escapeHtml(product.collection_name)}</span>` : ""}
+                            ${product.subcollection_name ? `<span class="pill">${escapeHtml(product.subcollection_name)}</span>` : ""}
+                            ${product.color ? `<span class="pill">${renderColorSwatch(product.color)}${escapeHtml(product.color)}</span>` : ""}
+                            ${renderSizesPills(product.sizes)}
+                            ${normalizeProductImages(product.image_urls).length > 1 ? `<span class="pill">${normalizeProductImages(product.image_urls).length} images</span>` : ""}
+                            ${product.video_url ? '<span class="pill">Video produit</span>' : ""}
+                        </div>
+                    </div>
+                    <div class="row-actions">
+                        <span class="pill">${formatPrice(Number(product.price || 0))}</span>
+                        <button class="edit-btn" type="button" data-product-id="${escapeHtml(product.id)}">Modifier</button>
+                        <button class="delete-btn" type="button" data-product-id="${escapeHtml(product.id)}" aria-label="Supprimer ${escapeHtml(product.name)}">X</button>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        function renderIncomingProducts(products) {
+            if (!products.length) {
+                incomingGrid.innerHTML = emptyState("Aucun arrivage pour le moment.");
+                return;
+            }
+
+            incomingGrid.innerHTML = products.map((product) => `
+                <article class="product-row">
+                    <img src="${escapeHtml(normalizeMediaUrl(product.image_url || "img/logo.jpg"))}" alt="${escapeHtml(product.name)}" loading="lazy" onerror="this.onerror=null;this.src='img/logo.jpg';">
+                    <div>
+                        <strong>${escapeHtml(formatProductName(product))}</strong>
+                        <p>${escapeHtml(product.description || "")}</p>
+                        <div class="product-meta">
+                            <span class="pill">Bientot disponible</span>
+                            <span class="pill">${escapeHtml(formatCategory(product.category))}</span>
+                            ${product.color ? `<span class="pill">${renderColorSwatch(product.color)}${escapeHtml(product.color)}</span>` : ""}
+                            ${renderSizesPills(product.sizes)}
+                            ${product.release_date ? `<span class="pill">${escapeHtml(formatDate(product.release_date).split(" ")[0] || product.release_date)}</span>` : ""}
+                        </div>
+                    </div>
+                    <div class="row-actions">
+                        <span class="pill">${Number(product.price || 0) ? formatPrice(Number(product.price || 0)) : "Prix a venir"}</span>
+                        <button class="edit-btn" type="button" data-incoming-id="${escapeHtml(product.id)}">Modifier</button>
+                        <button class="delete-btn" type="button" data-incoming-id="${escapeHtml(product.id)}" aria-label="Supprimer ${escapeHtml(product.name)}">X</button>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        function renderVideos(videos) {
+            if (!videos.length) {
+                videosGrid.innerHTML = emptyState("Aucune video pour le moment.");
+                return;
+            }
+
+            videosGrid.innerHTML = videos.map((video) => `
+                <article class="video-row">
+                    ${renderVideoPreview(video.url)}
+                    <div>
+                        <strong>${escapeHtml(video.title || "Video Redemption")}</strong>
+                        <p>${escapeHtml(video.description || "")}</p>
+                        <div class="product-meta">
+                            <span class="pill">${escapeHtml(video.category || "House of Redemption")}</span>
+                        </div>
+                    </div>
+                    <div class="row-actions">
+                        <span class="pill">${formatDate(video.created_at)}</span>
+                        <button class="delete-btn" type="button" data-video-id="${escapeHtml(video.id)}" aria-label="Supprimer ${escapeHtml(video.title || "video")}">X</button>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        function startProductEdit(productId) {
+            const product = currentProducts.find((item) => String(item.id) === String(productId));
+            if (!product) return;
+
+            productForm.elements.id.value = product.id;
+            productForm.elements.name.value = product.name || "";
+            productForm.elements.price.value = product.price || 0;
+            productForm.elements.category.value = product.category || "tshirt";
+            updateProductCollectionOptions(product.collection_name);
+            productForm.elements.image_url.value = product.image_url || "";
+            productForm.elements.video_url.value = product.video_url || "";
+            setSelectedColor(productForm, product.color || "");
+            setSelectedSizes(productForm, product.sizes || []);
+            productForm.elements.description.value = product.description || "";
+            productForm.querySelector('button[type="submit"]').textContent = "Modifier le produit";
+            cancelProductEdit.classList.remove("hidden");
+            productForm.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        function startIncomingEdit(productId) {
+            const product = currentIncomingProducts.find((item) => String(item.id) === String(productId));
+            if (!product) return;
+
+            resetIncomingForm();
+            incomingForm.elements.id.value = product.id;
+            incomingForm.elements.name.value = product.name || "";
+            incomingForm.elements.price.value = product.price || 0;
+            incomingForm.elements.category.value = product.category || "tshirt";
+            incomingForm.elements.release_date.value = product.release_date || "";
+            incomingForm.elements.image_url.value = product.image_url || "";
+            setSelectedColor(incomingForm, product.color || "");
+            setSelectedSizes(incomingForm, product.sizes || []);
+            incomingForm.elements.description.value = product.description || "";
+            incomingForm.querySelector('button[type="submit"]').textContent = "Modifier l'arrivage";
+            addIncomingItem?.classList.add("hidden");
+            cancelIncomingEdit.classList.remove("hidden");
+            incomingForm.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        function startCollectionEdit(collectionId) {
+            const collection = currentCollections.find((item) => String(item.id) === String(collectionId));
+            if (!collection) return;
+
+            collectionForm.elements.id.value = collection.id;
+            collectionForm.elements.category.value = collection.category || "tshirt";
+            collectionForm.elements.name.value = collection.name || "";
+            collectionForm.elements.short_name.value = collection.short_name || "";
+            collectionForm.elements.subcollections.value = parseSubcollections(collection.subcollections).join("\n");
+            collectionForm.querySelector('button[type="submit"]').textContent = "Modifier la collection";
+            cancelCollectionEdit.classList.remove("hidden");
+            collectionForm.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        function resetProductForm() {
+            productForm.reset();
+            productForm.elements.id.value = "";
+            updateProductCollectionOptions();
+            setSelectedColor(productForm, "");
+            setSelectedSizes(productForm, []);
+            productForm.querySelector('button[type="submit"]').textContent = "Ajouter le produit";
+            cancelProductEdit.classList.add("hidden");
+        }
+
+        function resetIncomingForm() {
+            incomingForm.reset();
+            incomingForm.elements.id.value = "";
+            resetIncomingItems();
+            setSelectedColor(incomingForm, "");
+            setSelectedSizes(incomingForm, []);
+            incomingForm.querySelector('button[type="submit"]').textContent = "Ajouter l'arrivage";
+            addIncomingItem?.classList.remove("hidden");
+            cancelIncomingEdit.classList.add("hidden");
+        }
+
+        function addIncomingItemBlock() {
+            const firstItem = incomingItems?.querySelector("[data-incoming-item]");
+            if (!incomingItems || !firstItem) return;
+            const clone = firstItem.cloneNode(true);
+            clone.querySelectorAll("input, textarea, select").forEach((field) => {
+                if (field.type === "file") {
+                    field.value = "";
+                } else if (field.name === "category") {
+                    field.value = "tshirt";
+                } else {
+                    field.value = "";
+                }
+            });
+            clone.querySelectorAll(".color-option").forEach((button) => button.classList.remove("active"));
+            clone.querySelectorAll("[data-size-list]").forEach((list) => list.innerHTML = "");
+            clone.querySelectorAll("[data-size-picker]").forEach((picker) => delete picker.dataset.ready);
+            incomingItems.appendChild(clone);
+            setupColorPicker(clone);
+            setupSizePickers(clone);
+            refreshIncomingItemState();
+        }
+
+        function resetIncomingItems() {
+            if (!incomingItems) return;
+            const items = Array.from(incomingItems.querySelectorAll("[data-incoming-item]"));
+            items.slice(1).forEach((item) => item.remove());
+            setSelectedSizes(items[0], []);
+            refreshIncomingItemState();
+        }
+
+        function refreshIncomingItemState() {
+            const items = Array.from(incomingItems?.querySelectorAll("[data-incoming-item]") || []);
+            items.forEach((item, index) => {
+                const legend = item.querySelector("legend");
+                const removeButton = item.querySelector(".remove-incoming-item");
+                if (legend) legend.textContent = `Arrivage ${index + 1}`;
+                removeButton?.classList.toggle("hidden", items.length <= 1 || Boolean(incomingForm.elements.id.value));
+            });
+        }
+
+        function resetCollectionForm() {
+            if (!collectionForm || !cancelCollectionEdit) return;
+            collectionForm.reset();
+            collectionForm.elements.id.value = "";
+            collectionForm.querySelector('button[type="submit"]').textContent = "Ajouter la collection";
+            cancelCollectionEdit.classList.add("hidden");
+        }
+
+        function updateProductCollectionOptions(selectedName = "") {
+            const fixedCollections = [
+                "Collection couronne d'épine",
+                "Collection rachat",
+                "Collection evangeliste Yann Dayere (Ev.YD)",
+            ];
+            const cleanSelectedName = canonicalCollectionName(selectedName);
+            const allowedCollections = Array.from(new Set(fixedCollections));
+            productCollectionSelect.innerHTML = ['<option value="">Sans collection</option>'].concat(
+                allowedCollections.map((name) => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`)
+            ).join("");
+            productCollectionSelect.value = allowedCollections.includes(cleanSelectedName) ? cleanSelectedName : "";
+        }
+
+        function isSupabaseProductId(productId) {
+            return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(productId || ""));
+        }
+
+        function readProductOverrides() {
+            try {
+                return JSON.parse(localStorage.getItem("redemption_product_overrides")) || {};
+            } catch {
+                return {};
+            }
+        }
+
+        function readHiddenProductIds() {
+            try {
+                return new Set(JSON.parse(localStorage.getItem("redemption_hidden_products")) || []);
+            } catch {
+                return new Set();
+            }
+        }
+
+        function addHiddenProductId(productId) {
+            if (!productId) return;
+            const hiddenProductIds = Array.from(readHiddenProductIds());
+            if (!hiddenProductIds.includes(String(productId))) hiddenProductIds.push(String(productId));
+            localStorage.setItem("redemption_hidden_products", JSON.stringify(hiddenProductIds));
+        }
+
+        function readHiddenCollectionIds() {
+            try {
+                return new Set(JSON.parse(localStorage.getItem("redemption_hidden_collections")) || []);
+            } catch {
+                return new Set();
+            }
+        }
+
+        function readHiddenCollectionNames() {
+            try {
+                return new Set(JSON.parse(localStorage.getItem("redemption_hidden_collection_names")) || []);
+            } catch {
+                return new Set();
+            }
+        }
+
+        function readHiddenDashboardRecords(table) {
+            try {
+                return new Set(JSON.parse(localStorage.getItem(`redemption_hidden_${table}`)) || []);
+            } catch {
+                return new Set();
+            }
+        }
+
+        function addHiddenDashboardRecord(table, recordId) {
+            if (!recordId) return;
+            const hiddenRecords = Array.from(readHiddenDashboardRecords(table));
+            if (!hiddenRecords.includes(String(recordId))) hiddenRecords.push(String(recordId));
+            localStorage.setItem(`redemption_hidden_${table}`, JSON.stringify(hiddenRecords));
+        }
+
+        function filterHiddenDashboardRecords(table, records) {
+            const hiddenRecords = readHiddenDashboardRecords(table);
+            if (!hiddenRecords.size) return records;
+            return records.filter((record) =>
+                !Array.from(hiddenRecords).some((recordId) => recordMatchesDashboardId(record, recordId))
+            );
+        }
+
+        function recordMatchesDashboardId(record, recordId) {
+            const id = String(recordId || "");
+            return [record.id, record.reference, record.email, record.created_at]
+                .filter(Boolean)
+                .some((value) => String(value) === id);
+        }
+
+        function renderVideoPreview(url) {
+            const mediaUrl = normalizeMediaUrl(url);
+            if (/^(data:video\/|https?:\/\/.+\.(mp4|webm|ogg|mov)(\?.*)?$)/i.test(mediaUrl || "")) {
+                return `<video src="${escapeHtml(mediaUrl)}" muted preload="metadata"></video>`;
+            }
+            return `<div class="video-preview"><span class="pill">Video</span></div>`;
+        }
+
+        function renderMessages(messages) {
+            if (!messages.length) {
+                messagesGrid.innerHTML = emptyState("Aucun message de formulaire.");
+                return;
+            }
+
+            messagesGrid.innerHTML = messages.map((message) => {
+                const name = [message.first_name, message.last_name].filter(Boolean).join(" ") || "Contact";
+                const messageId = message.id || message.created_at;
+                return `
+                    <article class="record-card">
+                        <div class="record-top">
+                            <div>
+                                <h2>${escapeHtml(name)}</h2>
+                                <p>${formatDate(message.created_at)}</p>
+                            </div>
+                            <div class="row-actions">
+                                <span class="pill">${escapeHtml(message.subject || "Message")}</span>
+                                <button class="delete-btn delete-message-btn" type="button" data-message-id="${escapeHtml(messageId)}" aria-label="Supprimer le message de ${escapeHtml(name)}">X</button>
+                            </div>
+                        </div>
+                        <div class="meta">
+                            <div><strong>Email</strong><br>${escapeHtml(message.email || "-")}</div>
+                            <div><strong>WhatsApp</strong><br>${escapeHtml(message.whatsapp || "-")}</div>
+                            <div class="message-box"><strong>Message</strong><br>${escapeHtml(message.message || "-")}</div>
+                        </div>
+                    </article>
+                `;
+            }).join("");
+        }
+
+        function renderNewsletter(subscribers) {
+            if (!subscribers.length) {
+                newsletterGrid.innerHTML = emptyState("Aucune inscription newsletter.");
+                return;
+            }
+
+            newsletterGrid.innerHTML = subscribers.map((subscriber) => {
+                const subscriberId = subscriber.id || subscriber.email || subscriber.created_at;
+                return `
+                <article class="record-card">
+                    <div class="record-top">
+                        <div>
+                            <h2>${escapeHtml(subscriber.first_name || "Abonne")}</h2>
+                            <p>${formatDate(subscriber.created_at)}</p>
+                        </div>
+                        <div class="row-actions">
+                            <span class="pill">${escapeHtml(subscriber.whatsapp || subscriber.email || "-")}</span>
+                            <button class="delete-btn delete-newsletter-btn" type="button" data-subscriber-id="${escapeHtml(subscriberId)}" aria-label="Supprimer ${escapeHtml(subscriber.first_name || "abonne")}">X</button>
+                        </div>
+                    </div>
+                </article>
+            `;
+            }).join("");
+        }
+
+        function renderWavePayments(payments) {
+            if (!wavePaymentsGrid) return;
+            const visiblePayments = currentWaveFilter === "cancelled"
+                ? payments.filter((payment) => isWavePaymentCancelled(payment.status))
+                : payments.filter((payment) => !isWavePaymentCancelled(payment.status));
+            if (!visiblePayments.length) {
+                wavePaymentsGrid.innerHTML = emptyState(currentWaveFilter === "cancelled" ? "Aucun paiement Wave annule pour le moment." : "Aucun paiement Wave actif pour le moment.");
+                return;
+            }
+
+            wavePaymentsGrid.innerHTML = visiblePayments.map((payment) => renderWavePaymentCard(payment, { compactHistory: false })).join("");
+        }
+
+        function renderWaveHistory(payments) {
+            if (!waveHistoryGrid) return;
+            if (!payments.length) {
+                waveHistoryGrid.innerHTML = emptyState("Aucun historique Wave pour le moment.");
+                return;
+            }
+            waveHistoryGrid.innerHTML = payments.map((payment) => renderWavePaymentCard(payment, { compactHistory: true })).join("");
+        }
+
+        function renderWavePaymentCard(payment, options = {}) {
+                const items = Array.isArray(payment.items) ? payment.items : parseJsonList(payment.items);
+                const status = payment.status || "pending";
+                const reference = payment.reference || "";
+                const isSucceeded = status === "succeeded";
+                const isCancelled = isWavePaymentCancelled(status);
+                return `
+                    <article class="record-card wave-card-${escapeHtml(status)}">
+                        <div class="record-top">
+                            <div>
+                                <h2>${escapeHtml(reference || "Paiement Wave")}</h2>
+                                <p>${formatDate(payment.created_at)}</p>
+                            </div>
+                            <div class="row-actions">
+                                <span class="pill">${formatPrice(Number(payment.amount || 0))}</span>
+                                <span class="pill pill-status status-${escapeHtml(status)}">${escapeHtml(formatWavePaymentStatus(status))}</span>
+                                ${!options.compactHistory && !isSucceeded && !isCancelled ? `<button class="status-btn wave-paid-btn" type="button" data-reference="${escapeHtml(reference)}">Marquer paye</button>` : ""}
+                                ${!options.compactHistory && !isCancelled ? `<button class="status-btn status-cancelled wave-cancel-btn" type="button" data-reference="${escapeHtml(reference)}">Paiement annule</button>` : ""}
+                                <button class="wave-delete-btn" type="button" data-reference="${escapeHtml(reference)}" aria-label="Supprimer le paiement ${escapeHtml(reference || "Wave")}">X</button>
+                            </div>
+                        </div>
+                        <div class="meta">
+                            <div><strong>Client</strong><br>${escapeHtml([payment.customer_first_name, payment.customer_last_name].filter(Boolean).join(" ") || "-")}</div>
+                            <div><strong>Telephone</strong><br>${escapeHtml(payment.customer_phone || "-")}</div>
+                            <div><strong>Email</strong><br>${escapeHtml(payment.customer_email || "-")}</div>
+                            <div><strong>Adresse</strong><br>${escapeHtml(payment.customer_address || "-")}</div>
+                        </div>
+                        <div class="order-items">
+                            ${items.length ? items.map((item) => `
+                                <div class="order-item">
+                                    <img src="${escapeHtml(item.image || "img/logo.jpg")}" alt="${escapeHtml(item.name || "Article")}" />
+                                    <div>
+                                        <strong>${escapeHtml(item.name || "Article")}</strong>
+                                        <span class="pill">${formatPrice(Number(item.price || 0))}</span>
+                                    </div>
+                                </div>
+                            `).join("") : "<p>Aucun article detaille.</p>"}
+                        </div>
+                    </article>
+                `;
+        }
+
+        function isWavePaymentCancelled(status) {
+            return ["cancelled", "failed", "canceled"].includes(String(status || "").toLowerCase());
+        }
+
+        function getWaveSuccessTotal(payments) {
+            return payments
+                .filter((payment) => payment.status === "succeeded")
+                .reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
+        }
+
+        function readWavePaymentOverrides() {
+            try {
+                return JSON.parse(localStorage.getItem("redemption_wave_payment_overrides")) || {};
+            } catch {
+                return {};
+            }
+        }
+
+        function setWavePaymentOverride(reference, patch) {
+            if (!reference) return;
+            const overrides = readWavePaymentOverrides();
+            overrides[String(reference)] = { ...(overrides[String(reference)] || {}), ...patch };
+            localStorage.setItem("redemption_wave_payment_overrides", JSON.stringify(overrides));
+        }
+
+        function removeWavePaymentOverride(reference) {
+            const overrides = readWavePaymentOverrides();
+            delete overrides[String(reference || "")];
+            localStorage.setItem("redemption_wave_payment_overrides", JSON.stringify(overrides));
+        }
+
+        function applyWavePaymentOverrides(payments) {
+            const overrides = readWavePaymentOverrides();
+            return payments.map((payment) => ({
+                ...payment,
+                ...(overrides[String(payment.reference || "")] || {}),
+            }));
+        }
+
+        function readLocalRecords(key) {
+            try {
+                return JSON.parse(localStorage.getItem(key)) || [];
+            } catch {
+                return [];
+            }
+        }
+
+        function saveLocalRecord(key, record) {
+            const records = readLocalRecords(key);
+            records.unshift(record);
+            localStorage.setItem(key, JSON.stringify(records));
+        }
+
+        function setupColorPicker(form) {
+            const picker = form?.matches?.("[data-color-picker]") ? form : form?.querySelector("[data-color-picker]");
+            const input = picker?.querySelector('input[name="color"]');
+            const options = picker?.querySelector(".color-options");
+            if (!picker || !input || !options) return;
+
+            options.innerHTML = predefinedColors.map((color) => `
+                <button class="color-option" type="button" data-color="${escapeHtml(color.name)}" style="--swatch: ${escapeHtml(color.value)}">
+                    <span class="color-swatch" aria-hidden="true"></span>
+                    ${escapeHtml(color.name)}
+                </button>
+            `).join("");
+
+            options.addEventListener("click", (event) => {
+                const button = event.target.closest(".color-option");
+                if (!button) return;
+                setSelectedColor(form, button.dataset.color || "", picker);
+            });
+
+            setSelectedColor(form, input.value || "", picker);
+        }
+
+        function setSelectedColor(form, color, targetPicker = null) {
+            const picker = targetPicker || form?.querySelector("[data-color-picker]");
+            const input = picker?.querySelector('input[name="color"]') || form?.elements?.color;
+            if (!input || !picker) return;
+            const cleanColor = normalizeText(color);
+            input.value = cleanColor;
+            picker.querySelectorAll(".color-option").forEach((button) => {
+                button.classList.toggle("active", button.dataset.color === cleanColor);
+            });
+        }
+
+        function setupSizePickers(root) {
+            root?.querySelectorAll?.("[data-size-picker]").forEach((picker) => {
+                if (picker.dataset.ready === "true") return;
+                picker.dataset.ready = "true";
+                picker.querySelector("[data-size-add]")?.addEventListener("click", () => {
+                    const select = picker.querySelector("[data-size-select]");
+                    const selectedSize = normalizeText(select?.value);
+                    if (!selectedSize) return;
+                    const sizes = parseSizes(picker.querySelector('input[name="sizes"]')?.value);
+                    if (!sizes.includes(selectedSize)) sizes.push(selectedSize);
+                    setSelectedSizes(picker, sizes);
+                    if (select) select.value = "";
+                });
+                picker.querySelector("[data-size-list]")?.addEventListener("click", (event) => {
+                    const button = event.target.closest("[data-size-remove]");
+                    if (!button) return;
+                    const sizes = parseSizes(picker.querySelector('input[name="sizes"]')?.value)
+                        .filter((size) => size !== button.dataset.size);
+                    setSelectedSizes(picker, sizes);
+                });
+                setSelectedSizes(picker, parseSizes(picker.querySelector('input[name="sizes"]')?.value));
+            });
+        }
+
+        function setSelectedSizes(root, value) {
+            const picker = root?.matches?.("[data-size-picker]") ? root : root?.querySelector?.("[data-size-picker]");
+            const input = picker?.querySelector('input[name="sizes"]');
+            const list = picker?.querySelector("[data-size-list]");
+            if (!picker || !input || !list) return;
+            const sizes = parseSizes(value);
+            input.value = JSON.stringify(sizes);
+            list.innerHTML = sizes.length ? sizes.map((size) => `
+                <span class="size-pill">
+                    ${escapeHtml(size)}
+                    <button class="ghost" type="button" data-size-remove data-size="${escapeHtml(size)}" aria-label="Retirer ${escapeHtml(size)}">x</button>
+                </span>
+            `).join("") : '<span class="field-hint">Aucune taille choisie.</span>';
+        }
+
+        function parseSizes(value) {
+            if (Array.isArray(value)) return Array.from(new Set(value.map(normalizeText).filter(Boolean)));
+            if (!value) return [];
+            if (typeof value === "string") {
+                try {
+                    const parsed = JSON.parse(value);
+                    if (Array.isArray(parsed) || parsed && typeof parsed === "object") return parseSizes(parsed);
+                    if (typeof parsed === "string" && parsed !== value) return parseSizes(parsed);
+                } catch {
+                    return Array.from(new Set(value.split(/\r?\n|,/).map(normalizeText).filter(Boolean)));
+                }
+            }
+            if (typeof value === "object") {
+                const source = Array.isArray(value.sizes) ? value.sizes : Object.values(value);
+                return parseSizes(source);
+            }
+            return [];
+        }
+
+        function renderSizesPills(value) {
+            const sizes = parseSizes(value);
+            return sizes.length ? `<span class="pill">Tailles: ${escapeHtml(sizes.join(", "))}</span>` : "";
+        }
+
+        function renderColorSwatch(color) {
+            const colorData = predefinedColors.find((item) => item.name.toLowerCase() === String(color || "").toLowerCase());
+            return `<span class="color-swatch" style="--swatch: ${escapeHtml(colorData?.value || "#ddd")}" aria-hidden="true"></span>`;
+        }
+
+        function normalizeProductImages(value) {
+            if (Array.isArray(value)) return value.map(normalizeMediaUrl).filter(Boolean);
+            if (!value) return [];
+            if (typeof value === "string") {
+                try {
+                    const parsed = JSON.parse(value);
+                    if (Array.isArray(parsed)) return parsed.map(normalizeMediaUrl).filter(Boolean);
+                } catch {
+                    return [normalizeMediaUrl(value)].filter(Boolean);
+                }
+            }
+            return [];
+        }
+
+        function productPayloadForSupabase(product, includeImageUrls = false, includeCreatedAt = false, includeSizes = true) {
+            const payload = {
+                name: product.name,
+                category: product.category,
+                category_label: product.category_label,
+                collection_id: product.collection_id,
+                collection_name: product.collection_name,
+                subcollection_name: product.subcollection_name,
+                color: product.color,
+                description: product.description,
+                image_url: product.image_url,
+                video_url: product.video_url,
+                price: normalizePrice(product.price),
+                is_active: product.is_active,
+            };
+            if (includeCreatedAt) payload.created_at = product.created_at;
+            if (includeImageUrls) payload.image_urls = product.image_urls || [];
+            if (includeSizes) payload.sizes = parseSizes(product.sizes);
+            return payload;
+        }
+
+        function incomingPayloadForSupabase(product, includeColor = true, includeSizes = true) {
+            const payload = {
+                name: product.name,
+                category: product.category,
+                category_label: product.category_label,
+                description: product.description,
+                image_url: product.image_url,
+                price: normalizePrice(product.price),
+                release_date: product.release_date,
+                is_active: product.is_active,
+            };
+            if (includeColor) payload.color = product.color || "";
+            if (includeSizes) payload.sizes = parseSizes(product.sizes);
+            return payload;
+        }
+
+        function isMissingProductImageUrlsColumnError(error) {
+            return isMissingColumnError(error, "image_urls");
+        }
+
+        function isMissingIncomingColorColumnError(error) {
+            return isMissingColumnError(error, "color");
+        }
+
+        function isMissingColumnError(error, column) {
+            const message = String(error?.message || error?.details || "");
+            return message.toLowerCase().includes(column.toLowerCase())
+                && /schema cache|column|could not find|not find|does not exist/i.test(message);
+        }
+
+        function dedupeProducts(products) {
+            const seen = new Set();
+            const seenSignatures = new Set();
+            return products.filter((product) => {
+                const key = String(product.id || product.name);
+                const signature = [
+                    normalizeText(product.name).toLowerCase(),
+                    normalizeText(product.category).toLowerCase(),
+                    canonicalCollectionName(product.collection_name).toLowerCase(),
+                    normalizeText(product.color).toLowerCase(),
+                ].join("|");
+                if (seen.has(key) || seenSignatures.has(signature)) return false;
+                seen.add(key);
+                if (normalizeText(product.name)) seenSignatures.add(signature);
+                return true;
+            });
+        }
+
+        function dedupeCollections(collections) {
+            const seen = new Set();
+            return collections.filter((collection) => {
+                const key = `${collection.category || ""}:${collection.name || ""}`.toLowerCase();
+                if (!collection.name || seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            });
+        }
+
+        function formatCategory(category) {
+            return { tshirt: "T-shirt", hoodie: "Pull", longsleeve: "T-shirt manches longues", cap: "Casquette" }[category] || "Produit";
+        }
+
+        function formatStatus(status) {
+            return {
+                cancelled: "Annule",
+                shipping: "En cours de livraison",
+                delivered: "Livre",
+            }[status] || "En cours de livraison";
+        }
+
+        function formatWavePaymentStatus(status) {
+            return {
+                pending: "En attente",
+                pending_review: "A verifier",
+                succeeded: "Succes",
+                cancelled: "Annule",
+                canceled: "Annule",
+                failed: "Echoue",
+            }[status] || status;
+        }
+
+        function formatProductName(product) {
+            const base = product.name || "Produit";
+            const category = formatCategory(product.category);
+            const hasCategory = base.toLowerCase().includes(category.toLowerCase());
+            return `${hasCategory ? "" : `${category} `}${base}`.trim();
+        }
+
+        function detectColor(value) {
+            const text = String(value || "").toLowerCase();
+            const colors = ["noir", "bleu", "vert", "beige", "blanc", "rouge", "gris", "marron"];
+            return colors.find((color) => text.includes(color)) || "";
+        }
+
+        function parseSubcollections(value) {
+            if (Array.isArray(value)) return value.filter(Boolean);
+            if (!value) return [];
+            if (typeof value === "string") {
+                try {
+                    const parsed = JSON.parse(value);
+                    if (Array.isArray(parsed)) return parsed.filter(Boolean);
+                } catch {
+                    return value.split(/\r?\n|,/).map((item) => item.trim()).filter(Boolean);
+                }
+            }
+            return [];
+        }
+
+        function parseJsonList(value) {
+            if (Array.isArray(value)) return value;
+            if (typeof value === "string" && value.trim()) {
+                try {
+                    const parsed = JSON.parse(value);
+                    return Array.isArray(parsed) ? parsed : [];
+                } catch {
+                    return [];
+                }
+            }
+            return [];
+        }
+
+        function normalizeText(value) {
+            return String(value || "").trim().replace(/\s+/g, " ");
+        }
+
+        function normalizePrice(value) {
+            const cleanValue = String(value || "0").replace(/[^\d]/g, "");
+            return Number.parseInt(cleanValue || "0", 10);
+        }
+
+        function normalizeMediaUrl(value) {
+            const url = normalizeText(value);
+            if (!url) return "";
+            if (/^(data:|blob:|\/|\.\/|\.\.\/)/i.test(url)) return url;
+            const withProtocol = url.startsWith("www.") ? `https://${url}` : url;
+            try {
+                const parsed = new URL(withProtocol);
+                if (parsed.hostname.includes("drive.google.com")) {
+                    const parts = parsed.pathname.split("/").filter(Boolean);
+                    const fileIndex = parts.indexOf("file");
+                    const id = parsed.searchParams.get("id") || (fileIndex >= 0 ? parts[fileIndex + 2] : "");
+                    return id ? `https://drive.google.com/uc?export=view&id=${encodeURIComponent(id)}` : withProtocol;
+                }
+                if (parsed.hostname.includes("dropbox.com")) {
+                    parsed.searchParams.set("raw", "1");
+                    return parsed.toString();
+                }
+            } catch {
+                return withProtocol;
+            }
+            return withProtocol;
+        }
+
+        function canonicalCollectionName(value) {
+            const text = normalizeText(value);
+            const key = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            if (key === "collection couronne d'epine") return "Collection couronne d'épine";
+            if (key === "collection rachat") return "Collection rachat";
+            if (key === "collection evangeliste yann dayere (ev.yd)") return "Collection evangeliste Yann Dayere (Ev.YD)";
+            return text;
+        }
+
+        function normalizeTextList(value) {
+            return String(value || "")
+                .split(/\r?\n|,/)
+                .map((item) => normalizeText(item))
+                .filter(Boolean);
+        }
+
+        function emptyState(message) {
+            return `<div class="record-card"><p>${message}</p></div>`;
+        }
+
+        function formatPrice(price) {
+            return `${price.toLocaleString("fr-FR")} FCFA`;
+        }
+
+        function formatDate(value) {
+            if (!value) return "-";
+            return new Intl.DateTimeFormat("fr-FR", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
+        }
+
+        function getLocationLink(order) {
+            const latitude = Number(order.latitude);
+            const longitude = Number(order.longitude);
+            if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return "";
+
+            const accuracy = Number(order.location_accuracy);
+            const accuracyLabel = Number.isFinite(accuracy) ? ` (${Math.round(accuracy)} m)` : "";
+            const label = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}${accuracyLabel}`;
+            const mapsUrl = `https://www.google.com/maps?q=${encodeURIComponent(`${latitude},${longitude}`)}`;
+            return `<a href="${mapsUrl}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`;
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+    </script>
+</body>
+
+</html>

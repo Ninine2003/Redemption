@@ -1,0 +1,19 @@
+# Local Netlify folder
+.netlify
+
+# Local build output
+dist
+
+# Dependencies
+node_modules
+
+# Test and debug output
+test-results
+playwright-report
+debug.log
+*.log
+
+# Local environment files
+.env
+.env.*
+!.env.example

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://house-of-redemption.netlify.app/sitemap.xml
