@@ -18,30 +18,30 @@
         ═══════════════════════════════════════════════════ */
 
         :root {
-            --accent:      #76594B;
-            --accent-dk:   #5A3D32;
-            --accent-lt:   #A07868;
-            --accent-pale: rgba(118,89,75,0.08);
-            --bg:          #F6F2EE;
+            --accent:      #0E7A56;
+            --accent-dk:   #0A5C41;
+            --accent-lt:   #16A472;
+            --accent-pale: rgba(14,122,86,0.08);
+            --bg:          #F4F7F5;
             --surface:     #FFFFFF;
-            --surface-2:   #FAF7F4;
-            --surface-3:   #F2EDE8;
-            --sidebar-bg:  #1A1210;
-            --ink:         #18120E;
-            --ink-2:       #3C3028;
-            --muted:       #7C726C;
-            --line:        rgba(24,18,14,0.08);
-            --line-2:      rgba(24,18,14,0.15);
-            --sh-xs: 0 1px 3px rgba(18,12,8,0.06);
-            --sh-sm: 0 2px 8px rgba(18,12,8,0.07), 0 6px 20px rgba(18,12,8,0.04);
-            --sh-md: 0 4px 16px rgba(18,12,8,0.09), 0 16px 48px rgba(18,12,8,0.05);
-            --sh-lg: 0 8px 32px rgba(18,12,8,0.11), 0 28px 72px rgba(18,12,8,0.07);
+            --surface-2:   #F7FAF8;
+            --surface-3:   #EDF4F0;
+            --sidebar-bg:  #0B1A14;
+            --ink:         #0F1A15;
+            --ink-2:       #2C3A33;
+            --muted:       #6B7C74;
+            --line:        rgba(15,26,21,0.08);
+            --line-2:      rgba(15,26,21,0.15);
+            --sh-xs: 0 1px 3px rgba(11,26,20,0.06);
+            --sh-sm: 0 2px 8px rgba(11,26,20,0.07), 0 6px 20px rgba(11,26,20,0.04);
+            --sh-md: 0 4px 16px rgba(11,26,20,0.09), 0 16px 48px rgba(11,26,20,0.05);
+            --sh-lg: 0 8px 32px rgba(11,26,20,0.11), 0 28px 72px rgba(11,26,20,0.07);
             --success:  #16A34A;
             --warning:  #D97706;
             --info:     #2563EB;
-            --danger:   #76594B;
-            --green:    #76594B;
-            --gold:     #A07868;
+            --danger:   #DC2626;
+            --green:    #16A34A;
+            --gold:     #C9A227;
             --font-title: "Syne", system-ui, sans-serif;
             --font-body:  "Plus Jakarta Sans", system-ui, sans-serif;
             --sidebar-w: 250px;
@@ -86,9 +86,9 @@
             justify-content: center;
             padding: 24px;
             background:
-                radial-gradient(ellipse at 18% 18%, rgba(118,89,75,0.25) 0%, transparent 52%),
-                radial-gradient(ellipse at 82% 82%, rgba(90,61,50,0.18) 0%, transparent 52%),
-                linear-gradient(145deg, #1A1210 0%, #2C1E18 55%, #1A1210 100%);
+                radial-gradient(ellipse at 18% 18%, rgba(14,122,86,0.25) 0%, transparent 52%),
+                radial-gradient(ellipse at 82% 82%, rgba(10,92,65,0.18) 0%, transparent 52%),
+                linear-gradient(145deg, #0B1A14 0%, #10271D 55%, #0B1A14 100%);
         }
 
         .login-card {
@@ -99,15 +99,22 @@
             background: rgba(255,255,255,0.035);
             backdrop-filter: blur(28px);
             -webkit-backdrop-filter: blur(28px);
-            box-shadow: 0 0 0 1px rgba(118,89,75,0.22), 0 40px 90px rgba(0,0,0,0.55);
+            box-shadow: 0 0 0 1px rgba(14,122,86,0.22), 0 40px 90px rgba(0,0,0,0.55);
         }
 
         .login-card h1 {
-            font-size: 2.3rem;
+            font-size: clamp(1.5rem, 7vw, 2rem);
             font-weight: 800;
-            color: #fff;
-            letter-spacing: 0.14em;
+            letter-spacing: 0.04em;
             margin-bottom: 5px;
+            line-height: 1.05;
+            max-width: 100%;
+            overflow-wrap: break-word;
+            background: linear-gradient(120deg, #ffffff 0%, #FBE7A8 45%, #C9A227 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #C9A227;
         }
 
         .login-card p {
@@ -145,9 +152,9 @@
         .login-card input::placeholder { color: rgba(255,255,255,0.28); }
 
         .login-card input:focus {
-            border-color: rgba(118,89,75,0.65);
+            border-color: rgba(14,122,86,0.65);
             background: rgba(255,255,255,0.1);
-            box-shadow: 0 0 0 4px rgba(118,89,75,0.16);
+            box-shadow: 0 0 0 4px rgba(14,122,86,0.16);
         }
 
         .login-card button[type="submit"] {
@@ -160,7 +167,7 @@
             margin-top: 8px;
             border: none;
             border-radius: 11px;
-            background: linear-gradient(135deg, #76594B, #A07868);
+            background: linear-gradient(135deg, #0E7A56, #C9A227);
             color: #fff;
             font-family: var(--font-title);
             font-size: 0.96rem;
@@ -168,13 +175,13 @@
             letter-spacing: 0.1em;
             cursor: pointer;
             transition: opacity 0.18s, transform 0.15s, box-shadow 0.2s;
-            box-shadow: 0 10px 28px rgba(118,89,75,0.38);
+            box-shadow: 0 10px 28px rgba(14,122,86,0.38);
         }
 
         .login-card button[type="submit"]:hover {
             opacity: 0.93;
             transform: translateY(-2px);
-            box-shadow: 0 14px 36px rgba(118,89,75,0.44);
+            box-shadow: 0 14px 36px rgba(14,122,86,0.44);
         }
 
         /* ═══════════════════════════════════════════════
@@ -291,8 +298,8 @@
         }
 
         .tab-btn.active {
-            background: rgba(118,89,75,0.22);
-            border-color: rgba(118,89,75,0.4);
+            background: rgba(14,122,86,0.22);
+            border-color: rgba(14,122,86,0.4);
             color: #fff;
             font-weight: 600;
             box-shadow: none;
@@ -370,7 +377,7 @@
         .stat-card:hover {
             transform: translateY(-3px);
             box-shadow: var(--sh-md);
-            border-color: rgba(118,89,75,0.18);
+            border-color: rgba(14,122,86,0.18);
         }
 
         .stat-card:hover::after { opacity: 1; }
@@ -439,7 +446,7 @@
         .record-card:hover {
             transform: translateY(-2px);
             box-shadow: var(--sh-md);
-            border-color: rgba(118,89,75,0.16);
+            border-color: rgba(14,122,86,0.16);
         }
 
         .records-grid, .products-list, .videos-list { display: grid; gap: 10px; }
@@ -487,7 +494,7 @@
         button:hover {
             background: var(--accent-dk);
             transform: translateY(-1px);
-            box-shadow: 0 6px 18px rgba(118,89,75,0.24);
+            box-shadow: 0 6px 18px rgba(14,122,86,0.24);
         }
 
         button:active { transform: translateY(0); box-shadow: none; }
@@ -535,7 +542,7 @@
 
         input:focus, select:focus, textarea:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(118,89,75,0.11);
+            box-shadow: 0 0 0 3px rgba(14,122,86,0.11);
             background: #fff;
         }
 
@@ -551,7 +558,7 @@
             gap: 4px;
             padding: 2px 9px;
             border-radius: 999px;
-            background: rgba(118,89,75,0.1);
+            background: rgba(14,122,86,0.1);
             color: var(--accent-dk);
             font-size: 0.74rem;
             font-weight: 700;
@@ -600,7 +607,7 @@
         }
 
         .order-item:hover, .product-row:hover, .video-row:hover {
-            border-color: rgba(118,89,75,0.16);
+            border-color: rgba(14,122,86,0.16);
             box-shadow: var(--sh-xs);
         }
 
@@ -637,7 +644,7 @@
             min-height: 33px; padding: 0 12px; border-radius: 7px;
         }
 
-        .delete-btn:hover { background: #1A1210; box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
+        .delete-btn:hover { background: #0B1A14; box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
 
         .wave-delete-btn {
             width: 34px; height: 34px; min-height: 0; padding: 0;
@@ -647,12 +654,12 @@
 
         .order-delete-btn {
             min-height: 33px; padding: 0 12px; border-radius: 7px;
-            background: #1A1210; color: rgba(255,255,255,0.85); font-size: 0.79rem;
+            background: #0B1A14; color: rgba(255,255,255,0.85); font-size: 0.79rem;
         }
 
         .bulk-delete-btn {
             min-height: 35px; padding: 0 14px;
-            border: 1.5px solid rgba(118,89,75,0.28); border-radius: 999px;
+            border: 1.5px solid rgba(14,122,86,0.28); border-radius: 999px;
             background: var(--surface); color: var(--accent-dk);
             font-size: 0.8rem; font-weight: 700; box-shadow: none;
             overflow-wrap: anywhere; white-space: normal;
@@ -672,7 +679,7 @@
             box-shadow: none; color: #fff; overflow-wrap: anywhere; white-space: normal;
         }
 
-        .status-pending, .status-btn[data-status="pending"]               { background: var(--warning); color: #1A1210; }
+        .status-pending, .status-btn[data-status="pending"]               { background: var(--warning); color: #0B1A14; }
         .status-pending_review, .status-btn[data-status="pending_review"]  { background: #92400E; }
         .status-shipping, .status-btn[data-status="shipping"]              { background: var(--info); }
         .status-delivered, .status-btn[data-status="delivered"]            { background: var(--success); }
@@ -734,13 +741,13 @@
 
         .status-succeeded, .wave-card-succeeded .pill-status { background: var(--success); color: #fff; }
         .status-pending, .wave-card-pending .pill-status,
-        .wave-card-pending_review .pill-status                { background: var(--warning); color: #1A1210; }
+        .wave-card-pending_review .pill-status                { background: var(--warning); color: #0B1A14; }
         .status-cancelled, .status-failed,
         .wave-card-cancelled .pill-status,
-        .wave-card-failed .pill-status                         { background: var(--accent-dk); color: #fff; }
+        .wave-card-failed .pill-status                         { background: var(--danger); color: #fff; }
 
         .wave-card-succeeded  { border-color: rgba(22,163,74,0.26); background: linear-gradient(135deg, #fff, #F0FBF5); }
-        .wave-card-cancelled, .wave-card-failed { border-color: rgba(118,89,75,0.26); background: linear-gradient(135deg, #fff, #FDF6F1); }
+        .wave-card-cancelled, .wave-card-failed { border-color: rgba(220,38,38,0.22); background: linear-gradient(135deg, #fff, #FEF2F2); }
         .wave-card-pending, .wave-card-pending_review { border-color: rgba(217,119,6,0.23); background: linear-gradient(135deg, #fff, #FFFBEB); }
 
         /* ═══════════════════════════════════════════════
@@ -769,12 +776,12 @@
 
         .video-upload-frame {
             display: grid; gap: 8px; padding: 20px;
-            border: 1.5px dashed rgba(118,89,75,0.28); border-radius: var(--r);
+            border: 1.5px dashed rgba(14,122,86,0.28); border-radius: var(--r);
             background: var(--accent-pale); cursor: pointer;
             transition: border-color 0.15s, background 0.15s;
         }
 
-        .video-upload-frame:hover { border-color: var(--accent); background: rgba(118,89,75,0.06); }
+        .video-upload-frame:hover { border-color: var(--accent); background: rgba(14,122,86,0.06); }
         .video-upload-frame strong { font-size: 0.9rem; color: var(--ink); }
         .video-upload-frame span { color: var(--muted); font-size: 0.84rem; line-height: 1.45; }
         .video-upload-frame input { padding: 0; border: 0; background: transparent; height: auto; min-height: 0; }
@@ -795,8 +802,8 @@
             white-space: nowrap !important;
         }
 
-        .color-option:hover { border-color: rgba(118,89,75,0.4); }
-        .color-option.active { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(118,89,75,0.14); }
+        .color-option:hover { border-color: rgba(14,122,86,0.4); }
+        .color-option.active { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(14,122,86,0.14); }
 
         .color-swatch {
             width: 20px; height: 20px; flex: 0 0 auto;
@@ -808,8 +815,8 @@
         .add-custom-color-btn {
             display: flex; align-items: center; justify-content: center;
             width: 34px; height: 34px; min-height: 0;
-            border: 2px dashed rgba(118,89,75,0.4); border-radius: 50%;
-            background: transparent; color: rgba(118,89,75,0.65);
+            border: 2px dashed rgba(14,122,86,0.4); border-radius: 50%;
+            background: transparent; color: rgba(14,122,86,0.65);
             font-size: 1.3rem; font-weight: 300; line-height: 1;
             box-shadow: none; flex: 0 0 auto; cursor: pointer;
             transition: border-color 0.14s, color 0.14s;
@@ -826,7 +833,7 @@
         }
 
         .custom-swatch-btn:hover { transform: scale(1.1); box-shadow: none; }
-        .custom-swatch-btn.active { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(118,89,75,0.2); }
+        .custom-swatch-btn.active { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(14,122,86,0.2); }
 
         .color-picker-popup {
             position: absolute; z-index: 600; top: calc(100% + 8px); left: 0;
@@ -879,7 +886,7 @@
 
         .hex-input-field:focus {
             border-color: var(--accent) !important; background: #fff !important;
-            box-shadow: 0 0 0 3px rgba(118,89,75,0.11) !important;
+            box-shadow: 0 0 0 3px rgba(14,122,86,0.11) !important;
         }
 
         .eyedropper-btn {
@@ -908,7 +915,7 @@
             color: #fff; font-size: 0.79rem; font-weight: 700; box-shadow: none; white-space: nowrap;
         }
 
-        .popup-add-btn:hover { background: var(--accent); box-shadow: 0 4px 12px rgba(118,89,75,0.28); transform: none; }
+        .popup-add-btn:hover { background: var(--accent); box-shadow: 0 4px 12px rgba(14,122,86,0.28); transform: none; }
 
         /* ═══════════════════════════════════════════════
            RESPONSIVE
@@ -982,8 +989,8 @@
                 <nav class="tabs" aria-label="Sections dashboard">
                     <button class="tab-btn active" type="button" data-tab="ordersPanel">Commandes</button>
                     <button class="tab-btn" type="button" data-tab="abandonedCheckoutsPanel">Paniers abandonnes</button>
-                    <button class="tab-btn" type="button" data-tab="wavePaymentsPanel">Paiements Wave</button>
-                    <button class="tab-btn" type="button" data-tab="waveHistoryPanel">Historique Wave</button>
+                    <button class="tab-btn" type="button" data-tab="wavePaymentsPanel">Paiements Money Fusion</button>
+                    <button class="tab-btn" type="button" data-tab="waveHistoryPanel">Historique Money Fusion</button>
                     <button class="tab-btn" type="button" data-tab="statsPanel">Statistique</button>
                     <button class="tab-btn" type="button" data-tab="cancelledOrdersPanel">Annule</button>
                     <button class="tab-btn" type="button" data-tab="shippingOrdersPanel">En cours de livraison</button>
@@ -1011,7 +1018,7 @@
                     <article class="stat-card" data-tab="incomingPanel" role="button" tabindex="0"><strong id="incomingCount">0</strong><span>Arrivages</span></article>
                     <article class="stat-card" data-tab="messagesPanel" role="button" tabindex="0"><strong id="messagesCount">0</strong><span>Messages</span></article>
                     <article class="stat-card" data-tab="newsletterPanel" role="button" tabindex="0"><strong id="newsletterCount">0</strong><span>Newsletter</span></article>
-                    <article class="stat-card" data-tab="waveHistoryPanel" role="button" tabindex="0"><strong id="waveSuccessTotal">0 FCFA</strong><span>Total Wave succes</span></article>
+                    <article class="stat-card" data-tab="waveHistoryPanel" role="button" tabindex="0"><strong id="waveSuccessTotal">0 FCFA</strong><span>Total Money Fusion succes</span></article>
                 </section>
 
                 <section id="statsPanel" class="panel tab-panel hidden" aria-live="polite">
@@ -1070,12 +1077,12 @@
                 <section id="wavePaymentsPanel" class="panel tab-panel hidden" aria-live="polite">
                     <div class="panel-head">
                         <div>
-                            <h2>Paiements Wave</h2>
-                            <p>Paiements en attente ou confirmes apres verification Wave.</p>
+                            <h2>Paiements Money Fusion</h2>
+                            <p>Paiements en attente ou confirmes apres verification Money Fusion.</p>
                         </div>
                         <button class="bulk-delete-btn" type="button" data-bulk-delete="waveActive">Tout supprimer</button>
                     </div>
-                    <div class="wave-filter-tabs" aria-label="Filtrer les paiements Wave">
+                    <div class="wave-filter-tabs" aria-label="Filtrer les paiements Money Fusion">
                         <button class="wave-filter-btn active" type="button" data-wave-filter="active">Paiements actifs</button>
                         <button class="wave-filter-btn" type="button" data-wave-filter="cancelled">Paiements annules</button>
                     </div>
@@ -1085,8 +1092,8 @@
                 <section id="waveHistoryPanel" class="panel tab-panel hidden" aria-live="polite">
                     <div class="panel-head">
                         <div>
-                            <h2>Historique Wave</h2>
-                            <p>Tous les paiements Wave avec couleurs par statut: valide, annule ou a verifier.</p>
+                            <h2>Historique Money Fusion</h2>
+                            <p>Tous les paiements Money Fusion avec couleurs par statut: valide, annule ou a verifier.</p>
                         </div>
                         <button class="bulk-delete-btn" type="button" data-bulk-delete="waveHistory">Tout supprimer</button>
                     </div>
@@ -1613,21 +1620,21 @@
             if (paidButton?.dataset.reference) {
                 event.preventDefault();
                 event.stopPropagation();
-                if (!confirm("Marquer ce paiement Wave comme valide apres verification ?")) return;
+                if (!confirm("Marquer ce paiement Money Fusion comme valide apres verification ?")) return;
                 await updateWavePaymentStatus(paidButton.dataset.reference, "succeeded");
                 return;
             }
             if (cancelButton?.dataset.reference) {
                 event.preventDefault();
                 event.stopPropagation();
-                if (!confirm("Marquer ce paiement Wave comme annule ?")) return;
+                if (!confirm("Marquer ce paiement Money Fusion comme annule ?")) return;
                 await updateWavePaymentStatus(cancelButton.dataset.reference, "cancelled");
                 return;
             }
             if (deleteButton?.dataset.reference) {
                 event.preventDefault();
                 event.stopPropagation();
-                if (!confirm("Supprimer ce paiement Wave recu du dashboard ?")) return;
+                if (!confirm("Supprimer ce paiement Money Fusion recu du dashboard ?")) return;
                 await deleteWavePayment(deleteButton.dataset.reference);
             }
         });
@@ -1637,7 +1644,7 @@
             if (!deleteButton?.dataset.reference) return;
             event.preventDefault();
             event.stopPropagation();
-            if (!confirm("Supprimer ce paiement Wave recu du dashboard ?")) return;
+            if (!confirm("Supprimer ce paiement Money Fusion recu du dashboard ?")) return;
             await deleteWavePayment(deleteButton.dataset.reference);
         });
 
@@ -1899,6 +1906,52 @@
             loginScreen.style.display = "none";
             dashboard.classList.add("active");
             await loadDashboard();
+            startRealtimeRefresh();
+        }
+
+        // Paiements échoués : jamais affichés dans le dashboard (demande client).
+        function excludeFailedPayments(payments) {
+            return (payments || []).filter(
+                (payment) => String(payment.status || "").toLowerCase() !== "failed"
+            );
+        }
+
+        // Rafraîchissement temps réel : recharge paiements + commandes toutes les
+        // 15 s et met à jour les vues concernées, sans perturber les formulaires.
+        let realtimeTimer = null;
+        let realtimeBusy = false;
+        function startRealtimeRefresh() {
+            if (realtimeTimer) clearInterval(realtimeTimer);
+            realtimeTimer = setInterval(refreshPaymentsRealtime, 15000);
+        }
+
+        async function refreshPaymentsRealtime() {
+            if (document.hidden || realtimeBusy) return;
+            if (!dashboard.classList.contains("active")) return;
+            realtimeBusy = true;
+            try {
+                const [orders, rawWavePayments] = await Promise.all([
+                    loadRecords(TABLES.orders, "redemption_orders"),
+                    loadRecords(TABLES.wavePayments, "redemption_wave_payments"),
+                ]);
+                const wavePayments = excludeFailedPayments(applyWavePaymentOverrides(rawWavePayments));
+                currentOrders = orders;
+                currentWavePayments = wavePayments;
+                if (ordersCount) ordersCount.textContent = orders.length;
+                if (waveSuccessTotal) waveSuccessTotal.textContent = formatPrice(getWaveSuccessTotal(wavePayments));
+                renderWavePayments(wavePayments);
+                renderWaveHistory(wavePayments);
+                renderOrders(orders);
+                renderOrderStats(orders);
+                if (statusText) {
+                    const now = new Date();
+                    statusText.textContent = `Temps réel · maj ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(now.getSeconds()).padStart(2, "0")}`;
+                }
+            } catch (error) {
+                console.error("Refresh temps réel échoué:", error);
+            } finally {
+                realtimeBusy = false;
+            }
         }
 
         async function loadDashboard() {
@@ -1913,7 +1966,7 @@
                 loadRecords(TABLES.newsletter, "redemption_newsletter_subscribers"),
                 loadRecords(TABLES.wavePayments, "redemption_wave_payments"),
             ]);
-            const wavePayments = applyWavePaymentOverrides(rawWavePayments);
+            const wavePayments = excludeFailedPayments(applyWavePaymentOverrides(rawWavePayments));
 
             ordersCount.textContent = orders.length;
             if (collectionsCount) collectionsCount.textContent = collections.length;
@@ -2816,12 +2869,12 @@
                 "reference"
             );
             if (!apiResult.ok && apiResult.error) {
-                statusText.textContent = `Paiement Wave mis a jour localement. ${apiResult.error}`;
+                statusText.textContent = `Paiement Money Fusion mis a jour localement. ${apiResult.error}`;
                 await loadDashboard();
                 return;
             }
 
-            statusText.textContent = status === "succeeded" ? "Paiement Wave marque comme valide." : "Paiement Wave mis a jour.";
+            statusText.textContent = status === "succeeded" ? "Paiement Money Fusion marque comme valide." : "Paiement Money Fusion mis a jour.";
             await loadDashboard();
         }
 
@@ -2844,7 +2897,7 @@
                 return;
             }
 
-            statusText.textContent = "Paiement Wave supprime du dashboard.";
+            statusText.textContent = "Paiement Money Fusion supprime du dashboard.";
             await loadDashboard();
         }
 
@@ -2897,8 +2950,8 @@
                 bestsellers: { label: "Articles populaires", table: TABLES.bestsellers, localKey: null, records: currentBestsellers, mode: "soft" },
                 messages: { label: "Messages formulaire", table: TABLES.messages, localKey: "redemption_contact_messages", records: currentMessages, mode: "hard" },
                 newsletter: { label: "Newsletter", table: TABLES.newsletter, localKey: "redemption_newsletter_subscribers", records: currentNewsletter, mode: "hard" },
-                waveActive: { label: currentWaveFilter === "cancelled" ? "Paiements Wave annules" : "Paiements Wave actifs", table: TABLES.wavePayments, localKey: "redemption_wave_payments", records: waveActive, mode: "hard", referenceField: true },
-                waveHistory: { label: "Historique Wave", table: TABLES.wavePayments, localKey: "redemption_wave_payments", records: currentWavePayments, mode: "hard", referenceField: true },
+                waveActive: { label: currentWaveFilter === "cancelled" ? "Paiements Money Fusion annules" : "Paiements Money Fusion actifs", table: TABLES.wavePayments, localKey: "redemption_wave_payments", records: waveActive, mode: "hard", referenceField: true },
+                waveHistory: { label: "Historique Money Fusion", table: TABLES.wavePayments, localKey: "redemption_wave_payments", records: currentWavePayments, mode: "hard", referenceField: true },
             };
             const config = configs[type];
             if (!config) return null;
@@ -3517,7 +3570,7 @@
                 ? payments.filter((payment) => isWavePaymentCancelled(payment.status))
                 : payments.filter((payment) => !isWavePaymentCancelled(payment.status));
             if (!visiblePayments.length) {
-                wavePaymentsGrid.innerHTML = emptyState(currentWaveFilter === "cancelled" ? "Aucun paiement Wave annule pour le moment." : "Aucun paiement Wave actif pour le moment.");
+                wavePaymentsGrid.innerHTML = emptyState(currentWaveFilter === "cancelled" ? "Aucun paiement Money Fusion annule pour le moment." : "Aucun paiement Money Fusion actif pour le moment.");
                 return;
             }
 
@@ -3527,7 +3580,7 @@
         function renderWaveHistory(payments) {
             if (!waveHistoryGrid) return;
             if (!payments.length) {
-                waveHistoryGrid.innerHTML = emptyState("Aucun historique Wave pour le moment.");
+                waveHistoryGrid.innerHTML = emptyState("Aucun historique Money Fusion pour le moment.");
                 return;
             }
             waveHistoryGrid.innerHTML = payments.map((payment) => renderWavePaymentCard(payment, { compactHistory: true })).join("");
@@ -3543,7 +3596,7 @@
                     <article class="record-card wave-card-${escapeHtml(status)}">
                         <div class="record-top">
                             <div>
-                                <h2>${escapeHtml(reference || "Paiement Wave")}</h2>
+                                <h2>${escapeHtml(reference || "Paiement Money Fusion")}</h2>
                                 <p>${formatDate(payment.created_at)}</p>
                             </div>
                             <div class="row-actions">
@@ -3551,7 +3604,7 @@
                                 <span class="pill pill-status status-${escapeHtml(status)}">${escapeHtml(formatWavePaymentStatus(status))}</span>
                                 ${!options.compactHistory && !isSucceeded && !isCancelled ? `<button class="status-btn wave-paid-btn" type="button" data-reference="${escapeHtml(reference)}">Marquer paye</button>` : ""}
                                 ${!options.compactHistory && !isCancelled ? `<button class="status-btn status-cancelled wave-cancel-btn" type="button" data-reference="${escapeHtml(reference)}">Paiement annule</button>` : ""}
-                                <button class="wave-delete-btn" type="button" data-reference="${escapeHtml(reference)}" aria-label="Supprimer le paiement ${escapeHtml(reference || "Wave")}">X</button>
+                                <button class="wave-delete-btn" type="button" data-reference="${escapeHtml(reference)}" aria-label="Supprimer le paiement ${escapeHtml(reference || "Money Fusion")}">X</button>
                             </div>
                         </div>
                         <div class="meta">

@@ -9,6 +9,8 @@
 // Money Fusion doit appeler cette fonction en POST :
 //   https://<site>/.netlify/functions/moneyfusion-webhook
 
+const { sendPaymentConfirmationEmail } = require("./lib/email");
+
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://mwbmzwohtisnpjayejkw.supabase.co";
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const STATUS_API = "https://www.pay.moneyfusion.net/paiementNotif";
@@ -57,13 +59,27 @@ exports.handler = async (event) => {
     return { statusCode: 200, body: "No service key" };
   }
 
-  // Idempotence : on ne réécrit pas si le statut est déjà à jour.
-  const current = await getCurrentStatus(reference);
-  if (current === newStatus) {
+  // On récupère la ligne de paiement (statut actuel + infos client pour l'email).
+  const payment = await fetchPayment(reference);
+
+  // Idempotence : on ne réécrit pas (ni ne renvoie d'email) si déjà à jour.
+  if (payment && payment.status === newStatus) {
     return { statusCode: 200, body: "No change" };
   }
 
-  await updatePaymentStatus(reference, newStatus, token);
+  await updatePaymentStatus(reference, newStatus);
+
+  // Email de confirmation : uniquement sur un paiement réussi.
+  if (newStatus === "succeeded" && payment) {
+    await sendPaymentConfirmationEmail({
+      email: payment.customer_email,
+      firstName: payment.customer_first_name,
+      reference,
+      amount: payment.amount,
+      items: Array.isArray(payment.items) ? payment.items : safeParseItems(payment.items),
+    });
+  }
+
   return { statusCode: 200, body: "OK" };
 };
 
@@ -73,12 +89,13 @@ function extractReference(payload) {
   return String(info?.orderId || "").trim();
 }
 
-// Traduit le statut Money Fusion vers notre modèle (paid / failed). Renvoie null
-// pour les états transitoires (pending) qui ne déclenchent pas de mise à jour.
+// Traduit le statut Money Fusion vers notre modèle. On utilise "succeeded" pour
+// un paiement réussi (cohérent avec le dashboard) et "failed" pour un échec.
+// Renvoie null pour les états transitoires (pending) qui ne déclenchent rien.
 function mapStatus(raw) {
   const value = String(raw || "").toLowerCase();
   if (value.includes("paid") || value.includes("success") || value.includes("completed")) {
-    return "paid";
+    return "succeeded";
   }
   if (value.includes("fail") || value.includes("cancel") || value.includes("no paid") || value.includes("expired")) {
     return "failed";
@@ -86,10 +103,11 @@ function mapStatus(raw) {
   return null;
 }
 
-async function getCurrentStatus(reference) {
+// Récupère la ligne wave_payments (statut + infos client) pour l'idempotence et l'email.
+async function fetchPayment(reference) {
   try {
     const res = await fetch(
-      `${SUPABASE_URL.replace(/\/$/, "")}/rest/v1/wave_payments?reference=eq.${encodeURIComponent(reference)}&select=status`,
+      `${SUPABASE_URL.replace(/\/$/, "")}/rest/v1/wave_payments?reference=eq.${encodeURIComponent(reference)}&select=status,customer_email,customer_first_name,amount,items&limit=1`,
       {
         headers: {
           apikey: SUPABASE_SERVICE_KEY,
@@ -98,14 +116,16 @@ async function getCurrentStatus(reference) {
       }
     );
     const rows = await res.json().catch(() => []);
-    return Array.isArray(rows) && rows[0] ? String(rows[0].status) : null;
+    return Array.isArray(rows) && rows[0] ? rows[0] : null;
   } catch {
     return null;
   }
 }
 
-async function updatePaymentStatus(reference, newStatus, token) {
-  const paidAt = newStatus === "paid" ? new Date().toISOString() : null;
+async function updatePaymentStatus(reference, newStatus) {
+  const validatedAt = newStatus === "succeeded" ? new Date().toISOString() : null;
+  // orders.payment_status reste sur le vocabulaire du site (paid / failed).
+  const orderPaymentStatus = newStatus === "succeeded" ? "paid" : "failed";
 
   await fetch(
     `${SUPABASE_URL.replace(/\/$/, "")}/rest/v1/orders?wave_reference=eq.${encodeURIComponent(reference)}`,
@@ -117,7 +137,7 @@ async function updatePaymentStatus(reference, newStatus, token) {
         "Content-Type": "application/json",
         prefer: "return=minimal",
       },
-      body: JSON.stringify({ payment_status: newStatus }),
+      body: JSON.stringify({ payment_status: orderPaymentStatus }),
     }
   );
 
@@ -131,10 +151,20 @@ async function updatePaymentStatus(reference, newStatus, token) {
         "Content-Type": "application/json",
         prefer: "return=minimal",
       },
-      body: JSON.stringify({
-        status: newStatus,
-        validated_at: newStatus === "paid" ? paidAt : null,
-      }),
+      body: JSON.stringify({ status: newStatus, validated_at: validatedAt }),
     }
   );
+}
+
+function safeParseItems(value) {
+  if (Array.isArray(value)) return value;
+  if (typeof value === "string") {
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
 }
