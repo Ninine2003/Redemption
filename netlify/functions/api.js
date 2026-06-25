@@ -6,14 +6,18 @@ const READ_TABLES = {
   collections: "is_active=eq.true",
   incoming_products: "is_active=eq.true",
   site_videos: "status=eq.active",
+  bestsellers: "is_active=eq.true",
 };
 
+// Tables où le site public peut INSÉRER ses soumissions (jamais lire/modifier).
+// Les articles populaires (bestsellers) sont gérés par le dashboard via admin-api.
 const WRITE_TABLES = new Set([
   "orders",
   "contact_messages",
   "newsletter_subscribers",
   "wave_payments",
   "abandoned_checkouts",
+  "push_subscriptions",
 ]);
 
 const memoryCache = new Map();
@@ -67,7 +71,7 @@ async function writeRecord(event) {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      prefer: table === "abandoned_checkouts" ? "resolution=merge-duplicates,return=minimal" : "return=minimal",
+      prefer: (table === "abandoned_checkouts" || table === "push_subscriptions") ? "resolution=merge-duplicates,return=minimal" : "return=minimal",
     },
     body: JSON.stringify(payload),
   });

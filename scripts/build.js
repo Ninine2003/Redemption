@@ -6,6 +6,12 @@ const outDir = path.join(root, "dist");
 
 const publicEntries = [
   "index.html",
+  "boutique.html",
+  "collections.html",
+  "histoire.html",
+  "arrivages.html",
+  "galerie.html",
+  "contact.html",
   "dashboard.html",
   "product.html",
   "wave-payment.html",
@@ -41,7 +47,7 @@ for (const entry of publicEntries) {
 
 const version = Date.now().toString(36);
 const buildDate = new Date().toISOString();
-for (const htmlFile of ["index.html", "dashboard.html", "product.html", "wave-payment.html", "payment-success.html"]) {
+for (const htmlFile of ["index.html", "boutique.html", "collections.html", "histoire.html", "arrivages.html", "galerie.html", "contact.html", "dashboard.html", "product.html", "wave-payment.html", "payment-success.html"]) {
   const filePath = path.join(outDir, htmlFile);
   let html = fs.readFileSync(filePath, "utf8");
   html = html
@@ -61,16 +67,9 @@ for (const htmlFile of ["index.html", "dashboard.html", "product.html", "wave-pa
     }
   }
 
-  if (htmlFile === "dashboard.html") {
-    const dashboardUsername = process.env.DASHBOARD_USERNAME || "";
-    const dashboardPassword = process.env.DASHBOARD_PASSWORD || "";
-
-    if (dashboardUsername && dashboardPassword) {
-      html = html
-        .replace('const DASHBOARD_USERNAME = "YOUR_DASHBOARD_USERNAME";', `const DASHBOARD_USERNAME = ${JSON.stringify(dashboardUsername)};`)
-        .replace('const DASHBOARD_PASSWORD = "YOUR_DASHBOARD_PASSWORD";', `const DASHBOARD_PASSWORD = ${JSON.stringify(dashboardPassword)};`);
-    }
-  }
+  // L'authentification admin est désormais gérée côté serveur (Netlify Functions
+  // admin-login / admin-session avec ADMIN_USERNAME / ADMIN_PASSWORD_HASH /
+  // ADMIN_SESSION_SECRET). Aucun identifiant n'est injecté dans le HTML.
 
   fs.writeFileSync(filePath, html);
 }

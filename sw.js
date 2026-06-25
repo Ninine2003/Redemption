@@ -1,5 +1,5 @@
 // Cache PWA : changer ce nom force les navigateurs a prendre la derniere version.
-const CACHE_NAME = "redemption-v64";
+const CACHE_NAME = "redemption-v65";
 const APP_SHELL = [
   "/",
   "/index.html",
@@ -104,6 +104,45 @@ self.addEventListener("message", (event) => {
       vibrate: [120, 80, 120]
     });
   }
+});
+
+// Reçoit les push envoyés depuis le serveur (web-push VAPID).
+self.addEventListener("push", (event) => {
+  let data = {};
+  try { data = event.data ? event.data.json() : {}; } catch {}
+  const title = data.title || "House of Redemption";
+  const options = {
+    body: data.body || "Nouvelle mise à jour disponible.",
+    icon: data.icon || "/img/logo.jpg",
+    badge: "/img/logo.jpg",
+    tag: data.tag || "redemption-push",
+    data: { url: data.url || "/" },
+    vibrate: [120, 80, 120],
+  };
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+// Renouvelle l'abonnement push si le navigateur l'expire.
+self.addEventListener("pushsubscriptionchange", (event) => {
+  const VAPID_PUBLIC_KEY = "BC0_hV2-coQl7HMa4rB6I8U8zObPz12IZIkmtE9jLwaf8T5l8uwK0jA0SV8qc_ViDPckbaDZRGv8Q2JjKkFeUvU";
+  function urlB64ToUint8Array(b64) {
+    const pad = "=".repeat((4 - b64.length % 4) % 4);
+    const raw = atob((b64 + pad).replace(/-/g, "+").replace(/_/g, "/"));
+    return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+  }
+  event.waitUntil(
+    self.registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlB64ToUint8Array(VAPID_PUBLIC_KEY),
+    }).then((sub) => {
+      const { endpoint, keys } = sub.toJSON();
+      return fetch("/.netlify/functions/api", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ type: "push_subscriptions", payload: { endpoint, p256dh: keys.p256dh, auth: keys.auth } }),
+      });
+    })
+  );
 });
 
 self.addEventListener("notificationclick", (event) => {

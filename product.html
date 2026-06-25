@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Découvre les produits House of Redemption : streetwear chrétien premium, t-shirts, hoodies, casquettes et collections disponibles à Abidjan." />
     <meta name="robots" content="index, follow, max-image-preview:large" />
-    <meta name="theme-color" content="#183d23" />
+    <meta name="theme-color" content="#080808" />
     <meta name="meta-pixel-id" content="REPLACE_WITH_META_PIXEL_ID" />
     <link rel="canonical" href="https://house-of-redemption.netlify.app/product.html" />
     <meta property="og:locale" content="fr_CI" />
@@ -43,19 +43,23 @@
     <link rel="apple-touch-icon" href="img/logo.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,600&family=DM+Sans:wght@300;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@1,300;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link rel="manifest" href="manifest.webmanifest" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link rel="stylesheet" href="style.css" />
     <script src="analytics.js" defer></script>
 </head>
 
 <body class="product-page-body">
-    <!-- Navigation detail produit : retour rapide vers la boutique -->
+    <!-- Navigation detail produit -->
     <header class="product-page-nav">
-        <a href="index.html#home" class="nav-logo" aria-label="Accueil Redemption">
+        <a href="index.html" class="nav-logo" aria-label="Accueil Redemption">
             <img src="img/logo.jpg" alt="Logo Redemption" class="brand-logo" />
         </a>
-        <a class="btn btn-secondary" href="index.html#shop">Retour boutique</a>
+        <div class="product-page-nav-actions">
+            <a class="btn btn-ghost" href="boutique.html"><i class="fas fa-arrow-left"></i> Boutique</a>
+            <a class="btn btn-primary" href="boutique.html">Commander</a>
+        </div>
     </header>
 
     <!-- Detail produit : contenu rempli par JavaScript selon l'id dans l'URL -->
@@ -91,7 +95,7 @@
         });
 
         if (!productId) {
-            window.location.replace("index.html#shop");
+            window.location.replace("boutique.html");
         } else {
             loadProduct();
         }
@@ -169,7 +173,7 @@
                 });
                 localStorage.setItem("redemption_cart", JSON.stringify(cart));
                 sessionStorage.setItem("redemption_open_cart", "true");
-                window.location.href = "index.html#shop";
+                window.location.href = "boutique.html";
             };
 
             document.getElementById("orderProductBtn").addEventListener("click", addAndOpenCart);
@@ -728,10 +732,12 @@
 
         function getProductIdFromUrl() {
             const queryId = new URLSearchParams(window.location.search).get("id");
-            if (queryId) return queryId;
+            if (queryId) return queryId.trim();
 
             const pathParts = window.location.pathname.split("/").filter(Boolean);
-            if (pathParts[0] === "p" && pathParts[1]) return decodeURIComponent(pathParts[1]);
+            const productPathIndex = pathParts.indexOf("p");
+            const productPathId = pathParts[productPathIndex + 1];
+            if (productPathIndex >= 0 && productPathId) return decodeURIComponent(productPathId).trim();
             return "";
         }
 

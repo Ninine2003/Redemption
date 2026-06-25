@@ -15,7 +15,11 @@ const SUPABASE_ANON_KEY = "sb_publishable_tSdbg0by8DZH635tdZdV9Q_OrHMvm5r";
 const SUPABASE_CONFIG_STORAGE_KEY = "redemption_supabase_config";
 const PUBLIC_TABLE_CACHE_PREFIX = "redemption_public_table_cache:";
 const PUBLIC_TABLE_CACHE_TTL = 2 * 60 * 1000;
-const WAVE_PAYMENT_URL = "https://pay.wave.com/m/M_ci_Qvc5tZTR0mJN/c/ci/";
+const WAVE_CHECKOUT_API = "/.netlify/functions/wave-checkout";
+const MONEYFUSION_CHECKOUT_API = "/.netlify/functions/moneyfusion-checkout";
+const PUSH_SUBSCRIPTIONS_TABLE = "push_subscriptions";
+const BESTSELLERS_TABLE = "bestsellers";
+const VAPID_PUBLIC_KEY = "BC0_hV2-coQl7HMa4rB6I8U8zObPz12IZIkmtE9jLwaf8T5l8uwK0jA0SV8qc_ViDPckbaDZRGv8Q2JjKkFeUvU";
 
 // Point d'entree principal : toute la logique du site demarre apres chargement du DOM.
 document.addEventListener("DOMContentLoaded", () => {
@@ -69,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const galleryToggle = document.getElementById("galleryToggle");
             const galleryGrid = document.getElementById("galleryGrid");
             const videosGrid = document.getElementById("videosGrid");
+            const bestsellersGrid = document.getElementById("bestsellersGrid");
             const cursorDot = document.getElementById("cursorDot");
             const cursorRing = document.getElementById("cursorRing");
 
@@ -165,8 +170,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             setTimeout(() => loader?.classList.add("hidden"), 950);
 
+            // Initialise l'état de la navbar au chargement (toutes pages)
+            const navAlwaysSolid = document.body.dataset.navSolid === "true";
+            navbar?.classList.toggle("scrolled", navAlwaysSolid || window.scrollY > 40);
             window.addEventListener("scroll", () => {
-                navbar?.classList.toggle("scrolled", window.scrollY > 40);
+                navbar?.classList.toggle("scrolled", navAlwaysSolid || window.scrollY > 40);
             });
 
             // PWA : service worker, installation et mise a jour de l'application.
@@ -196,6 +204,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (installAppBtn) {
                     installAppBtn.hidden = false;
                     installAppBtn.dataset.installReady = "true";
+                    installAppBtn.classList.add("install-ready");
+                    installAppBtn.innerHTML = '<i class="fas fa-download"></i><span>Installer</span>';
+                    installAppBtn.setAttribute("aria-label", "Installer l’application");
                 }
             });
 
@@ -218,19 +229,29 @@ document.addEventListener("DOMContentLoaded", () => {
                     openInstallHelp("ios");
                     return;
                 }
-                openInstallHelp();
+                if (getInstallPlatform() === "android") {
+                    openInstallHelp("android");
+                    return;
+                }
+                // PC Chrome/Edge : déclenche directement le prompt natif du navigateur
+                // si disponible via l'icône ⊕ de la barre d'adresse.
+                showToast("Clique l'icône ⊕ dans la barre d'adresse de Chrome ou Edge, puis choisis Installer.");
             });
 
             async function promptAppInstall() {
                 deferredInstallPrompt.prompt();
                 const choice = await deferredInstallPrompt.userChoice;
                 deferredInstallPrompt = null;
-                if (installAppBtn) installAppBtn.dataset.installReady = "false";
+                if (installAppBtn) {
+                    installAppBtn.dataset.installReady = "false";
+                    installAppBtn.classList.remove("install-ready");
+                    installAppBtn.innerHTML = '<i class="fas fa-download"></i>';
+                }
                 if (choice.outcome !== "accepted") {
-                    installAppBtn.hidden = false;
+                    if (installAppBtn) installAppBtn.hidden = false;
                     showToast("Installation annulee.");
                 } else {
-                    installAppBtn.hidden = true;
+                    if (installAppBtn) installAppBtn.hidden = true;
                     localStorage.setItem("redemption_app_installed", "true");
                     showToast("Installation lancee. Le navigateur finalise l'ajout de l'application.");
                 }
@@ -384,9 +405,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Navigation mobile : ouverture/fermeture du menu hamburger.
             hamburger?.addEventListener("click", () => {
+                if (!mobileMenu) return;
                 const isOpen = mobileMenu.classList.toggle("open");
                 hamburger.classList.toggle("active", isOpen);
                 hamburger.setAttribute("aria-expanded", String(isOpen));
+                document.body.classList.toggle("mobile-menu-open", isOpen);
+            });
+
+            // Bouton fermer + lien actif dans le menu mobile
+            if (mobileMenu) {
+                const closeBtn = document.createElement("button");
+                closeBtn.className = "mobile-menu-close";
+                closeBtn.setAttribute("aria-label", "Fermer le menu");
+                closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                closeBtn.addEventListener("click", closeMobileMenu);
+                mobileMenu.prepend(closeBtn);
+
+                // Marquer le lien de la page courante comme actif
+                const currentFile = window.location.pathname.split("/").pop() || "index.html";
+                mobileMenu.querySelectorAll("a").forEach((link) => {
+                    const href = link.getAttribute("href");
+                    if (href === currentFile || (currentFile === "" && href === "index.html")) {
+                        link.classList.add("active");
+                    }
+                    // Fermer en cliquant sur un lien
+                    link.addEventListener("click", closeMobileMenu);
+                });
+            }
+
+            // Fermer le menu mobile avec la touche ESC
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") closeMobileMenu();
             });
 
             document.querySelectorAll('a[href^="#"]').forEach((link) => {
@@ -503,11 +552,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const checkoutForm = document.getElementById("checkoutForm");
             const orderWaveButton = document.getElementById("orderWaveButton") || checkoutForm?.querySelector(".btn-primary");
 
-            // Commande : remet le bouton Wave dans un etat cliquable a chaque ouverture.
+            // Commande : remet le bouton de paiement dans un etat cliquable a chaque ouverture.
             function resetCheckoutButton() {
                 if (!orderWaveButton) return;
                 orderWaveButton.disabled = false;
-                orderWaveButton.textContent = "Valider et payer avec Wave";
+                orderWaveButton.textContent = "Valider et payer";
                 orderWaveButton.style.pointerEvents = "auto";
                 orderWaveButton.style.cursor = "pointer";
             }
@@ -615,23 +664,44 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
                     const location = await getCheckoutLocationPayload(formData);
                     const paymentReference = createPaymentReference();
+                    const now = new Date().toISOString();
+
+                    button.textContent = "Preparation du paiement...";
+
+                    // Cree la session Money Fusion via l'API (le montant est recalcule
+                    // cote serveur a partir des articles ; la cle marchande reste serveur).
+                    const mfRes = await fetch(MONEYFUSION_CHECKOUT_API, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            reference: paymentReference,
+                            customerName: `${formData.firstName} ${formData.lastName}`.trim(),
+                            customerPhone: formData.phone,
+                            items: cart.map((item) => ({ name: item.name, price: item.price })),
+                        }),
+                    });
+                    const mfData = await mfRes.json().catch(() => ({}));
+                    if (!mfRes.ok || !mfData.url) {
+                        throw new Error(mfData.error || "Money Fusion API unavailable");
+                    }
+
                     const order = {
                         first_name: formData.firstName,
                         last_name: formData.lastName,
                         email: getCheckoutEmail(formData),
                         phone: formData.phone,
                         address: buildDeliveryAddress(formData),
-                        payment_method: formData.payment || "wave",
+                        payment_method: formData.payment || "moneyfusion",
                         payment_status: "pending",
                         wave_reference: paymentReference,
-                        wave_payment_url: WAVE_PAYMENT_URL,
+                        wave_payment_url: mfData.url,
                         items: cart,
                         total,
                         status: "shipping",
-                        created_at: new Date().toISOString(),
+                        created_at: now,
                         ...location,
                     };
-                    const wavePayment = {
+                    const payment = {
                         reference: paymentReference,
                         customer_first_name: order.first_name,
                         customer_last_name: order.last_name,
@@ -641,16 +711,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         amount: total,
                         currency: "XOF",
                         status: "pending",
-                        payment_url: WAVE_PAYMENT_URL,
+                        payment_url: mfData.url,
                         items: cart,
-                        created_at: order.created_at,
+                        created_at: now,
                     };
 
-                    button.textContent = "Ouverture du paiement Wave...";
+                    button.textContent = "Ouverture du paiement...";
 
                     safeSaveLocalRecord("redemption_orders", order);
-                    safeSaveLocalRecord("redemption_wave_payments", wavePayment);
-                    safeSessionSet("redemption_wave_checkout", JSON.stringify(wavePayment));
+                    safeSaveLocalRecord("redemption_wave_payments", payment);
+                    safeSessionSet("redemption_wave_checkout", JSON.stringify(payment));
                     trackMetaEvent("AddPaymentInfo", {
                         content_ids: cart.map((item) => item.id),
                         content_type: "product",
@@ -659,15 +729,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         currency: "XOF",
                     });
                     sendPublicRecordFast(ORDERS_TABLE, order);
-                    sendPublicRecordFast(WAVE_PAYMENTS_TABLE, wavePayment);
+                    sendPublicRecordFast(WAVE_PAYMENTS_TABLE, payment);
                     cart = [];
                     safeLocalSet("redemption_cart", "[]");
-                    window.location.assign(`wave-payment.html?ref=${encodeURIComponent(paymentReference)}`);
+                    // Redirige vers la page de paiement Money Fusion generee par l'API.
+                    window.location.assign(mfData.url);
                 } catch (error) {
-                    console.error("Wave checkout failed:", error);
-                    showToast("Impossible d'ouvrir le paiement Wave. Reessaie dans un instant.");
+                    console.error("Money Fusion checkout failed:", error);
+                    showToast("Impossible d'ouvrir le paiement. Reessaie dans un instant.");
                     button.disabled = false;
-                    button.textContent = "Valider et payer avec Wave";
+                    button.textContent = "Valider et payer";
                     checkoutSubmitting = false;
                 }
             }
@@ -728,6 +799,7 @@ document.addEventListener("DOMContentLoaded", () => {
             updateCart();
             loadProducts();
             loadIncomingProducts();
+            loadBestsellers();
             openCartFromProductPage();
             if (window.location.hash === "#arrivals") {
                 window.setTimeout(() => scrollToSection("#arrivals", false), 80);
@@ -790,6 +862,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 mobileMenu?.classList.remove("open");
                 hamburger?.classList.remove("active");
                 hamburger?.setAttribute("aria-expanded", "false");
+                document.body.classList.remove("mobile-menu-open");
             }
 
             // Panier : calcule le total, met a jour l'affichage et persiste localStorage.
@@ -958,6 +1031,32 @@ document.addEventListener("DOMContentLoaded", () => {
                 initRevealAnimations();
             }
 
+            async function loadBestsellers() {
+                if (!bestsellersGrid) return;
+                const { data, error } = await fetchPublicTable(BESTSELLERS_TABLE);
+                if (error) {
+                    console.error("Bestsellers fetch failed:", error);
+                    renderBestsellers([]);
+                    return;
+                }
+                renderBestsellers(data || []);
+                initRevealAnimations();
+            }
+
+            function renderBestsellers(products) {
+                if (!bestsellersGrid) return;
+                if (!products.length) {
+                    bestsellersGrid.innerHTML = `
+                        <article class="product-empty">
+                            <i class="fas fa-shirt"></i>
+                            <p>Aucun article populaire pour le moment.</p>
+                        </article>
+                    `;
+                    return;
+                }
+                bestsellersGrid.innerHTML = products.map((product) => renderProductCard(product)).join("");
+            }
+
             async function fetchPublicTable(table) {
                 const cached = readPublicTableCache(table);
                 if (cached && Date.now() - cached.cachedAt < PUBLIC_TABLE_CACHE_TTL) {
@@ -993,6 +1092,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     [COLLECTIONS_TABLE]: "is_active=eq.true",
                     [INCOMING_PRODUCTS_TABLE]: "is_active=eq.true",
                     [VIDEOS_TABLE]: "status=eq.active",
+                    [BESTSELLERS_TABLE]: "is_active=eq.true",
                 };
                 const filter = allowedTables[table];
                 if (!filter) return { data: null, error: "Table publique inconnue." };
@@ -1357,10 +1457,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const images = getProductCardImages(product);
         const image = images[0] || "img/logo.jpg";
         const productUrl = getProductUrl(product);
+        const price = product.price ? formatPrice(Number(product.price)) : "";
         return `
             <a class="collection-preview-product" href="${productUrl}">
-                <img src="${escapeHtml(image)}" alt="${escapeHtml(product.name)}" loading="lazy" onerror="this.onerror=null;this.src='img/logo.jpg';" />
-                <span>${escapeHtml(formatProductName(product))}</span>
+                <div class="collection-preview-img-wrap">
+                    <img src="${escapeHtml(image)}" alt="${escapeHtml(product.name)}" loading="lazy" onerror="this.onerror=null;this.src='img/logo.jpg';" />
+                </div>
+                <div class="collection-preview-info">
+                    <span class="preview-product-name">${escapeHtml(formatProductName(product))}</span>
+                    ${price ? `<span class="preview-product-price">${price}</span>` : ""}
+                </div>
             </a>
         `;
     }
@@ -1498,22 +1604,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
             return `
                 <article class="product-card arrival-card">
-                    <div class="product-media arrival-media" aria-label="${escapeHtml(displayName)} bientot disponible">
+                    <div class="product-media arrival-media" aria-label="${escapeHtml(displayName)} bientôt disponible">
                         <img src="${escapeHtml(image)}" alt="${escapeHtml(displayName)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='img/logo.jpg';" />
                         <span>${escapeHtml(label)}</span>
-                        <a class="arrival-cta" href="#arrivals" aria-label="Voir la section arrivage">
-                            Bientot disponible
-                        </a>
+                        <span class="arrival-soon-badge">Bientôt disponible</span>
                     </div>
                     <div class="product-info">
-                        <p class="product-category">Arrivage en cours</p>
+                        <p class="product-category">${releaseDate ? escapeHtml(releaseDate) : "Arrivage en cours"}</p>
                         <h3>${escapeHtml(displayName)}</h3>
-                        ${product.color ? `<p class="product-color">${renderColorSwatch(product.color)}${escapeHtml(product.color)}</p>` : '<p class="product-color product-color-placeholder" aria-hidden="true">&nbsp;</p>'}
+                        ${product.color ? `<p class="product-color">${renderColorSwatch(product.color)}${escapeHtml(product.color)}</p>` : ""}
                         ${renderProductSizes(product.sizes)}
-                        <p>${escapeHtml(product.description || "")}</p>
+                        ${product.description ? `<p>${escapeHtml(product.description)}</p>` : ""}
                         <div class="product-footer">
-                            <strong>${price ? formatPrice(price) : "Prix a venir"}</strong>
-                            ${releaseDate ? `<span class="arrival-date">${escapeHtml(releaseDate)}</span>` : ""}
+                            <strong>${price ? formatPrice(price) : "Prix à venir"}</strong>
                         </div>
                     </div>
                 </article>
@@ -2035,6 +2138,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (permission === "granted") {
             localStorage.setItem("redemption_notifications_enabled", "true");
             updateNotificationButton();
+            subscribeToPush();
             if (userTriggered) {
                 playNotificationSound();
                 showToast("Notifications activees. Tu recevras les nouveautes de la boutique.");
@@ -2049,6 +2153,37 @@ document.addEventListener("DOMContentLoaded", () => {
                 : "Clique sur Autoriser pour recevoir les nouveautes.");
         }
         return false;
+    }
+
+    function urlBase64ToUint8Array(base64String) {
+        const padding = "=".repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+        const rawData = atob(base64);
+        return Uint8Array.from([...rawData].map((c) => c.charCodeAt(0)));
+    }
+
+    async function subscribeToPush() {
+        try {
+            const reg = await navigator.serviceWorker?.ready;
+            if (!reg?.pushManager) return false;
+            let sub = await reg.pushManager.getSubscription();
+            if (!sub) {
+                sub = await reg.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+                });
+            }
+            const json = sub.toJSON();
+            await savePublicRecord(PUSH_SUBSCRIPTIONS_TABLE, {
+                endpoint: json.endpoint,
+                p256dh: json.keys?.p256dh,
+                auth: json.keys?.auth,
+                user_agent: navigator.userAgent.substring(0, 200),
+            });
+            return true;
+        } catch {
+            return false;
+        }
     }
 
     function startProductUpdateWatch() {
@@ -2097,13 +2232,13 @@ document.addEventListener("DOMContentLoaded", () => {
             : "Des produits ont ete modifies sur House of Redemption.";
         const url = isNewItem && itemLabel === "produit"
             ? getProductUrl(newest)
-            : "#shop";
+            : "boutique.html";
 
         localStorage.setItem(storageKey, JSON.stringify(current));
         notifyCatalogUpdate(title, body, url);
     }
 
-    async function notifyCatalogUpdate(title, body, url = "#shop") {
+    async function notifyCatalogUpdate(title, body, url = "boutique.html") {
         playNotificationSound();
         showToast(body);
 

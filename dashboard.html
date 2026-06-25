@@ -12,1474 +12,945 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
     <style>
+        /* ═══════════════════════════════════════════════════
+           HOUSE OF REDEMPTION — Dashboard Pro
+           Design system unifié — v3
+        ═══════════════════════════════════════════════════ */
+
         :root {
-            --bg: #f6f7f4;
-            --surface: #ffffff;
-            --surface-2: #f2f4ee;
-            --ink: #151713;
-            --muted: #697066;
-            --green: #183f2a;
-            --gold: #b58a33;
-            --danger: #b7352f;
-            --line: rgba(21, 23, 19, 0.1);
-            --shadow: 0 18px 44px rgba(18, 24, 16, 0.08);
-            --font-title: "Cinzel", serif;
-            --font-body: "Outfit", sans-serif;
+            --accent:      #76594B;
+            --accent-dk:   #5A3D32;
+            --accent-lt:   #A07868;
+            --accent-pale: rgba(118,89,75,0.08);
+            --bg:          #F6F2EE;
+            --surface:     #FFFFFF;
+            --surface-2:   #FAF7F4;
+            --surface-3:   #F2EDE8;
+            --sidebar-bg:  #1A1210;
+            --ink:         #18120E;
+            --ink-2:       #3C3028;
+            --muted:       #7C726C;
+            --line:        rgba(24,18,14,0.08);
+            --line-2:      rgba(24,18,14,0.15);
+            --sh-xs: 0 1px 3px rgba(18,12,8,0.06);
+            --sh-sm: 0 2px 8px rgba(18,12,8,0.07), 0 6px 20px rgba(18,12,8,0.04);
+            --sh-md: 0 4px 16px rgba(18,12,8,0.09), 0 16px 48px rgba(18,12,8,0.05);
+            --sh-lg: 0 8px 32px rgba(18,12,8,0.11), 0 28px 72px rgba(18,12,8,0.07);
+            --success:  #16A34A;
+            --warning:  #D97706;
+            --info:     #2563EB;
+            --danger:   #76594B;
+            --green:    #76594B;
+            --gold:     #A07868;
+            --font-title: "Syne", system-ui, sans-serif;
+            --font-body:  "Plus Jakarta Sans", system-ui, sans-serif;
+            --sidebar-w: 250px;
+            --r:   8px;
+            --r-lg: 14px;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        /* ── Reset ──────────────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { overflow-x: hidden; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
 
         body {
-            margin: 0;
+            overflow-x: hidden;
             min-height: 100vh;
             background: var(--bg);
             color: var(--ink);
             font-family: var(--font-body);
-            font-size: 15px;
-            line-height: 1.55;
+            font-size: 14.5px;
+            line-height: 1.62;
+            letter-spacing: 0;
         }
 
-        .screen {
-            min-height: 100vh;
-            padding: 24px;
-        }
+        h1, h2, h3, h4, p { margin: 0; }
+        h1, h2, h3 { font-family: var(--font-title); line-height: 1.1; }
+        h1 { font-size: clamp(1.35rem,2.4vw,2rem); font-weight: 800; color: var(--accent); }
+        h2 { font-size: clamp(1rem,1.5vw,1.3rem); font-weight: 700; color: var(--ink); }
+        h3 { font-size: 0.95rem; font-weight: 700; color: var(--ink); }
+        p  { color: var(--muted); max-width: 68ch; overflow-wrap: anywhere; }
+        strong { color: var(--accent); }
 
+        .hidden { display: none !important; }
+        .error  { min-height: 18px; color: var(--accent-dk); font-size: 0.83rem; font-weight: 500; }
+        .status { color: var(--muted); font-size: 0.8rem; }
+        .screen { min-height: 100vh; }
+
+        /* ═══════════════════════════════════════════════
+           LOGIN
+        ═══════════════════════════════════════════════ */
         .login-screen {
-            display: grid;
-            place-items: center;
-        }
-
-        .login-card,
-        .panel,
-        .stat-card,
-        .record-card {
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            background: var(--surface);
-            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background:
+                radial-gradient(ellipse at 18% 18%, rgba(118,89,75,0.25) 0%, transparent 52%),
+                radial-gradient(ellipse at 82% 82%, rgba(90,61,50,0.18) 0%, transparent 52%),
+                linear-gradient(145deg, #1A1210 0%, #2C1E18 55%, #1A1210 100%);
         }
 
         .login-card {
             width: min(420px, 100%);
-            padding: 28px;
+            padding: 42px 38px 38px;
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 22px;
+            background: rgba(255,255,255,0.035);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            box-shadow: 0 0 0 1px rgba(118,89,75,0.22), 0 40px 90px rgba(0,0,0,0.55);
         }
 
-        h1,
-        h2,
-        h3,
-        p {
-            margin-top: 0;
+        .login-card h1 {
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.14em;
+            margin-bottom: 5px;
         }
 
-        h1,
-        h2 {
+        .login-card p {
+            color: rgba(255,255,255,0.45);
+            font-size: 0.86rem;
+            margin-bottom: 30px;
+            max-width: none;
+        }
+
+        .login-card label {
+            display: grid;
+            gap: 6px;
+            color: rgba(255,255,255,0.62);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .login-card input {
+            height: 48px;
+            border: 1px solid rgba(255,255,255,0.11);
+            border-radius: 11px;
+            background: rgba(255,255,255,0.07);
+            color: #fff;
+            font-size: 0.95rem;
+            padding: 0 16px;
+            outline: none;
+            min-height: 0;
+            width: 100%;
+            transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+        }
+
+        .login-card input::placeholder { color: rgba(255,255,255,0.28); }
+
+        .login-card input:focus {
+            border-color: rgba(118,89,75,0.65);
+            background: rgba(255,255,255,0.1);
+            box-shadow: 0 0 0 4px rgba(118,89,75,0.16);
+        }
+
+        .login-card button[type="submit"] {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 50px;
+            min-height: 0;
+            margin-top: 8px;
+            border: none;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #76594B, #A07868);
+            color: #fff;
             font-family: var(--font-title);
-            line-height: 1.08;
+            font-size: 0.96rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: opacity 0.18s, transform 0.15s, box-shadow 0.2s;
+            box-shadow: 0 10px 28px rgba(118,89,75,0.38);
         }
 
-        h1 {
-            margin-bottom: 8px;
-            color: var(--green);
-            font-size: clamp(1.35rem, 2.4vw, 2rem);
+        .login-card button[type="submit"]:hover {
+            opacity: 0.93;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 36px rgba(118,89,75,0.44);
         }
 
-        h2 {
-            margin-bottom: 8px;
-            font-size: 1.18rem;
+        /* ═══════════════════════════════════════════════
+           DASHBOARD SHELL
+        ═══════════════════════════════════════════════ */
+        .dashboard { display: none; }
+        .dashboard.active { display: block; }
+        .screen.dashboard { padding: 0; }
+
+        .dashboard-shell {
+            display: flex;
+            min-height: 100vh;
+            align-items: flex-start;
         }
 
-        h3 {
-            margin-bottom: 8px;
-            font-size: 1rem;
+        /* ═══════════════════════════════════════════════
+           SIDEBAR
+        ═══════════════════════════════════════════════ */
+        .sidebar {
+            position: sticky;
+            top: 0;
+            width: var(--sidebar-w);
+            flex: 0 0 var(--sidebar-w);
+            min-height: 100vh;
+            max-height: 100vh;
+            overflow-y: auto;
+            background: var(--sidebar-bg);
+            border-right: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 4px 0 28px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
+            border-radius: 0;
+            border: none;
+            border-right: 1px solid rgba(255,255,255,0.05);
         }
 
-        p {
+        .sidebar::-webkit-scrollbar { width: 3px; }
+        .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+        .brand {
+            padding: 26px 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .brand h1 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .brand h1::before {
+            content: "✦ ";
+            color: var(--accent-lt);
+            font-size: 0.65em;
+        }
+
+        .brand p.status {
+            font-size: 0.73rem;
+            color: rgba(255,255,255,0.38);
+            font-weight: 400;
+            max-width: none;
+        }
+
+        .tabs {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 14px 10px;
+            flex: 1;
+        }
+
+        .tab-btn {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-height: 38px;
+            width: 100%;
+            padding: 0 12px;
+            border: 1px solid transparent;
+            border-radius: var(--r);
+            background: transparent;
+            color: rgba(255,255,255,0.5);
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.14s, color 0.14s, border-color 0.14s;
+            overflow-wrap: anywhere;
+            white-space: normal;
+            box-shadow: none;
+            line-height: 1.3;
+        }
+
+        .tab-btn::before {
+            content: "";
+            width: 4px; height: 4px;
+            flex: 0 0 auto;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.18);
+            transition: background 0.14s, box-shadow 0.14s;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.82);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .tab-btn.active {
+            background: rgba(118,89,75,0.22);
+            border-color: rgba(118,89,75,0.4);
+            color: #fff;
+            font-weight: 600;
+            box-shadow: none;
+        }
+
+        .tab-btn.active::before {
+            background: var(--accent-lt);
+            box-shadow: 0 0 7px var(--accent-lt);
+        }
+
+        /* ═══════════════════════════════════════════════
+           MAIN AREA
+        ═══════════════════════════════════════════════ */
+        .main {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            padding: 22px;
+            min-height: 100vh;
+            background: var(--bg);
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+            padding: 18px 22px;
+            border-radius: var(--r-lg);
+            background: var(--surface);
+            border: 1px solid var(--line);
+            box-shadow: var(--sh-sm);
+        }
+
+        .topbar h2 { font-size: clamp(1rem,1.4vw,1.28rem); margin-bottom: 3px; }
+        .topbar p  { font-size: 0.82rem; }
+
+        /* ═══════════════════════════════════════════════
+           STATS
+        ═══════════════════════════════════════════════ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(100px, 1fr));
+            gap: 12px;
+        }
+
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+            padding: 18px 16px 14px;
+            border-radius: var(--r-lg);
+            background: var(--surface);
+            border: 1px solid var(--line);
+            box-shadow: var(--sh-xs);
+            cursor: pointer;
+            transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .stat-card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-lt));
+            opacity: 0;
+            transition: opacity 0.18s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--sh-md);
+            border-color: rgba(118,89,75,0.18);
+        }
+
+        .stat-card:hover::after { opacity: 1; }
+
+        .stat-card strong {
+            display: block;
+            font-family: var(--font-title);
+            font-size: clamp(1.25rem,1.7vw,1.75rem);
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+            overflow-wrap: anywhere;
+            white-space: normal;
+        }
+
+        .stat-card span {
+            font-size: 0.71rem;
+            font-weight: 700;
             color: var(--muted);
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            overflow-wrap: anywhere;
+            white-space: normal;
         }
 
-        button,
-        input,
-        select,
-        textarea {
-            font: inherit;
+        /* ═══════════════════════════════════════════════
+           PANELS
+        ═══════════════════════════════════════════════ */
+        .panel {
+            border-radius: var(--r-lg);
+            background: var(--surface);
+            border: 1px solid var(--line);
+            box-shadow: var(--sh-sm);
+            padding: 22px;
         }
+
+        .tab-panel { animation: fadeUp 0.26s ease both; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(7px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .panel-head, .record-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .panel-head h2, .record-top h3 { margin-bottom: 3px; }
+
+        .record-card {
+            padding: 16px 18px;
+            border-radius: var(--r);
+            background: var(--surface);
+            border: 1px solid var(--line);
+            box-shadow: var(--sh-xs);
+            transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+        }
+
+        .record-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--sh-md);
+            border-color: rgba(118,89,75,0.16);
+        }
+
+        .records-grid, .products-list, .videos-list { display: grid; gap: 10px; }
+
+        .meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .meta div, .message-box, .order-status-card, .analytics-card {
+            padding: 12px 14px;
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            background: var(--surface-2);
+            overflow-wrap: anywhere;
+        }
+
+        /* ═══════════════════════════════════════════════
+           GLOBAL BUTTONS & FORMS
+        ═══════════════════════════════════════════════ */
+        button, input, select, textarea { font: inherit; }
 
         button {
-            min-height: 42px;
-            border: 0;
-            border-radius: 7px;
-            background: var(--green);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-height: 40px;
+            padding: 0 16px;
+            border: none;
+            border-radius: var(--r);
+            background: var(--accent);
             color: #fff;
-            font-weight: 800;
+            font-size: 0.84rem;
+            font-weight: 600;
             cursor: pointer;
+            transition: background 0.14s, transform 0.12s, box-shadow 0.14s;
+            user-select: none;
+            white-space: normal;
+            overflow-wrap: anywhere;
         }
 
-        input,
-        select,
-        textarea {
-            width: 100%;
-            min-height: 44px;
-            border: 1px solid var(--line);
-            border-radius: 7px;
-            background: #fff;
-            color: var(--ink);
-            padding: 0 12px;
-            outline: none;
+        button:hover {
+            background: var(--accent-dk);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(118,89,75,0.24);
         }
 
-        textarea {
-            min-height: 92px;
-            padding: 12px;
-            resize: vertical;
+        button:active { transform: translateY(0); box-shadow: none; }
+
+        .ghost {
+            background: transparent;
+            border: 1.5px solid var(--line-2);
+            color: var(--ink-2);
+            box-shadow: none;
         }
+
+        .ghost:hover {
+            background: var(--surface-2);
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: none;
+        }
+
+        form { display: grid; gap: 13px; }
 
         label {
             display: grid;
-            gap: 6px;
-            color: #514a40;
-            font-size: 0.84rem;
+            gap: 5px;
+            font-size: 0.8rem;
             font-weight: 700;
+            color: var(--ink-2);
+            letter-spacing: 0.02em;
         }
 
-        .field-hint {
-            color: var(--muted);
-            font-size: 0.78rem;
-            font-weight: 500;
-            line-height: 1.35;
+        input, select, textarea {
+            width: 100%;
+            min-height: 42px;
+            padding: 0 12px;
+            border: 1.5px solid var(--line-2);
+            border-radius: var(--r);
+            background: var(--surface);
+            color: var(--ink);
+            font-size: 0.88rem;
+            outline: none;
+            transition: border-color 0.17s, box-shadow 0.17s;
         }
 
-        .color-picker {
-            display: grid;
-            gap: 10px;
-            margin: 14px 0;
+        textarea { min-height: 88px; padding: 10px 12px; resize: vertical; line-height: 1.55; }
+        select { cursor: pointer; }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(118,89,75,0.11);
+            background: #fff;
         }
 
-        .color-picker-title {
-            color: #514a40;
-            font-size: 0.84rem;
-            font-weight: 700;
-        }
+        .form-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 13px; }
+        .field-hint { font-size: 0.75rem; color: var(--muted); display: block; line-height: 1.4; }
 
-        .color-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .color-option {
+        /* ═══════════════════════════════════════════════
+           PILLS & BADGES
+        ═══════════════════════════════════════════════ */
+        .pill {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            min-height: 38px;
-            border: 1px solid rgba(45, 74, 45, 0.16);
+            gap: 4px;
+            padding: 2px 9px;
             border-radius: 999px;
-            background: #fff;
-            color: var(--ink);
-            padding: 0 12px 0 8px;
-            font-size: 0.82rem;
-            font-weight: 800;
-        }
-
-        .color-option.active {
-            border-color: var(--green);
-            box-shadow: 0 0 0 3px rgba(45, 74, 45, 0.12);
-        }
-
-        .color-swatch {
-            width: 20px;
-            height: 20px;
-            flex: 0 0 auto;
-            border: 1px solid rgba(22, 22, 21, 0.18);
-            border-radius: 50%;
-            background: var(--swatch, #ddd);
-        }
-
-        .size-picker {
-            display: grid;
-            gap: 10px;
-            margin: 14px 0;
-            padding: 14px;
-            border: 1px solid rgba(45, 74, 45, 0.16);
-            border-radius: 8px;
-            background: #fbfaf6;
-        }
-
-        .size-picker-title {
-            color: #514a40;
-            font-size: 0.84rem;
-            font-weight: 800;
-        }
-
-        .size-picker-row {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) auto;
-            gap: 8px;
-        }
-
-        .size-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            min-height: 34px;
+            background: rgba(118,89,75,0.1);
+            color: var(--accent-dk);
+            font-size: 0.74rem;
+            font-weight: 700;
+            overflow-wrap: anywhere;
+            white-space: normal;
         }
 
         .size-pill {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            min-height: 32px;
-            border: 1px solid rgba(45, 74, 45, 0.16);
+            gap: 5px;
+            padding: 3px 10px;
             border-radius: 999px;
-            background: #fff;
+            background: var(--surface-2);
+            border: 1.5px solid var(--line-2);
             color: var(--ink);
-            padding: 0 10px;
-            font-size: 0.78rem;
-            font-weight: 900;
+            font-size: 0.77rem;
+            font-weight: 700;
+            overflow-wrap: anywhere;
         }
 
         .size-pill button {
-            min-height: 0;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            padding: 0;
-            line-height: 1;
+            min-height: 0; width: 17px; height: 17px;
+            border-radius: 50%; padding: 0;
+            background: var(--line-2); color: var(--ink-2);
+            font-size: 0.68rem; box-shadow: none; line-height: 1;
         }
 
-        form {
+        .size-pill button:hover { background: var(--accent); color: #fff; transform: none; box-shadow: none; }
+
+        /* ═══════════════════════════════════════════════
+           ROWS
+        ═══════════════════════════════════════════════ */
+        .order-items, .products-list, .videos-list { display: grid; gap: 9px; margin-top: 12px; }
+
+        .order-item, .product-row, .video-row {
             display: grid;
-            gap: 12px;
-        }
-
-        .ghost {
-            border: 1px solid var(--line);
-            background: #fff;
-            color: var(--ink);
-        }
-
-        .dashboard {
-            display: none;
-        }
-
-        .dashboard.active {
-            display: block;
-        }
-
-        .dashboard-shell {
-            display: grid;
-            grid-template-columns: 270px minmax(0, 1fr);
-            gap: 20px;
-            max-width: 1480px;
-            margin: 0 auto;
-        }
-
-        .sidebar {
-            position: sticky;
-            top: 24px;
-            align-self: start;
-            padding: 18px;
-            background: #121911;
-            color: #fff;
-        }
-
-        .brand {
-            padding-bottom: 12px;
-            margin-bottom: 12px;
-            border-bottom: 1px solid var(--line);
-        }
-
-        .brand h1 {
-            font-size: 1.35rem;
-            color: #fff;
-        }
-
-        .brand p {
-            color: rgba(255, 255, 255, 0.68);
-        }
-
-        .tabs {
-            display: grid;
-            gap: 8px;
-        }
-
-        .tab-btn {
-            justify-content: flex-start;
-            padding: 0 14px;
-            background: transparent;
-            color: rgba(255, 255, 255, 0.68);
-            text-align: left;
-        }
-
-        .tab-btn.active {
-            background: #fff;
-            color: var(--green);
-        }
-
-        .tab-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-
-        .main {
-            display: grid;
-            gap: 18px;
-        }
-
-        .topbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            padding: 20px;
-            background: linear-gradient(135deg, #ffffff, #eef3eb);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(6, minmax(0, 1fr));
-            gap: 12px;
-        }
-
-        .stat-card {
-            min-width: 0;
-            padding: 12px 14px;
-            box-shadow: none;
-        }
-
-        .stat-card[data-tab] {
-            cursor: pointer;
-            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .stat-card[data-tab]:hover {
-            transform: translateY(-2px);
-            border-color: rgba(181, 138, 51, 0.48);
-            box-shadow: 0 14px 28px rgba(18, 24, 16, 0.08);
-        }
-
-        .stat-card strong {
-            display: block;
-            color: var(--green);
-            font-size: clamp(1.18rem, 1.7vw, 1.45rem);
-            line-height: 1.1;
-            white-space: nowrap;
-        }
-
-        .stat-card span {
-            display: block;
-            margin-top: 4px;
-            overflow: hidden;
-            font-size: 0.84rem;
-            font-weight: 800;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .panel {
-            padding: 18px;
-        }
-
-        .panel-head,
-        .record-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
+            grid-template-columns: 72px minmax(0,1fr) auto;
             gap: 14px;
-            margin-bottom: 14px;
-        }
-
-        .records-grid {
-            display: grid;
-            gap: 12px;
-        }
-
-        .record-card {
-            padding: 16px;
-            box-shadow: none;
-        }
-
-        .meta {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 10px;
-        }
-
-        .meta div,
-        .message-box {
-            min-width: 0;
-            padding: 11px;
-            border-radius: 8px;
-            background: var(--surface-2);
-            overflow-wrap: anywhere;
-        }
-
-        .pill {
-            display: inline-flex;
             align-items: center;
-            gap: 6px;
-            border-radius: 999px;
-            background: rgba(184, 144, 62, 0.16);
-            color: #72571f;
-            padding: 5px 10px;
-            font-size: 0.78rem;
-            font-weight: 800;
-            white-space: nowrap;
-        }
-
-        .status-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 12px 0;
-        }
-
-        .order-status-tabs,
-        .analytics-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 12px;
-        }
-
-        .order-status-tabs {
-            margin-bottom: 14px;
-        }
-
-        .wave-filter-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 14px;
-        }
-
-        .wave-filter-btn {
-            min-height: 38px;
+            padding: 12px 14px;
+            border-radius: var(--r);
             border: 1px solid var(--line);
-            border-radius: 999px;
-            background: #fff;
-            color: var(--ink);
-            padding: 0 13px;
-            font-size: 0.82rem;
-        }
-
-        .wave-filter-btn.active {
-            border-color: var(--green);
-            background: var(--green);
-            color: #fff;
-        }
-
-        .order-status-card {
-            padding: 14px;
-            border: 1px solid var(--line);
-            border-radius: 9px;
             background: var(--surface-2);
+            transition: border-color 0.15s, box-shadow 0.15s;
         }
 
-        .order-status-card strong {
-            display: block;
-            color: var(--green);
-            font-size: 1.6rem;
+        .order-item:hover, .product-row:hover, .video-row:hover {
+            border-color: rgba(118,89,75,0.16);
+            box-shadow: var(--sh-xs);
         }
 
-        .analytics-card {
-            padding: 16px;
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            background: var(--surface);
+        .order-item > div, .product-row > div, .video-row > div { min-width: 0; overflow-wrap: anywhere; }
+
+        .order-item img, .product-row img, .video-row video,
+        .video-row .video-preview, .collection-badge {
+            width: 72px; height: 72px;
+            border-radius: var(--r);
+            object-fit: cover;
+            background: #EDE5D8;
         }
 
-        .analytics-card strong {
-            display: block;
-            color: var(--green);
-            font-size: 2rem;
+        .collection-badge {
+            display: grid; place-items: center; padding: 8px;
+            background: linear-gradient(135deg, var(--accent-dk), var(--accent));
+            color: #fff; font-size: 0.7rem; font-weight: 800;
+            text-align: center; text-transform: uppercase; letter-spacing: 0.06em;
+            overflow-wrap: anywhere; border-radius: var(--r);
         }
 
-        .analytics-bar {
-            height: 9px;
-            margin-top: 12px;
-            overflow: hidden;
-            border-radius: 999px;
-            background: #eadfce;
-        }
+        .video-preview { display: grid; place-items: center; }
+        .product-meta { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
 
-        .analytics-bar span {
-            display: block;
-            width: 0;
-            height: 100%;
-            border-radius: inherit;
-            background: var(--green);
-        }
+        .row-actions, .status-actions { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
 
-        .row-actions {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-            gap: 8px;
-        }
-
-        .status-btn {
-            min-height: 36px;
-            padding: 0 12px;
-            color: #fff;
-            font-size: 0.82rem;
-        }
-
-        .delete-btn,
         .edit-btn {
-            display: grid;
-            place-items: center;
-            min-width: 36px;
-            min-height: 36px;
-            padding: 0 12px;
-            border-radius: 999px;
-            font-size: 0.82rem;
+            background: var(--accent-dk); font-size: 0.79rem;
+            min-height: 33px; padding: 0 12px; border-radius: 7px;
         }
 
         .delete-btn {
-            background: #b7352f;
+            background: #2E2220; font-size: 0.79rem;
+            min-height: 33px; padding: 0 12px; border-radius: 7px;
         }
 
+        .delete-btn:hover { background: #1A1210; box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
+
         .wave-delete-btn {
-            display: grid;
-            width: 38px;
-            min-width: 38px;
-            height: 38px;
-            min-height: 38px;
-            place-items: center;
-            border-radius: 50%;
-            background: #dc2626;
-            color: #fff;
-            font-size: 1.05rem;
-            line-height: 1;
+            width: 34px; height: 34px; min-height: 0; padding: 0;
+            border-radius: 50%; background: #2E2220;
+            color: rgba(255,255,255,0.85); font-size: 0.95rem;
         }
 
         .order-delete-btn {
-            min-height: 36px;
-            padding: 0 12px;
-            border-radius: 999px;
-            background: #171713;
-            color: #fff;
-            font-size: 0.82rem;
-        }
-
-        .edit-btn {
-            background: #22462d;
+            min-height: 33px; padding: 0 12px; border-radius: 7px;
+            background: #1A1210; color: rgba(255,255,255,0.85); font-size: 0.79rem;
         }
 
         .bulk-delete-btn {
-            min-height: 38px;
-            padding: 0 13px;
-            border: 1px solid rgba(220, 38, 38, 0.28);
-            border-radius: 999px;
-            background: #fff5f5;
-            color: #b91c1c;
-            font-size: 0.82rem;
-            font-weight: 900;
-            box-shadow: none;
+            min-height: 35px; padding: 0 14px;
+            border: 1.5px solid rgba(118,89,75,0.28); border-radius: 999px;
+            background: var(--surface); color: var(--accent-dk);
+            font-size: 0.8rem; font-weight: 700; box-shadow: none;
+            overflow-wrap: anywhere; white-space: normal;
         }
 
         .bulk-delete-btn:hover {
-            border-color: rgba(220, 38, 38, 0.55);
-            background: #fee2e2;
-            color: #7f1d1d;
+            border-color: var(--accent); background: var(--accent-pale);
+            color: var(--accent-dk); box-shadow: none; transform: none;
         }
 
-        .status-cancelled,
-        .status-btn[data-status="cancelled"] {
-            background: #b7352f;
+        /* ═══════════════════════════════════════════════
+           STATUS
+        ═══════════════════════════════════════════════ */
+        .status-btn {
+            min-height: 30px; padding: 0 11px; border-radius: 999px;
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em;
+            box-shadow: none; color: #fff; overflow-wrap: anywhere; white-space: normal;
         }
 
-        .status-shipping,
-        .status-btn[data-status="shipping"] {
-            background: #2563eb;
+        .status-pending, .status-btn[data-status="pending"]               { background: var(--warning); color: #1A1210; }
+        .status-pending_review, .status-btn[data-status="pending_review"]  { background: #92400E; }
+        .status-shipping, .status-btn[data-status="shipping"]              { background: var(--info); }
+        .status-delivered, .status-btn[data-status="delivered"]            { background: var(--success); }
+        .status-cancelled, .status-btn[data-status="cancelled"]            { background: var(--accent-dk); }
+        .status-failed                                                      { background: var(--accent-dk); }
+
+        /* ═══════════════════════════════════════════════
+           ANALYTICS
+        ═══════════════════════════════════════════════ */
+        .order-status-tabs, .analytics-grid {
+            display: grid; grid-template-columns: repeat(3,minmax(0,1fr));
+            gap: 10px; margin-bottom: 14px;
         }
 
-        .status-delivered,
-        .status-btn[data-status="delivered"] {
-            background: #18834a;
-        }
-
-        .status-succeeded,
-        .wave-card-succeeded .pill-status {
-            background: #18834a;
-            color: #fff;
-        }
-
-        .status-pending,
-        .status-pending_review,
-        .wave-card-pending .pill-status,
-        .wave-card-pending_review .pill-status {
-            background: #d99a22;
-            color: #171713;
-        }
-
-        .status-cancelled,
-        .status-failed,
-        .wave-card-cancelled .pill-status,
-        .wave-card-failed .pill-status {
-            background: #b7352f;
-            color: #fff;
-        }
-
-        .wave-card-succeeded {
-            border-color: rgba(24, 131, 74, 0.34);
-            background: linear-gradient(135deg, #ffffff, #f0fbf5);
-        }
-
-        .wave-card-cancelled,
-        .wave-card-failed {
-            border-color: rgba(183, 53, 47, 0.34);
-            background: linear-gradient(135deg, #ffffff, #fff2f1);
-        }
-
-        .product-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 6px;
-        }
-
-        .order-items,
-        .products-list,
-        .videos-list {
-            display: grid;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .order-item,
-        .product-row,
-        .video-row {
-            display: grid;
-            grid-template-columns: 76px 1fr auto;
-            gap: 12px;
-            align-items: center;
-            padding: 10px;
-            border-radius: 8px;
-            background: var(--surface-2);
-        }
-
-        .order-item img,
-        .product-row img,
-        .video-row video,
-        .video-row .video-preview,
-        .collection-badge {
-            width: 76px;
-            height: 76px;
-            border-radius: 8px;
-            object-fit: cover;
-            background: #ece4d7;
-        }
-
-        .collection-badge {
-            display: grid;
-            place-items: center;
-            padding: 8px;
-            background: #183f2a;
-            color: #fff;
-            font-size: 0.78rem;
-            font-weight: 900;
-            text-align: center;
-            text-transform: uppercase;
-        }
-
-        .video-preview {
-            display: grid;
-            place-items: center;
-        }
-
-        .video-upload-frame {
-            display: grid;
-            gap: 8px;
-            padding: 18px;
-            border: 1px dashed rgba(24, 63, 42, 0.38);
-            border-radius: 8px;
-            background: rgba(236, 228, 215, 0.42);
-            cursor: pointer;
-        }
-
-        .video-upload-frame strong {
-            font-size: 0.95rem;
-        }
-
-        .video-upload-frame span {
-            color: var(--muted);
-            font-size: 0.88rem;
-            line-height: 1.45;
-        }
-
-        .video-upload-frame input {
-            padding: 0;
-            border: 0;
-            background: transparent;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px;
-        }
-
-        .incoming-items {
-            display: grid;
-            gap: 18px;
-        }
-
-        .incoming-item {
-            min-width: 0;
-            padding: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.04);
-        }
-
-        .incoming-item legend {
-            padding: 0 8px;
-            color: var(--gold);
-            font-weight: 800;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .error {
-            min-height: 20px;
-            color: var(--danger);
-        }
-
-        .status {
-            margin: 0;
-            color: var(--muted);
-        }
-
-        strong {
-            color: var(--green);
-        }
-
-        @media (max-width: 900px) {
-            .dashboard-shell {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                position: static;
-            }
-
-            .tabs,
-            .stats-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .order-status-tabs,
-            .analytics-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 640px) {
-            body {
-                font-size: 13px;
-                line-height: 1.45;
-            }
-
-            .screen {
-                padding: 10px;
-            }
-
-            h1 {
-                font-size: 1.25rem;
-            }
-
-            h2 {
-                font-size: 1rem;
-            }
-
-            p,
-            label,
-            input,
-            select,
-            textarea,
-            button {
-                font-size: 0.86rem;
-            }
-
-            .panel,
-            .record-card,
-            .stat-card {
-                padding: 12px;
-            }
-
-            .brand h1 {
-                font-size: 1.1rem;
-            }
-
-            .stat-card strong {
-                font-size: 1.35rem;
-            }
-
-            .topbar,
-            .panel-head,
-            .record-top {
-                flex-direction: column;
-            }
-
-            .tabs,
-            .stats-grid,
-            .meta,
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .order-item,
-            .product-row,
-            .video-row {
-                grid-template-columns: 60px 1fr;
-            }
-
-            .order-item img,
-            .product-row img,
-            .video-row video,
-            .video-row .video-preview {
-                width: 60px;
-                height: 60px;
-            }
-        }
-
-        /* Professional dashboard skin: overrides the older admin styling without changing data logic. */
-        :root {
-            --bg: #eef2f6;
-            --surface: rgba(255, 255, 255, 0.9);
-            --surface-2: #f7f8fb;
-            --ink: #111827;
-            --muted: #64748b;
-            --green: #0f3d33;
-            --gold: #c8953d;
-            --danger: #dc2626;
-            --line: rgba(15, 23, 42, 0.1);
-            --shadow: 0 22px 60px rgba(15, 23, 42, 0.1);
-            --font-title: "Syne", sans-serif;
-            --font-body: "Plus Jakarta Sans", sans-serif;
-        }
-
-        html {
-            overflow-x: hidden;
-            text-rendering: geometricPrecision;
-        }
-
-        body {
-            overflow-x: hidden;
-            background:
-                radial-gradient(circle at 8% 8%, rgba(200, 149, 61, 0.18), transparent 28%),
-                radial-gradient(circle at 94% 2%, rgba(14, 116, 144, 0.14), transparent 30%),
-                linear-gradient(135deg, #f8fafc 0%, #edf2f7 47%, #f5f1e9 100%);
-            letter-spacing: 0;
-        }
-
-        body::before {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-            content: "";
-            background-image:
-                linear-gradient(rgba(15, 23, 42, 0.035) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
-            background-size: 42px 42px;
-            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent 78%);
-        }
-
-        .screen {
-            padding: 28px;
-        }
-
-        .login-screen {
-            background:
-                linear-gradient(135deg, rgba(8, 17, 23, 0.86), rgba(15, 61, 51, 0.82)),
-                url("img/logo.jpg") center / min(460px, 78vw) no-repeat;
-        }
-
-        .login-card,
-        .panel,
-        .stat-card,
-        .record-card {
-            border: 1px solid rgba(255, 255, 255, 0.72);
-            border-radius: 8px;
-            background: var(--surface);
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(18px);
-        }
-
-        .login-card {
-            position: relative;
-            overflow: hidden;
-            width: min(460px, 100%);
-            padding: 34px;
-        }
-
-        .login-card::before,
-        .topbar::before,
-        .sidebar::before {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            content: "";
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent 42%);
-        }
-
-        h1,
-        h2,
-        h3,
-        p,
-        span,
-        strong,
-        button,
-        label,
-        input,
-        select,
-        textarea {
-            min-width: 0;
-        }
-
-        h1,
-        h2 {
-            letter-spacing: 0;
-        }
-
-        h1 {
-            font-size: clamp(1.55rem, 3vw, 2.55rem);
-        }
-
-        h2 {
-            color: #0f172a;
-            font-size: clamp(1.1rem, 1.8vw, 1.55rem);
-        }
-
-        p {
-            max-width: 72ch;
-            margin-bottom: 0;
+        .order-status-card, .analytics-card {
+            padding: 14px 16px; border-radius: var(--r);
+            border: 1px solid var(--line); background: var(--surface);
             overflow-wrap: anywhere;
         }
 
-        button {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 44px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, #0f3d33, #145c4f);
-            box-shadow: 0 12px 24px rgba(15, 61, 51, 0.16);
-            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
+        .order-status-card strong, .analytics-card strong {
+            display: block; font-size: 1.2rem; color: var(--accent); margin-bottom: 3px;
         }
 
-        button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 16px 30px rgba(15, 61, 51, 0.2);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        input,
-        select,
-        textarea {
-            border-color: rgba(15, 23, 42, 0.13);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.88);
-            transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: rgba(20, 92, 79, 0.55);
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(20, 92, 79, 0.12);
-        }
-
-        label {
-            color: #334155;
-            overflow-wrap: anywhere;
-        }
-
-        .dashboard-shell {
-            grid-template-columns: 292px minmax(0, 1fr);
-            gap: 22px;
-            max-width: 1560px;
-        }
-
-        .sidebar {
-            position: sticky;
-            top: 28px;
-            overflow: hidden;
-            border-color: rgba(255, 255, 255, 0.16);
-            background:
-                linear-gradient(160deg, rgba(6, 19, 26, 0.96), rgba(13, 55, 47, 0.94)),
-                url("img/logo.jpg") center bottom 18px / 170px auto no-repeat;
-            box-shadow: 0 26px 70px rgba(8, 17, 23, 0.24);
-        }
-
-        .brand {
-            position: relative;
-            border-bottom-color: rgba(255, 255, 255, 0.14);
-        }
-
-        .brand h1 {
-            margin-bottom: 10px;
-            color: #fff;
-            font-size: 1.45rem;
-        }
-
-        .brand h1::after {
-            display: block;
-            width: 54px;
-            height: 3px;
-            margin-top: 12px;
-            border-radius: 999px;
-            content: "";
-            background: linear-gradient(90deg, #c8953d, #38bdf8);
-        }
-
-        .brand p {
-            color: rgba(226, 232, 240, 0.78);
-            font-size: 0.83rem;
-        }
-
-        .tabs {
-            position: relative;
-            gap: 7px;
-        }
-
-        .tab-btn {
-            justify-content: flex-start;
-            min-height: 42px;
-            border: 1px solid transparent;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.06);
-            box-shadow: none;
-            color: rgba(226, 232, 240, 0.78);
-            font-size: 0.86rem;
-            line-height: 1.2;
-            overflow-wrap: anywhere;
-            white-space: normal;
-        }
-
-        .tab-btn::before {
-            width: 8px;
-            height: 8px;
-            flex: 0 0 auto;
-            border-radius: 999px;
-            content: "";
-            background: rgba(200, 149, 61, 0.45);
-            box-shadow: 0 0 0 4px rgba(200, 149, 61, 0.08);
-        }
-
-        .tab-btn.active {
-            border-color: rgba(255, 255, 255, 0.22);
-            background: #f8fafc;
-            color: #0f3d33;
-            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
-        }
-
-        .tab-btn.active::before {
-            background: #0f3d33;
-        }
-
-        .main {
-            gap: 20px;
-        }
-
-        .topbar {
-            position: relative;
-            overflow: hidden;
-            align-items: center;
-            min-height: 148px;
-            padding: 24px;
-            border-color: rgba(255, 255, 255, 0.78);
-            background:
-                linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(241, 245, 249, 0.78)),
-                linear-gradient(90deg, rgba(200, 149, 61, 0.2), transparent);
-        }
-
-        .topbar h2 {
-            margin-bottom: 10px;
-            font-size: clamp(1.35rem, 3vw, 2.35rem);
-        }
-
-        .topbar p {
-            color: #475569;
-            font-size: 0.95rem;
-        }
-
-        .ghost {
-            border-color: rgba(15, 23, 42, 0.12);
-            background: rgba(255, 255, 255, 0.78);
-            box-shadow: none;
-            color: #0f172a;
-        }
-
-        .stats-grid {
-            grid-template-columns: repeat(6, minmax(130px, 1fr));
-        }
-
-        .stat-card {
-            position: relative;
-            overflow: hidden;
-            min-height: 112px;
-            padding: 16px;
-            border-color: rgba(255, 255, 255, 0.78);
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 252, 0.72));
-        }
-
-        .stat-card::after {
-            position: absolute;
-            right: -18px;
-            bottom: -18px;
-            width: 70px;
-            height: 70px;
-            border: 1px solid rgba(200, 149, 61, 0.28);
-            border-radius: 50%;
-            content: "";
-        }
-
-        .stat-card[data-tab]:hover {
-            border-color: rgba(20, 92, 79, 0.25);
-            transform: translateY(-4px);
-            box-shadow: 0 24px 52px rgba(15, 23, 42, 0.12);
-        }
-
-        .stat-card strong {
-            color: #0f3d33;
-            font-size: clamp(1.25rem, 1.55vw, 1.7rem);
-            overflow-wrap: anywhere;
-            white-space: normal;
-        }
-
-        .stat-card span {
-            color: #64748b;
-            font-size: 0.78rem;
-            letter-spacing: 0;
-            text-transform: uppercase;
-            white-space: normal;
-        }
-
-        .panel {
-            padding: 22px;
-        }
-
-        .tab-panel {
-            animation: panelIn 0.32s ease both;
-        }
-
-        .panel-head,
-        .record-top {
-            align-items: flex-start;
-        }
-
-        .panel-head h2,
-        .record-top h3 {
-            margin-bottom: 6px;
-        }
-
-        .records-grid,
-        .products-list,
-        .videos-list {
-            gap: 14px;
-        }
-
-        .record-card {
-            overflow: hidden;
-            padding: 18px;
-            border-color: rgba(255, 255, 255, 0.72);
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.8));
-            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-        }
-
-        .record-card:hover {
-            border-color: rgba(20, 92, 79, 0.18);
-            transform: translateY(-2px);
-            box-shadow: 0 20px 46px rgba(15, 23, 42, 0.09);
-        }
-
-        .meta {
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        }
-
-        .meta div,
-        .message-box,
-        .order-status-card,
-        .analytics-card,
-        .size-picker,
-        .incoming-item {
-            border: 1px solid rgba(15, 23, 42, 0.08);
-            border-radius: 8px;
-            background: rgba(248, 250, 252, 0.82);
-            overflow-wrap: anywhere;
-        }
-
-        .pill,
-        .size-pill,
-        .color-option,
-        .wave-filter-btn,
-        .status-btn,
-        .bulk-delete-btn,
-        .delete-btn,
-        .edit-btn,
-        .order-delete-btn {
-            border-radius: 8px;
-            overflow-wrap: anywhere;
-            white-space: normal;
-        }
-
-        .pill {
-            background: rgba(200, 149, 61, 0.14);
-            color: #7c5b19;
-        }
-
-        .order-status-tabs,
-        .analytics-grid {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-
-        .order-status-card,
-        .analytics-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.72));
-        }
-
-        .order-status-card strong,
-        .analytics-card strong {
-            color: #0f3d33;
+        .order-status-card span, .analytics-card span {
+            font-size: 0.73rem; font-weight: 700; color: var(--muted);
+            text-transform: uppercase; letter-spacing: 0.07em;
         }
 
         .analytics-bar {
-            background: rgba(15, 23, 42, 0.08);
+            height: 6px; border-radius: 999px;
+            background: var(--surface-3); overflow: hidden; margin-top: 8px;
         }
 
         .analytics-bar span {
-            background: linear-gradient(90deg, #0f3d33, #38bdf8);
+            display: block; height: 100%; border-radius: 999px;
+            background: linear-gradient(90deg, var(--accent-dk), var(--accent-lt));
         }
 
-        .row-actions,
-        .status-actions {
-            align-items: center;
+        /* ═══════════════════════════════════════════════
+           WAVE
+        ═══════════════════════════════════════════════ */
+        .wave-filter-tabs { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
+
+        .wave-filter-btn {
+            min-height: 34px; padding: 0 13px; border-radius: 999px; font-size: 0.8rem;
+            background: var(--surface); border: 1.5px solid var(--line-2);
+            color: var(--ink-2); box-shadow: none; font-weight: 600;
+            overflow-wrap: anywhere; white-space: normal;
         }
 
-        .order-item,
-        .product-row,
-        .video-row {
-            grid-template-columns: 78px minmax(0, 1fr) auto;
-            border: 1px solid rgba(15, 23, 42, 0.08);
-            background: rgba(248, 250, 252, 0.86);
+        .wave-filter-btn:hover { background: var(--accent-pale); border-color: var(--accent); color: var(--accent); box-shadow: none; transform: none; }
+        .wave-filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: none; transform: none; }
+
+        .pill-status {
+            padding: 3px 9px; border-radius: 999px; font-size: 0.72rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap;
         }
 
-        .order-item > div,
-        .product-row > div,
-        .video-row > div {
-            min-width: 0;
-            overflow-wrap: anywhere;
-        }
+        .status-succeeded, .wave-card-succeeded .pill-status { background: var(--success); color: #fff; }
+        .status-pending, .wave-card-pending .pill-status,
+        .wave-card-pending_review .pill-status                { background: var(--warning); color: #1A1210; }
+        .status-cancelled, .status-failed,
+        .wave-card-cancelled .pill-status,
+        .wave-card-failed .pill-status                         { background: var(--accent-dk); color: #fff; }
 
-        .order-item img,
-        .product-row img,
-        .video-row video,
-        .video-row .video-preview,
-        .collection-badge {
-            border-radius: 8px;
-        }
+        .wave-card-succeeded  { border-color: rgba(22,163,74,0.26); background: linear-gradient(135deg, #fff, #F0FBF5); }
+        .wave-card-cancelled, .wave-card-failed { border-color: rgba(118,89,75,0.26); background: linear-gradient(135deg, #fff, #FDF6F1); }
+        .wave-card-pending, .wave-card-pending_review { border-color: rgba(217,119,6,0.23); background: linear-gradient(135deg, #fff, #FFFBEB); }
 
-        .collection-badge {
-            background: linear-gradient(135deg, #0f3d33, #145c4f);
-            overflow-wrap: anywhere;
-        }
-
-        .form-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
+        /* ═══════════════════════════════════════════════
+           INCOMING / SIZE / VIDEO
+        ═══════════════════════════════════════════════ */
+        .incoming-items { display: grid; gap: 16px; }
 
         .incoming-item {
-            background: rgba(248, 250, 252, 0.72);
+            padding: 18px; border-radius: var(--r);
+            border: 1px solid var(--line-2); background: var(--surface-2); overflow-wrap: anywhere;
         }
 
         .incoming-item legend {
-            color: #7c5b19;
-            letter-spacing: 0.08em;
+            padding: 0 8px; color: var(--accent-lt);
+            font-weight: 700; font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase;
         }
 
-        .status {
-            overflow-wrap: anywhere;
+        .size-picker {
+            display: grid; gap: 10px; margin: 12px 0; padding: 14px;
+            border: 1.5px solid var(--line-2); border-radius: var(--r); background: var(--surface-2);
         }
 
-        .error {
-            overflow-wrap: anywhere;
+        .size-picker-title { font-size: 0.81rem; font-weight: 700; color: var(--ink-2); }
+        .size-picker-row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; }
+        .size-list { display: flex; flex-wrap: wrap; gap: 6px; min-height: 30px; align-items: center; }
+
+        .video-upload-frame {
+            display: grid; gap: 8px; padding: 20px;
+            border: 1.5px dashed rgba(118,89,75,0.28); border-radius: var(--r);
+            background: var(--accent-pale); cursor: pointer;
+            transition: border-color 0.15s, background 0.15s;
         }
 
-        @keyframes panelIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
+        .video-upload-frame:hover { border-color: var(--accent); background: rgba(118,89,75,0.06); }
+        .video-upload-frame strong { font-size: 0.9rem; color: var(--ink); }
+        .video-upload-frame span { color: var(--muted); font-size: 0.84rem; line-height: 1.45; }
+        .video-upload-frame input { padding: 0; border: 0; background: transparent; height: auto; min-height: 0; }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* ═══════════════════════════════════════════════
+           COLOR PICKER
+        ═══════════════════════════════════════════════ */
+        .color-picker { position: relative; display: grid; gap: 10px; margin: 12px 0; }
+        .color-picker-title { color: var(--ink-2); font-size: 0.81rem; font-weight: 700; }
+        .color-options { display: flex; flex-wrap: wrap; gap: 7px; }
+
+        .color-option {
+            display: inline-flex; align-items: center; gap: 7px;
+            min-height: 34px; border: 1.5px solid var(--line-2);
+            border-radius: 999px !important; background: var(--surface);
+            color: var(--ink); padding: 0 12px 0 7px; font-size: 0.8rem;
+            font-weight: 600; cursor: pointer; transition: border-color 0.14s, box-shadow 0.14s;
+            white-space: nowrap !important;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-                transition-duration: 0.01ms !important;
-            }
+        .color-option:hover { border-color: rgba(118,89,75,0.4); }
+        .color-option.active { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(118,89,75,0.14); }
+
+        .color-swatch {
+            width: 20px; height: 20px; flex: 0 0 auto;
+            border: 1.5px solid rgba(21,23,19,0.14); border-radius: 50%; background: var(--swatch, #ddd);
         }
 
+        .color-custom-row { position: relative; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+        .add-custom-color-btn {
+            display: flex; align-items: center; justify-content: center;
+            width: 34px; height: 34px; min-height: 0;
+            border: 2px dashed rgba(118,89,75,0.4); border-radius: 50%;
+            background: transparent; color: rgba(118,89,75,0.65);
+            font-size: 1.3rem; font-weight: 300; line-height: 1;
+            box-shadow: none; flex: 0 0 auto; cursor: pointer;
+            transition: border-color 0.14s, color 0.14s;
+        }
+
+        .add-custom-color-btn:hover { border-color: var(--accent); color: var(--accent); transform: none; box-shadow: none; }
+        .custom-swatches-area { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; }
+
+        .custom-swatch-btn {
+            width: 32px; height: 32px; min-height: 0; border: 2.5px solid transparent;
+            border-radius: 50%; background: var(--swatch, #888);
+            box-shadow: 0 1px 5px rgba(0,0,0,0.2); cursor: pointer; flex: 0 0 auto; padding: 0;
+            transition: transform 0.12s, border-color 0.12s;
+        }
+
+        .custom-swatch-btn:hover { transform: scale(1.1); box-shadow: none; }
+        .custom-swatch-btn.active { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(118,89,75,0.2); }
+
+        .color-picker-popup {
+            position: absolute; z-index: 600; top: calc(100% + 8px); left: 0;
+            width: 272px; padding: 13px; border: 1px solid rgba(21,23,19,0.12);
+            border-radius: 13px; background: #fff;
+            box-shadow: 0 14px 44px rgba(21,23,19,0.17);
+        }
+
+        .color-picker-popup[hidden] { display: none !important; }
+
+        .color-canvas {
+            display: block; width: 100%; height: 148px;
+            border-radius: 8px; cursor: crosshair; touch-action: none;
+        }
+
+        .hue-slider {
+            -webkit-appearance: none; appearance: none; width: 100%;
+            height: 13px; border-radius: 999px; border: none !important; outline: none;
+            cursor: pointer; margin: 10px 0 8px; box-shadow: none !important;
+            min-height: 0 !important; padding: 0 !important;
+            background: linear-gradient(to right,#f00 0%,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,#f00 100%);
+        }
+
+        .hue-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 19px; height: 19px; border-radius: 50%;
+            border: 2.5px solid #fff; background: var(--thumb-color, #f00);
+            box-shadow: 0 1px 6px rgba(0,0,0,0.3); cursor: grab;
+        }
+
+        .hue-slider::-moz-range-thumb {
+            width: 19px; height: 19px; border-radius: 50%;
+            border: 2.5px solid #fff; background: var(--thumb-color, #f00);
+            box-shadow: 0 1px 6px rgba(0,0,0,0.3); cursor: grab;
+        }
+
+        .hex-row { display: flex; align-items: center; gap: 7px; }
+
+        .hex-preview {
+            width: 32px; height: 32px; flex: 0 0 auto;
+            border-radius: 50%; border: 1.5px solid rgba(21,23,19,0.13); background: #888;
+        }
+
+        .hex-input-field {
+            flex: 1; height: 35px; min-height: 0 !important;
+            border: 1.5px solid rgba(21,23,19,0.12) !important; border-radius: 8px !important;
+            background: var(--surface-2) !important; color: var(--ink);
+            font-size: 0.87rem; font-family: monospace;
+            padding: 0 10px !important; letter-spacing: 0.06em; box-shadow: none !important;
+        }
+
+        .hex-input-field:focus {
+            border-color: var(--accent) !important; background: #fff !important;
+            box-shadow: 0 0 0 3px rgba(118,89,75,0.11) !important;
+        }
+
+        .eyedropper-btn {
+            width: 35px; height: 35px; min-height: 0; border-radius: 8px;
+            border: 1.5px solid rgba(21,23,19,0.12); background: var(--surface-2);
+            color: var(--ink); font-size: 0.95rem; box-shadow: none; padding: 0; cursor: pointer;
+        }
+
+        .eyedropper-btn:hover { background: var(--surface-3); transform: none; box-shadow: none; }
+
+        .popup-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; gap: 8px; }
+
+        .popup-custom-swatches { display: flex; gap: 5px; flex-wrap: wrap; flex: 1; align-items: center; min-height: 26px; }
+
+        .popup-swatch-circle {
+            width: 24px; height: 24px; border-radius: 50%; border: 2px solid transparent;
+            cursor: pointer; transition: transform 0.12s, border-color 0.12s; flex: 0 0 auto;
+        }
+
+        .popup-swatch-circle:hover { transform: scale(1.12); }
+        .popup-swatch-circle.active { border-color: var(--accent); }
+
+        .popup-add-btn {
+            padding: 0 13px; height: 32px; min-height: 0; border-radius: 7px;
+            background: linear-gradient(135deg, var(--accent-dk), var(--accent));
+            color: #fff; font-size: 0.79rem; font-weight: 700; box-shadow: none; white-space: nowrap;
+        }
+
+        .popup-add-btn:hover { background: var(--accent); box-shadow: 0 4px 12px rgba(118,89,75,0.28); transform: none; }
+
+        /* ═══════════════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════════════ */
         @media (max-width: 1180px) {
-            .stats-grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
+            .stats-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
         }
 
         @media (max-width: 900px) {
-            .screen {
-                padding: 16px;
-            }
-
-            .dashboard-shell {
-                grid-template-columns: 1fr;
-            }
+            .dashboard-shell { flex-direction: column; }
 
             .sidebar {
-                position: relative;
-                top: auto;
-                background: linear-gradient(135deg, rgba(6, 19, 26, 0.98), rgba(13, 55, 47, 0.94));
+                position: relative; width: 100%; flex: none;
+                min-height: auto; max-height: none;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.14);
             }
 
-            .tabs {
-                display: flex;
-                gap: 8px;
-                overflow-x: auto;
-                padding-bottom: 4px;
-                scroll-snap-type: x proximity;
-            }
-
-            .tab-btn {
-                min-width: max-content;
-                scroll-snap-align: start;
-                white-space: nowrap;
-            }
-
-            .topbar {
-                min-height: 0;
-            }
+            .tabs { flex-direction: row; flex-wrap: wrap; padding: 10px; gap: 5px; }
+            .tab-btn { min-width: max-content; min-height: 32px; font-size: 0.79rem; }
+            .main { padding: 14px; gap: 14px; }
+            .order-status-tabs, .analytics-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 640px) {
-            body {
-                font-size: 13.5px;
-            }
-
-            .screen {
-                padding: 10px;
-            }
-
-            .login-card,
-            .panel,
-            .record-card,
-            .stat-card {
-                border-radius: 8px;
-            }
-
-            .login-card {
-                padding: 22px;
-            }
-
-            .dashboard-shell,
-            .main {
-                gap: 12px;
-            }
-
-            .sidebar,
-            .topbar,
-            .panel {
-                padding: 14px;
-            }
-
-            .brand h1 {
-                font-size: 1.18rem;
-            }
-
-            .topbar {
-                align-items: stretch;
-            }
-
-            .topbar h2 {
-                font-size: 1.38rem;
-            }
-
-            .stats-grid,
-            .order-status-tabs,
-            .analytics-grid,
-            .meta,
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stat-card {
-                min-height: 86px;
-            }
-
-            .panel-head,
-            .record-top {
-                gap: 10px;
-            }
-
-            .row-actions {
-                justify-content: flex-start;
-                width: 100%;
-            }
-
-            .row-actions button,
-            .status-actions button,
-            .bulk-delete-btn,
-            .wave-filter-btn {
-                flex: 1 1 132px;
-                min-width: 0;
-            }
-
-            .order-item,
-            .product-row,
-            .video-row {
-                grid-template-columns: 58px minmax(0, 1fr);
-            }
-
-            .order-item .row-actions,
-            .product-row .row-actions,
-            .video-row .row-actions {
-                grid-column: 1 / -1;
-            }
-
-            .order-item img,
-            .product-row img,
-            .video-row video,
-            .video-row .video-preview,
-            .collection-badge {
-                width: 58px;
-                height: 58px;
-            }
-
-            .size-picker-row {
-                grid-template-columns: 1fr;
-            }
+            body { font-size: 13.5px; }
+            .main { padding: 10px; gap: 10px; }
+            .panel { padding: 14px; }
+            .topbar { flex-direction: column; align-items: flex-start; }
+            .stats-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+            .stat-card { padding: 14px 12px; }
+            .panel-head, .record-top { flex-direction: column; }
+            .form-grid { grid-template-columns: 1fr; }
+            .meta { grid-template-columns: 1fr; }
+            .order-item, .product-row, .video-row { grid-template-columns: 58px minmax(0,1fr); }
+            .order-item .row-actions, .product-row .row-actions, .video-row .row-actions { grid-column: 1/-1; }
+            .order-item img, .product-row img, .video-row video,
+            .video-row .video-preview, .collection-badge { width: 58px; height: 58px; }
+            .size-picker-row { grid-template-columns: 1fr; }
+            .row-actions button, .status-actions button,
+            .bulk-delete-btn, .wave-filter-btn { flex: 1 1 120px; min-width: 0; }
         }
+
     </style>
 </head>
 
@@ -1503,7 +974,7 @@
 
     <main id="dashboard" class="screen dashboard">
         <div class="dashboard-shell">
-            <aside class="sidebar panel">
+            <aside class="sidebar">
                 <div class="brand">
                     <h1>Dashboard</h1>
                     <p class="status" id="statusText">Chargement...</p>
@@ -1519,6 +990,7 @@
                     <button class="tab-btn" type="button" data-tab="deliveredOrdersPanel">Livre</button>
                     <button class="tab-btn" type="button" data-tab="productsPanel">Produits</button>
                     <button class="tab-btn" type="button" data-tab="incomingPanel">Arrivage en cours</button>
+                    <button class="tab-btn" type="button" data-tab="bestsellersPanel">Nos Plus Vendus</button>
                     <button class="tab-btn" type="button" data-tab="messagesPanel">Formulaire</button>
                     <button class="tab-btn" type="button" data-tab="newsletterPanel">Newsletter</button>
                 </nav>
@@ -1828,6 +1300,88 @@
                     <div class="products-list" id="incomingGrid"></div>
                 </section>
 
+                <section id="bestsellersPanel" class="panel tab-panel hidden" aria-live="polite">
+                    <div class="panel-head">
+                        <div>
+                            <h2>Nos Articles les Plus Vendus</h2>
+                            <p>Ces articles s'affichent sur la page d'accueil dans la section "Nos Articles les Plus Vendus".</p>
+                        </div>
+                        <button class="bulk-delete-btn" type="button" data-bulk-delete="bestsellers">Tout supprimer</button>
+                    </div>
+                    <form id="bestsellersForm">
+                        <input type="hidden" name="id" />
+                        <div class="form-grid">
+                            <label>Nom du produit
+                                <input type="text" name="name" required placeholder="T-shirt Redemption Noir" />
+                            </label>
+                            <label>Prix FCFA
+                                <input type="number" name="price" required min="0" step="500" placeholder="7000" />
+                            </label>
+                        </div>
+                        <div class="form-grid">
+                            <label>Categorie
+                                <select name="category" required>
+                                    <option value="tshirt">T-shirt</option>
+                                    <option value="hoodie">Pull</option>
+                                    <option value="longsleeve">T-shirt manches longues</option>
+                                    <option value="cap">Casquette</option>
+                                </select>
+                            </label>
+                            <label>Lien image du produit
+                                <input type="text" name="image_url" placeholder="img/mon-produit.jpg ou https://..." />
+                            </label>
+                        </div>
+                        <div class="form-grid">
+                            <label>Collection
+                                <select name="collection_name">
+                                    <option value="">Sans collection</option>
+                                    <option value="Collection couronne d'épine">Collection couronne d'épine</option>
+                                    <option value="Collection rachat">Collection rachat</option>
+                                    <option value="Collection evangeliste Yann Dayere (Ev.YD)">Collection evangeliste Yann Dayere (Ev.YD)</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="color-picker" data-color-picker>
+                            <span class="color-picker-title">Couleur / variante</span>
+                            <input type="hidden" name="color" required />
+                            <div class="color-options" aria-label="Choisir une couleur produit"></div>
+                            <span class="field-hint">Clique sur une couleur. Elle s'affichera sur le site du produit.</span>
+                        </div>
+                        <div class="size-picker" data-size-picker>
+                            <span class="size-picker-title">Tailles des articles</span>
+                            <input type="hidden" name="sizes" />
+                            <div class="size-picker-row">
+                                <select data-size-select aria-label="Choisir une taille">
+                                    <option value="">Choisir une taille</option>
+                                    <option value="XS">XS</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                    <option value="XL">XL</option>
+                                    <option value="2XL">2XL</option>
+                                    <option value="3XL">3XL</option>
+                                    <option value="4XL">4XL</option>
+                                    <option value="5XL">5XL</option>
+                                    <option value="Taille unique">Taille unique</option>
+                                </select>
+                                <button class="ghost" type="button" data-size-add>Ajouter</button>
+                            </div>
+                            <div class="size-list" data-size-list aria-live="polite"></div>
+                            <span class="field-hint">Ajoute toutes les tailles disponibles.</span>
+                        </div>
+                        <label>Ou importer des images depuis l'ordinateur
+                            <input type="file" name="image_file" accept="image/*" multiple />
+                            <span class="field-hint">Image 1 = avant du produit. Image 2 = arriere affiche au survol.</span>
+                        </label>
+                        <label>Description
+                            <textarea name="description" required placeholder="Coton premium, coupe oversize..."></textarea>
+                        </label>
+                        <button type="submit">Ajouter l'article populaire</button>
+                        <button id="cancelBestsellerEdit" class="ghost hidden" type="button">Annuler la modification</button>
+                    </form>
+                    <div class="products-list" id="bestsellersGrid"></div>
+                </section>
+
                 <section id="messagesPanel" class="panel tab-panel hidden" aria-live="polite">
                     <div class="panel-head">
                         <div>
@@ -1868,11 +1422,16 @@
             newsletter: "newsletter_subscribers",
             wavePayments: "wave_payments",
             abandonedCheckouts: "abandoned_checkouts",
+            bestsellers: "bestsellers",
         };
         const VIDEO_BUCKET = "site-videos";
         const IMAGE_BUCKET = "site-images";
-        const DASHBOARD_USERNAME = "YOUR_DASHBOARD_USERNAME";
-        const DASHBOARD_PASSWORD = "YOUR_DASHBOARD_PASSWORD";
+        // Authentification gérée côté serveur (Netlify Functions admin-login/admin-session).
+        // Aucun identifiant n'est stocké dans cette page.
+        const ADMIN_LOGIN_API = "/.netlify/functions/admin-login";
+        const ADMIN_LOGOUT_API = "/.netlify/functions/admin-logout";
+        const ADMIN_SESSION_API = "/.netlify/functions/admin-session";
+        const ADMIN_API = "/.netlify/functions/admin-api";
         setupDashboardSourceDeterrents();
         let supabaseClient = createSupabaseClient();
 
@@ -1886,18 +1445,7 @@
             { id: "default-longsleeve-rachat", category: "longsleeve", name: "Rachat", short_name: "", subcollections: ["Manches longues"], is_active: true },
             { id: "default-cap-crown", category: "cap", name: "Couronne d'Epine", short_name: "", subcollections: ["Crown", "Forest"], is_active: true },
         ];
-        const predefinedColors = [
-            { name: "Noir", value: "#111111" },
-            { name: "Blanc", value: "#ffffff" },
-            { name: "Rouge", value: "#b91c1c" },
-            { name: "Vert", value: "#1f7a3f" },
-            { name: "Bleu", value: "#1d4ed8" },
-            { name: "Beige", value: "#d8c3a5" },
-            { name: "Gris", value: "#737373" },
-            { name: "Marron", value: "#7c4a2d" },
-            { name: "Turquoise", value: "#14b8a6" },
-            { name: "Jaune", value: "#f2c94c" },
-        ];
+        const predefinedColors = [];
 
         const loginScreen = document.getElementById("loginScreen");
         const dashboard = document.getElementById("dashboard");
@@ -1912,6 +1460,8 @@
         const cancelCollectionEdit = document.getElementById("cancelCollectionEdit");
         const cancelProductEdit = document.getElementById("cancelProductEdit");
         const cancelIncomingEdit = document.getElementById("cancelIncomingEdit");
+        const bestsellersForm = document.getElementById("bestsellersForm");
+        const cancelBestsellerEdit = document.getElementById("cancelBestsellerEdit");
         const productCollectionSelect = document.getElementById("productCollectionSelect");
         const incomingItems = document.getElementById("incomingItems");
         const addIncomingItem = document.getElementById("addIncomingItem");
@@ -1923,6 +1473,7 @@
         const collectionsGrid = document.getElementById("collectionsGrid");
         const productsGrid = document.getElementById("productsGrid");
         const incomingGrid = document.getElementById("incomingGrid");
+        const bestsellersGrid = document.getElementById("bestsellersGrid");
         const messagesGrid = document.getElementById("messagesGrid");
         const newsletterGrid = document.getElementById("newsletterGrid");
         const wavePaymentsGrid = document.getElementById("wavePaymentsGrid");
@@ -1947,6 +1498,7 @@
         let currentAbandonedCheckouts = [];
         let currentProducts = [];
         let currentIncomingProducts = [];
+        let currentBestsellers = [];
         let currentCollections = [];
         let currentMessages = [];
         let currentNewsletter = [];
@@ -1954,24 +1506,56 @@
         let currentWaveFilter = "active";
         setupColorPicker(productForm);
         setupColorPicker(incomingForm);
+        setupColorPicker(bestsellersForm);
         setupSizePickers(document);
-        if (sessionStorage.getItem("redemption_admin") === "true") showDashboard();
+        checkAdminSession();
 
-        loginForm.addEventListener("submit", (event) => {
-            event.preventDefault();
-            const data = Object.fromEntries(new FormData(loginForm));
-            if (data.username === DASHBOARD_USERNAME && data.password === DASHBOARD_PASSWORD) {
-                sessionStorage.setItem("redemption_admin", "true");
-                showDashboard();
-                return;
-            }
-            loginError.textContent = "Identifiants incorrects.";
-        });
+        async function checkAdminSession() {
+            try {
+                const res = await fetch(ADMIN_SESSION_API, { credentials: "same-origin", cache: "no-store" });
+                const data = await res.json().catch(() => ({}));
+                if (data.authenticated) showDashboard();
+            } catch (_) { /* hors-ligne : reste sur l'écran de login */ }
+        }
 
-        logoutBtn.addEventListener("click", () => {
-            sessionStorage.removeItem("redemption_admin");
+        function showLogin(message = "") {
             dashboard.classList.remove("active");
             loginScreen.style.display = "grid";
+            if (loginError) loginError.textContent = message;
+        }
+
+        loginForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            loginError.textContent = "";
+            const data = Object.fromEntries(new FormData(loginForm));
+            const submitBtn = loginForm.querySelector("[type='submit']");
+            if (submitBtn) submitBtn.disabled = true;
+            try {
+                const res = await fetch(ADMIN_LOGIN_API, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "same-origin",
+                    body: JSON.stringify({ username: data.username, password: data.password }),
+                });
+                if (res.ok) {
+                    loginForm.reset();
+                    showDashboard();
+                } else {
+                    const err = await res.json().catch(() => ({}));
+                    loginError.textContent = err.error || "Identifiants incorrects.";
+                }
+            } catch (_) {
+                loginError.textContent = "Connexion impossible. Réessaie.";
+            } finally {
+                if (submitBtn) submitBtn.disabled = false;
+            }
+        });
+
+        logoutBtn.addEventListener("click", async () => {
+            try {
+                await fetch(ADMIN_LOGOUT_API, { method: "POST", credentials: "same-origin" });
+            } catch (_) { /* on déconnecte quand même côté client */ }
+            showLogin();
         });
 
         statusText?.addEventListener("click", () => {
@@ -2101,6 +1685,21 @@
             }
         });
 
+        bestsellersGrid.addEventListener("click", async (event) => {
+            const deleteButton = event.target.closest(".delete-btn");
+            const editButton = event.target.closest(".edit-btn");
+
+            if (deleteButton?.dataset.bestsellerId) {
+                if (!confirm("Supprimer cet article populaire du site ?")) return;
+                await deleteBestseller(deleteButton.dataset.bestsellerId);
+                return;
+            }
+
+            if (editButton?.dataset.bestsellerId) {
+                startBestsellerEdit(editButton.dataset.bestsellerId);
+            }
+        });
+
         collectionsGrid?.addEventListener("click", async (event) => {
             const deleteButton = event.target.closest(".delete-collection-btn");
             const editButton = event.target.closest(".edit-collection-btn");
@@ -2132,6 +1731,7 @@
 
         cancelProductEdit.addEventListener("click", () => resetProductForm());
         cancelIncomingEdit.addEventListener("click", () => resetIncomingForm());
+        cancelBestsellerEdit.addEventListener("click", () => resetBestsellerForm());
         cancelCollectionEdit?.addEventListener("click", () => resetCollectionForm());
         addIncomingItem?.addEventListener("click", () => addIncomingItemBlock());
         incomingItems?.addEventListener("click", (event) => {
@@ -2259,6 +1859,42 @@
             await loadDashboard();
         });
 
+        bestsellersForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const rawFormData = new FormData(bestsellersForm);
+            const formData = Object.fromEntries(rawFormData);
+            const imageFiles = rawFormData.getAll("image_file").filter((file) => file && file.size);
+            const isEditing = Boolean(formData.id);
+
+            const button = bestsellersForm.querySelector('button[type="submit"]');
+            button.disabled = true;
+            button.textContent = isEditing ? "Modification..." : "Ajout...";
+
+            let image_url = formData.image_url || "";
+            let image_urls = [];
+
+            if (imageFiles.length) {
+                const { urls, error } = await uploadImages(imageFiles);
+                if (error) {
+                    alert(error);
+                    button.disabled = false;
+                    button.textContent = isEditing ? "Modifier l'article populaire" : "Ajouter l'article populaire";
+                    return;
+                }
+                if (urls.length) {
+                    image_url = image_url || urls[0];
+                    image_urls = urls;
+                }
+            }
+
+            const product = { ...formData, image_url, image_urls };
+            const result = isEditing ? await updateBestseller(formData.id, product) : await saveBestseller(product);
+            button.disabled = false;
+            resetBestsellerForm();
+            statusText.textContent = result.saved ? "Article populaire synchronise avec Supabase." : result.error || "Erreur lors de la sauvegarde.";
+            await loadDashboard();
+        });
+
         async function showDashboard() {
             loginScreen.style.display = "none";
             dashboard.classList.add("active");
@@ -2266,12 +1902,13 @@
         }
 
         async function loadDashboard() {
-            const [orders, abandonedCheckouts, collections, products, incomingProducts, messages, newsletter, rawWavePayments] = await Promise.all([
+            const [orders, abandonedCheckouts, collections, products, incomingProducts, bestsellers, messages, newsletter, rawWavePayments] = await Promise.all([
                 loadRecords(TABLES.orders, "redemption_orders"),
                 loadRecords(TABLES.abandonedCheckouts, "redemption_abandoned_checkouts"),
                 loadCollections(),
                 loadProducts(),
                 loadIncomingProducts(),
+                loadBestsellersDashboard(),
                 loadRecords(TABLES.messages, "redemption_contact_messages"),
                 loadRecords(TABLES.newsletter, "redemption_newsletter_subscribers"),
                 loadRecords(TABLES.wavePayments, "redemption_wave_payments"),
@@ -2291,6 +1928,7 @@
             currentCollections = collections;
             currentProducts = products;
             currentIncomingProducts = incomingProducts;
+            currentBestsellers = bestsellers;
             currentMessages = messages;
             currentNewsletter = newsletter;
             currentWavePayments = wavePayments;
@@ -2302,6 +1940,7 @@
             updateProductCollectionOptions(productForm.elements.collection_name.value);
             renderProducts(products);
             renderIncomingProducts(incomingProducts);
+            renderBestsellersDashboard(bestsellers);
             renderMessages(messages);
             renderNewsletter(newsletter);
             renderWavePayments(wavePayments);
@@ -2397,6 +2036,76 @@
                 if (error) console.error("Supabase incoming products select failed:", error);
             }
             return dedupeProducts(products.filter((product) => !hiddenIncoming.has(String(product.id))));
+        }
+
+        async function loadBestsellersDashboard() {
+            const apiResult = await dashboardApi("read", TABLES.bestsellers);
+            if (apiResult.ok && Array.isArray(apiResult.data)) {
+                return apiResult.data.filter((item) => item.is_active !== false);
+            }
+            return [];
+        }
+
+        function bestsellerPayload(product) {
+            return {
+                name: product.name,
+                category: product.category,
+                collection_name: product.collection_name || null,
+                color: product.color || null,
+                description: product.description || "",
+                image_url: product.image_url || null,
+                image_urls: product.image_urls || [],
+                price: normalizePrice(product.price),
+                sizes: parseSizes(product.sizes),
+                is_active: true,
+            };
+        }
+
+        async function saveBestseller(product) {
+            const apiResult = await dashboardApi("insert", TABLES.bestsellers, bestsellerPayload(product));
+            if (apiResult.ok) return { saved: true };
+            return { saved: false, error: apiResult.error || "Supabase n'est pas configure." };
+        }
+
+        async function updateBestseller(id, product) {
+            const apiResult = await dashboardApi("update", TABLES.bestsellers, bestsellerPayload(product), id, "id");
+            if (apiResult.ok) return { saved: true };
+            return { saved: false, error: apiResult.error || "Erreur modification." };
+        }
+
+        async function deleteBestseller(id) {
+            currentBestsellers = currentBestsellers.filter((item) => String(item.id) !== String(id));
+            renderBestsellersDashboard(currentBestsellers);
+            const apiResult = await dashboardApi("update", TABLES.bestsellers, { is_active: false }, id, "id");
+            const error = apiResult.ok ? null : { message: apiResult.error };
+            if (error) { console.error("Supabase bestseller delete failed:", error); statusText.textContent = "Erreur lors de la suppression."; return; }
+            statusText.textContent = "Article populaire supprime.";
+        }
+
+        function startBestsellerEdit(id) {
+            const product = currentBestsellers.find((item) => String(item.id) === String(id));
+            if (!product) return;
+            bestsellersForm.elements.id.value = product.id;
+            bestsellersForm.elements.name.value = product.name || "";
+            bestsellersForm.elements.price.value = product.price || "";
+            bestsellersForm.elements.category.value = product.category || "tshirt";
+            bestsellersForm.elements.image_url.value = product.image_url || "";
+            bestsellersForm.elements.collection_name.value = product.collection_name || "";
+            bestsellersForm.elements.description.value = product.description || "";
+            setSelectedColor(bestsellersForm, product.color || "");
+            setSelectedSizes(bestsellersForm, product.sizes || []);
+            bestsellersForm.querySelector('button[type="submit"]').textContent = "Modifier l'article populaire";
+            cancelBestsellerEdit.classList.remove("hidden");
+            bestsellersForm.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        function resetBestsellerForm() {
+            bestsellersForm.reset();
+            bestsellersForm.elements.id.value = "";
+            setSelectedColor(bestsellersForm, "");
+            setSelectedSizes(bestsellersForm, []);
+            bestsellersForm.querySelector('button[type="submit"]').textContent = "Ajouter l'article populaire";
+            cancelBestsellerEdit.classList.add("hidden");
         }
 
         async function saveCollection(collection) {
@@ -2803,18 +2512,11 @@
 
         async function saveVideo(video) {
             const localVideo = { ...video, id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) };
-            if (!supabaseClient) {
-                saveLocalRecord("redemption_videos", localVideo);
-                return { saved: false, error: "Supabase n'est pas configure. Video gardee localement." };
-            }
+            const apiResult = await dashboardApi("insert", TABLES.videos, video);
+            if (apiResult.ok) return { saved: true };
 
-            const { error } = await supabaseClient.from(TABLES.videos).insert(video).select("id").single();
-            if (error) {
-                console.error("Supabase video insert failed:", error);
-                saveLocalRecord("redemption_videos", localVideo);
-                return { saved: false, error: `Erreur Supabase video: ${error.message}` };
-            }
-            return { saved: true };
+            saveLocalRecord("redemption_videos", localVideo);
+            return { saved: false, error: apiResult.error || "Video gardee localement." };
         }
 
         async function uploadVideoFile(file) {
@@ -2894,8 +2596,26 @@
             return { urls, error: "" };
         }
 
-        async function dashboardApi(adminAction, table = "", payload = {}, id = "") {
-            return { ok: false, data: null, error: "" };
+        // Appelle l'API admin serveur (service_role + session signée).
+        // C'est l'unique chemin d'accès aux données : les clés sensibles ne sont jamais dans le navigateur.
+        async function dashboardApi(adminAction, table = "", payload = {}, id = "", idColumn = "id") {
+            try {
+                const res = await fetch(ADMIN_API, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "same-origin",
+                    body: JSON.stringify({ action: adminAction, table, payload, id, idColumn }),
+                });
+                if (res.status === 401) {
+                    showLogin("Session expirée. Reconnecte-toi.");
+                    return { ok: false, data: null, error: "Session expirée." };
+                }
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok || !data.ok) return { ok: false, data: null, error: data.error || "Erreur serveur." };
+                return { ok: true, data: data.data, error: "" };
+            } catch (_) {
+                return { ok: false, data: null, error: "Connexion au serveur impossible." };
+            }
         }
 
         function createSupabaseClient() {
@@ -2968,20 +2688,12 @@
             const localVideos = readLocalRecords("redemption_videos").filter((item) => String(item.id) !== String(videoId));
             localStorage.setItem("redemption_videos", JSON.stringify(localVideos));
 
-            if (supabaseClient && isSupabaseProductId(videoId)) {
-                const { error } = await supabaseClient
-                    .from(TABLES.videos)
-                    .update({ status: "inactive" })
-                    .eq("id", videoId);
-                if (error) {
-                    console.error("Supabase video soft delete failed:", error);
-                    const { error: deleteError } = await supabaseClient
-                        .from(TABLES.videos)
-                        .delete()
-                        .eq("id", videoId);
-                    if (deleteError) {
-                        console.error("Supabase video hard delete failed:", deleteError);
-                        statusText.textContent = `Erreur suppression video: ${deleteError.message}`;
+            if (isSupabaseProductId(videoId)) {
+                let apiResult = await dashboardApi("update", TABLES.videos, { status: "inactive" }, videoId, "id");
+                if (!apiResult.ok) {
+                    apiResult = await dashboardApi("delete", TABLES.videos, {}, videoId, "id");
+                    if (!apiResult.ok && apiResult.error) {
+                        statusText.textContent = `Erreur suppression video: ${apiResult.error}`;
                         return;
                     }
                 }
@@ -2998,17 +2710,12 @@
             );
             localStorage.setItem("redemption_contact_messages", JSON.stringify(localMessages));
 
-            if (supabaseClient) {
-                const query = supabaseClient.from(TABLES.messages).delete();
-                const { error } = isSupabaseProductId(messageId)
-                    ? await query.eq("id", messageId)
-                    : await query.eq("created_at", messageId);
-                if (error) {
-                    console.error("Supabase message delete failed:", error);
-                    statusText.textContent = `Message retire du dashboard. Supabase: ${error.message}`;
-                    await loadDashboard();
-                    return;
-                }
+            const idColumn = isSupabaseProductId(messageId) ? "id" : "created_at";
+            const apiResult = await dashboardApi("delete", TABLES.messages, {}, messageId, idColumn);
+            if (!apiResult.ok && apiResult.error) {
+                statusText.textContent = `Message retire du dashboard. ${apiResult.error}`;
+                await loadDashboard();
+                return;
             }
 
             statusText.textContent = "Message supprime du dashboard.";
@@ -3022,19 +2729,14 @@
             );
             localStorage.setItem("redemption_newsletter_subscribers", JSON.stringify(localSubscribers));
 
-            if (supabaseClient) {
-                const query = supabaseClient.from(TABLES.newsletter).delete();
-                const { error } = isSupabaseProductId(subscriberId)
-                    ? await query.eq("id", subscriberId)
-                    : String(subscriberId).includes("@")
-                        ? await query.eq("email", subscriberId)
-                        : await query.eq("created_at", subscriberId);
-                if (error) {
-                    console.error("Supabase newsletter delete failed:", error);
-                    statusText.textContent = `Abonne retire du dashboard. Supabase: ${error.message}`;
-                    await loadDashboard();
-                    return;
-                }
+            const idColumn = isSupabaseProductId(subscriberId)
+                ? "id"
+                : String(subscriberId).includes("@") ? "email" : "created_at";
+            const apiResult = await dashboardApi("delete", TABLES.newsletter, {}, subscriberId, idColumn);
+            if (!apiResult.ok && apiResult.error) {
+                statusText.textContent = `Abonne retire du dashboard. ${apiResult.error}`;
+                await loadDashboard();
+                return;
             }
 
             statusText.textContent = "Abonne newsletter supprime.";
@@ -3049,12 +2751,9 @@
             );
             localStorage.setItem("redemption_orders", JSON.stringify(localOrders));
 
-            if (supabaseClient) {
-                const { error } = await supabaseClient
-                    .from(TABLES.orders)
-                    .update({ status })
-                    .eq("id", orderId);
-                if (error) console.error("Supabase order status update failed:", error);
+            const apiResult = await dashboardApi("update", TABLES.orders, { status }, orderId, "id");
+            if (!apiResult.ok && apiResult.error) {
+                statusText.textContent = `Statut mis a jour localement. ${apiResult.error}`;
             }
 
             await loadDashboard();
@@ -3069,14 +2768,10 @@
             );
             localStorage.setItem("redemption_orders", JSON.stringify(localOrders));
 
-            if (supabaseClient && isSupabaseProductId(orderId)) {
-                const { error } = await supabaseClient
-                    .from(TABLES.orders)
-                    .delete()
-                    .eq("id", orderId);
-                if (error) {
-                    console.error("Supabase order delete failed:", error);
-                    statusText.textContent = `Commande retiree du dashboard. Supabase: ${error.message}`;
+            if (isSupabaseProductId(orderId)) {
+                const apiResult = await dashboardApi("delete", TABLES.orders, {}, orderId, "id");
+                if (!apiResult.ok && apiResult.error) {
+                    statusText.textContent = `Commande retiree du dashboard. ${apiResult.error}`;
                     await loadDashboard();
                     return;
                 }
@@ -3093,17 +2788,11 @@
             );
             localStorage.setItem("redemption_abandoned_checkouts", JSON.stringify(localCheckouts));
 
-            if (supabaseClient) {
-                const { error } = await supabaseClient
-                    .from(TABLES.abandonedCheckouts)
-                    .delete()
-                    .eq("id", checkoutId);
-                if (error) {
-                    console.error("Supabase abandoned checkout delete failed:", error);
-                    statusText.textContent = `Panier abandonne retire du dashboard. Supabase: ${error.message}`;
-                    await loadDashboard();
-                    return;
-                }
+            const apiResult = await dashboardApi("delete", TABLES.abandonedCheckouts, {}, checkoutId, "id");
+            if (!apiResult.ok && apiResult.error) {
+                statusText.textContent = `Panier abandonne retire du dashboard. ${apiResult.error}`;
+                await loadDashboard();
+                return;
             }
 
             statusText.textContent = "Panier abandonne supprime.";
@@ -3119,17 +2808,17 @@
             );
             localStorage.setItem("redemption_wave_payments", JSON.stringify(localPayments));
 
-            if (supabaseClient) {
-                const { error } = await supabaseClient
-                    .from(TABLES.wavePayments)
-                    .update({ status, validated_at: new Date().toISOString() })
-                    .eq("reference", reference);
-                if (error) {
-                    console.error("Supabase Wave payment update failed:", error);
-                    statusText.textContent = `Paiement Wave mis a jour localement. Supabase: ${error.message}`;
-                    await loadDashboard();
-                    return;
-                }
+            const apiResult = await dashboardApi(
+                "update",
+                TABLES.wavePayments,
+                { status, validated_at: new Date().toISOString() },
+                reference,
+                "reference"
+            );
+            if (!apiResult.ok && apiResult.error) {
+                statusText.textContent = `Paiement Wave mis a jour localement. ${apiResult.error}`;
+                await loadDashboard();
+                return;
             }
 
             statusText.textContent = status === "succeeded" ? "Paiement Wave marque comme valide." : "Paiement Wave mis a jour.";
@@ -3148,17 +2837,11 @@
             renderWaveHistory(currentWavePayments);
             if (waveSuccessTotal) waveSuccessTotal.textContent = formatPrice(getWaveSuccessTotal(currentWavePayments));
 
-            if (supabaseClient) {
-                const { error } = await supabaseClient
-                    .from(TABLES.wavePayments)
-                    .delete()
-                    .eq("reference", reference);
-                if (error) {
-                    console.error("Supabase Wave payment delete failed:", error);
-                    statusText.textContent = `Paiement retire du dashboard. Supabase: ${error.message}`;
-                    await loadDashboard();
-                    return;
-                }
+            const apiResult = await dashboardApi("delete", TABLES.wavePayments, {}, reference, "reference");
+            if (!apiResult.ok && apiResult.error) {
+                statusText.textContent = `Paiement retire du dashboard. ${apiResult.error}`;
+                await loadDashboard();
+                return;
             }
 
             statusText.textContent = "Paiement Wave supprime du dashboard.";
@@ -3211,6 +2894,7 @@
                 abandoned: { label: "Paniers abandonnes", table: TABLES.abandonedCheckouts, localKey: "redemption_abandoned_checkouts", records: currentAbandonedCheckouts, mode: "hard" },
                 products: { label: "Produits", table: TABLES.products, localKey: "redemption_products", records: currentProducts, mode: "soft", productHidden: true },
                 incoming: { label: "Arrivage en cours", table: TABLES.incoming, localKey: "redemption_incoming_products", records: currentIncomingProducts, mode: "soft" },
+                bestsellers: { label: "Articles populaires", table: TABLES.bestsellers, localKey: null, records: currentBestsellers, mode: "soft" },
                 messages: { label: "Messages formulaire", table: TABLES.messages, localKey: "redemption_contact_messages", records: currentMessages, mode: "hard" },
                 newsletter: { label: "Newsletter", table: TABLES.newsletter, localKey: "redemption_newsletter_subscribers", records: currentNewsletter, mode: "hard" },
                 waveActive: { label: currentWaveFilter === "cancelled" ? "Paiements Wave annules" : "Paiements Wave actifs", table: TABLES.wavePayments, localKey: "redemption_wave_payments", records: waveActive, mode: "hard", referenceField: true },
@@ -3248,27 +2932,24 @@
         }
 
         async function syncBulkDelete(config) {
-            if (!supabaseClient || !config.records.length) return "";
-            try {
+            if (!config.records.length) return "";
+            let firstError = "";
+            for (const record of config.records) {
+                let result;
                 if (config.referenceField) {
-                    const references = config.records.map((record) => normalizeText(record.reference)).filter(Boolean);
-                    if (references.length) {
-                        const { error } = await supabaseClient.from(config.table).delete().in("reference", references);
-                        if (error) return error.message;
-                    }
-                    return "";
+                    const reference = normalizeText(record.reference);
+                    if (!reference) continue;
+                    result = await dashboardApi("delete", config.table, {}, reference, "reference");
+                } else if (config.mode === "soft") {
+                    if (!isSupabaseProductId(record.id)) continue;
+                    result = await dashboardApi("update", config.table, { is_active: false }, record.id, "id");
+                } else {
+                    if (!isSupabaseProductId(record.id)) continue;
+                    result = await dashboardApi("delete", config.table, {}, record.id, "id");
                 }
-
-                const supabaseIds = config.records.map((record) => record.id).filter((id) => isSupabaseProductId(id));
-                if (!supabaseIds.length) return "";
-                const query = supabaseClient.from(config.table);
-                const { error } = config.mode === "soft"
-                    ? await query.update({ is_active: false }).in("id", supabaseIds)
-                    : await query.delete().in("id", supabaseIds);
-                return error ? error.message : "";
-            } catch (error) {
-                return error?.message || "Erreur inconnue";
+                if (result && !result.ok && result.error && !firstError) firstError = result.error;
             }
+            return firstError;
         }
 
         function getDashboardRecordId(record) {
@@ -3500,6 +3181,34 @@
                         <span class="pill">${Number(product.price || 0) ? formatPrice(Number(product.price || 0)) : "Prix a venir"}</span>
                         <button class="edit-btn" type="button" data-incoming-id="${escapeHtml(product.id)}">Modifier</button>
                         <button class="delete-btn" type="button" data-incoming-id="${escapeHtml(product.id)}" aria-label="Supprimer ${escapeHtml(product.name)}">X</button>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        function renderBestsellersDashboard(items) {
+            if (!items.length) {
+                bestsellersGrid.innerHTML = emptyState("Aucun article populaire pour le moment.");
+                return;
+            }
+
+            bestsellersGrid.innerHTML = items.map((product) => `
+                <article class="product-row">
+                    <img src="${escapeHtml(normalizeMediaUrl(product.image_url || "img/logo.jpg"))}" alt="${escapeHtml(product.name)}" loading="lazy" onerror="this.onerror=null;this.src='img/logo.jpg';">
+                    <div>
+                        <strong>${escapeHtml(formatProductName(product))}</strong>
+                        <p>${escapeHtml(product.description || "")}</p>
+                        <div class="product-meta">
+                            <span class="pill">${escapeHtml(formatCategory(product.category))}</span>
+                            ${product.collection_name ? `<span class="pill">${escapeHtml(product.collection_name)}</span>` : ""}
+                            ${product.color ? `<span class="pill">${renderColorSwatch(product.color)}${escapeHtml(product.color)}</span>` : ""}
+                            ${renderSizesPills(product.sizes)}
+                        </div>
+                    </div>
+                    <div class="row-actions">
+                        <span class="pill">${formatPrice(Number(product.price || 0))}</span>
+                        <button class="edit-btn" type="button" data-bestseller-id="${escapeHtml(product.id)}">Modifier</button>
+                        <button class="delete-btn" type="button" data-bestseller-id="${escapeHtml(product.id)}" aria-label="Supprimer ${escapeHtml(product.name)}">X</button>
                     </div>
                 </article>
             `).join("");
@@ -3919,25 +3628,206 @@
             localStorage.setItem(key, JSON.stringify(records));
         }
 
+        /* ── Color picker helpers ── */
+        function hsvToHex(h, s, v) {
+            const c = v * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = v - c;
+            let r, g, b;
+            if (h < 60)  { r = c; g = x; b = 0; }
+            else if (h < 120) { r = x; g = c; b = 0; }
+            else if (h < 180) { r = 0; g = c; b = x; }
+            else if (h < 240) { r = 0; g = x; b = c; }
+            else if (h < 300) { r = x; g = 0; b = c; }
+            else              { r = c; g = 0; b = x; }
+            return '#' + [r, g, b].map(n => Math.round((n + m) * 255).toString(16).padStart(2, '0')).join('');
+        }
+
+        function hexToHsv(hex) {
+            const r = parseInt(hex.slice(1,3),16)/255, g = parseInt(hex.slice(3,5),16)/255, b = parseInt(hex.slice(5,7),16)/255;
+            const max = Math.max(r,g,b), min = Math.min(r,g,b), d = max - min;
+            let h = 0, s = max === 0 ? 0 : d/max, v = max;
+            if (d !== 0) {
+                switch (max) {
+                    case r: h = ((g-b)/d + (g<b ? 6:0)) * 60; break;
+                    case g: h = ((b-r)/d + 2) * 60; break;
+                    case b: h = ((r-g)/d + 4) * 60; break;
+                }
+            }
+            return [h, s, v];
+        }
+
         function setupColorPicker(form) {
             const picker = form?.matches?.("[data-color-picker]") ? form : form?.querySelector("[data-color-picker]");
             const input = picker?.querySelector('input[name="color"]');
-            const options = picker?.querySelector(".color-options");
-            if (!picker || !input || !options) return;
+            const optionsContainer = picker?.querySelector(".color-options");
+            if (!picker || !input || !optionsContainer) return;
 
-            options.innerHTML = predefinedColors.map((color) => `
-                <button class="color-option" type="button" data-color="${escapeHtml(color.name)}" style="--swatch: ${escapeHtml(color.value)}">
-                    <span class="color-swatch" aria-hidden="true"></span>
-                    ${escapeHtml(color.name)}
-                </button>
-            `).join("");
+            /* ── Swatches prédéfinis ── */
+            optionsContainer.innerHTML = predefinedColors.map(c => `
+                <button class="color-option" type="button" data-color="${escapeHtml(c.name)}" data-hex="${escapeHtml(c.value)}">
+                    <span class="color-swatch" style="--swatch:${escapeHtml(c.value)}" aria-hidden="true"></span>
+                    ${escapeHtml(c.name)}
+                </button>`).join("");
 
-            options.addEventListener("click", (event) => {
-                const button = event.target.closest(".color-option");
-                if (!button) return;
-                setSelectedColor(form, button.dataset.color || "", picker);
+            /* ── Zone couleur personnalisée ── */
+            const customRow = document.createElement("div");
+            customRow.className = "color-custom-row";
+            customRow.innerHTML = `
+                <button class="add-custom-color-btn" type="button" aria-label="Couleur personnalisée" title="Ajouter une couleur">+</button>
+                <div class="custom-swatches-area"></div>`;
+            optionsContainer.after(customRow);
+
+            /* ── Popup ── */
+            const popup = document.createElement("div");
+            popup.className = "color-picker-popup";
+            popup.hidden = true;
+            popup.innerHTML = `
+                <canvas class="color-canvas" width="252" height="150"></canvas>
+                <input type="range" class="hue-slider" min="0" max="359" value="0" />
+                <div class="hex-row">
+                    <span class="hex-preview"></span>
+                    <input type="text" class="hex-input-field" placeholder="#000000" maxlength="7" spellcheck="false" />
+                    <button class="eyedropper-btn" type="button" title="Pipette">✎</button>
+                </div>
+                <div class="popup-footer">
+                    <div class="popup-custom-swatches"></div>
+                    <button class="popup-add-btn" type="button">Choisir</button>
+                </div>`;
+            customRow.appendChild(popup);
+
+            /* ── State ── */
+            let hue = 0, sat = 0.72, val = 0.78;
+            const canvas   = popup.querySelector(".color-canvas");
+            const ctx      = canvas.getContext("2d");
+            const hueSlider = popup.querySelector(".hue-slider");
+            const hexFld   = popup.querySelector(".hex-input-field");
+            const hexPrev  = popup.querySelector(".hex-preview");
+            const popSwatches = popup.querySelector(".popup-custom-swatches");
+            let customColors = [];
+
+            function drawCanvas() {
+                const w = canvas.width, h = canvas.height;
+                const gradH = ctx.createLinearGradient(0,0,w,0);
+                gradH.addColorStop(0, "#fff");
+                gradH.addColorStop(1, hsvToHex(hue,1,1));
+                ctx.fillStyle = gradH; ctx.fillRect(0,0,w,h);
+                const gradV = ctx.createLinearGradient(0,0,0,h);
+                gradV.addColorStop(0,"rgba(0,0,0,0)"); gradV.addColorStop(1,"#000");
+                ctx.fillStyle = gradV; ctx.fillRect(0,0,w,h);
+                const cx = sat*w, cy = (1-val)*h;
+                ctx.beginPath(); ctx.arc(cx,cy,8,0,2*Math.PI);
+                ctx.strokeStyle="#fff"; ctx.lineWidth=2.5; ctx.stroke();
+                ctx.beginPath(); ctx.arc(cx,cy,8,0,2*Math.PI);
+                ctx.strokeStyle="rgba(0,0,0,0.28)"; ctx.lineWidth=1; ctx.stroke();
+            }
+
+            function syncUI() {
+                const hex = hsvToHex(hue, sat, val);
+                hexFld.value = hex;
+                hexPrev.style.background = hex;
+                hueSlider.value = Math.round(hue);
+                hueSlider.style.setProperty("--thumb-color", hsvToHex(hue,1,1));
+                drawCanvas();
+            }
+
+            function applyHex(raw) {
+                const h = raw.startsWith("#") ? raw : "#"+raw;
+                if (!/^#[0-9a-fA-F]{6}$/.test(h)) return;
+                [hue, sat, val] = hexToHsv(h);
+                syncUI();
+            }
+
+            /* Canvas pointer */
+            let dragging = false;
+            function onCanvas(e) {
+                const rect = canvas.getBoundingClientRect();
+                const cx = e.touches ? e.touches[0].clientX : e.clientX;
+                const cy = e.touches ? e.touches[0].clientY : e.clientY;
+                sat = Math.max(0, Math.min(1, (cx - rect.left) / rect.width));
+                val = Math.max(0, Math.min(1, 1 - (cy - rect.top) / rect.height));
+                syncUI();
+            }
+            canvas.addEventListener("mousedown",  e => { dragging=true; onCanvas(e); });
+            canvas.addEventListener("touchstart", e => { dragging=true; onCanvas(e); e.preventDefault(); }, {passive:false});
+            document.addEventListener("mousemove",  e => { if (dragging) onCanvas(e); });
+            document.addEventListener("touchmove",  e => { if (dragging) onCanvas(e); }, {passive:false});
+            document.addEventListener("mouseup",    () => { dragging=false; });
+            document.addEventListener("touchend",   () => { dragging=false; });
+
+            hueSlider.addEventListener("input", () => { hue = Number(hueSlider.value); syncUI(); });
+            hexFld.addEventListener("input", () => applyHex(hexFld.value.trim()));
+
+            /* Eyedropper */
+            const eyeBtn = popup.querySelector(".eyedropper-btn");
+            if (window.EyeDropper) {
+                eyeBtn.addEventListener("click", async () => {
+                    try { const r = await new EyeDropper().open(); applyHex(r.sRGBHex); } catch {}
+                });
+            } else { eyeBtn.style.display = "none"; }
+
+            /* Custom swatches */
+            function renderCustomSwatches() {
+                customRow.querySelector(".custom-swatches-area").innerHTML =
+                    customColors.map((hex, i) => `<button class="custom-swatch-btn" type="button" data-hex="${escapeHtml(hex)}" style="--swatch:${escapeHtml(hex)}" title="${escapeHtml(hex)}"></button>`).join("");
+                popSwatches.innerHTML =
+                    customColors.map(hex => `<span class="popup-swatch-circle" style="background:${escapeHtml(hex)}" data-hex="${escapeHtml(hex)}" title="${escapeHtml(hex)}"></span>`).join("");
+                popSwatches.querySelectorAll(".popup-swatch-circle").forEach(s => {
+                    s.addEventListener("click", () => applyHex(s.dataset.hex));
+                });
+            }
+
+            function selectCustomHex(hex) {
+                input.value = hex;
+                optionsContainer.querySelectorAll(".color-option").forEach(b => b.classList.remove("active"));
+                customRow.querySelectorAll(".custom-swatch-btn").forEach(b =>
+                    b.classList.toggle("active", b.dataset.hex === hex));
+            }
+
+            popup.querySelector(".popup-add-btn").addEventListener("click", () => {
+                const hex = hexFld.value.trim().toLowerCase();
+                if (!/^#[0-9a-fA-F]{6}$/.test(hex)) return;
+                if (!customColors.includes(hex)) { customColors.push(hex); renderCustomSwatches(); }
+                selectCustomHex(hex);
+                popup.hidden = true;
             });
 
+            customRow.addEventListener("click", e => {
+                const btn = e.target.closest(".custom-swatch-btn");
+                if (!btn) return;
+                selectCustomHex(btn.dataset.hex);
+            });
+
+            /* Predefined click */
+            optionsContainer.addEventListener("click", e => {
+                const btn = e.target.closest(".color-option");
+                if (!btn) return;
+                setSelectedColor(form, btn.dataset.color || "", picker);
+                customRow.querySelectorAll(".custom-swatch-btn").forEach(b => b.classList.remove("active"));
+            });
+
+            /* Toggle popup */
+            customRow.querySelector(".add-custom-color-btn").addEventListener("click", e => {
+                e.stopPropagation();
+                popup.hidden = !popup.hidden;
+                if (!popup.hidden) {
+                    const cur = input.value;
+                    const isHex = /^#[0-9a-fA-F]{6}$/i.test(cur);
+                    if (isHex) { applyHex(cur); }
+                    else {
+                        const found = predefinedColors.find(c => c.name === cur);
+                        if (found) applyHex(found.value);
+                        else syncUI();
+                    }
+                    renderCustomSwatches();
+                }
+            });
+
+            document.addEventListener("click", e => {
+                if (!popup.hidden && !popup.contains(e.target) && !e.target.closest(".add-custom-color-btn")) {
+                    popup.hidden = true;
+                }
+            });
+
+            syncUI();
             setSelectedColor(form, input.value || "", picker);
         }
 
@@ -3947,9 +3837,8 @@
             if (!input || !picker) return;
             const cleanColor = normalizeText(color);
             input.value = cleanColor;
-            picker.querySelectorAll(".color-option").forEach((button) => {
-                button.classList.toggle("active", button.dataset.color === cleanColor);
-            });
+            picker.querySelectorAll(".color-option").forEach(btn =>
+                btn.classList.toggle("active", btn.dataset.color === cleanColor));
         }
 
         function setupSizePickers(root) {
@@ -4016,8 +3905,11 @@
         }
 
         function renderColorSwatch(color) {
-            const colorData = predefinedColors.find((item) => item.name.toLowerCase() === String(color || "").toLowerCase());
-            return `<span class="color-swatch" style="--swatch: ${escapeHtml(colorData?.value || "#ddd")}" aria-hidden="true"></span>`;
+            const isHex = /^#[0-9a-fA-F]{6}$/i.test(color);
+            const swatchVal = isHex
+                ? color
+                : (predefinedColors.find(c => c.name.toLowerCase() === String(color||"").toLowerCase())?.value || "#ddd");
+            return `<span class="color-swatch" style="--swatch:${escapeHtml(swatchVal)}" aria-hidden="true"></span>`;
         }
 
         function normalizeProductImages(value) {

@@ -17,14 +17,14 @@
             color: var(--black);
             font-family: var(--font-body);
         }
-
+        
         .success-page {
             display: grid;
             min-height: 100vh;
             place-items: center;
             padding: 24px;
         }
-
+        
         .success-card {
             width: min(560px, 100%);
             display: grid;
@@ -35,7 +35,7 @@
             text-align: center;
             box-shadow: 0 24px 70px rgba(13, 13, 11, 0.12);
         }
-
+        
         .success-mark {
             display: grid;
             width: 72px;
@@ -47,21 +47,21 @@
             color: #fff;
             font-size: 34px;
         }
-
+        
         .success-card h1 {
             margin: 0;
             color: var(--green);
             font-size: clamp(38px, 11vw, 68px);
             line-height: 0.95;
         }
-
+        
         .success-card p {
             margin: 0;
             color: var(--body-muted);
             font-size: 1rem;
             line-height: 1.7;
         }
-
+        
         .success-ref {
             display: block;
             border: 1px solid rgba(13, 13, 11, 0.1);
@@ -70,7 +70,7 @@
             color: var(--black);
             font-size: 0.9rem;
         }
-
+        
         .success-card .btn {
             width: 100%;
             min-height: 54px;
@@ -113,9 +113,11 @@
         function markPaymentAsConfirmed(reference) {
             try {
                 const payments = JSON.parse(localStorage.getItem("redemption_wave_payments") || "[]");
-                const updated = payments.map((payment) => String(payment.reference) === String(reference)
-                    ? { ...payment, status: "pending_review", customer_confirmed_at: new Date().toISOString() }
-                    : payment);
+                const updated = payments.map((payment) => String(payment.reference) === String(reference) ? {...payment,
+                        status: "pending_review",
+                        customer_confirmed_at: new Date().toISOString()
+                    } :
+                    payment);
                 localStorage.setItem("redemption_wave_payments", JSON.stringify(updated));
             } catch {
                 return;
@@ -126,7 +128,7 @@
             try {
                 const payments = JSON.parse(localStorage.getItem("redemption_wave_payments") || "[]");
                 const payment = payments.find((item) => String(item.reference) === String(reference)) || readSuccess();
-                if (typeof window.redemptionTrackMeta !== "function" || !payment?.amount) return;
+                if (typeof window.redemptionTrackMeta !== "function" || !payment ? .amount) return;
                 window.redemptionTrackMeta("Purchase", {
                     content_ids: (payment.items || []).map((item) => item.id).filter(Boolean),
                     content_type: "product",

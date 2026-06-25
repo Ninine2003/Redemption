@@ -1,6 +1,10 @@
 {
-  "scripts": {
-    "build": "node scripts/build.js",
-    "deploy": "npm run build && netlify deploy --prod --no-build --dir dist"
-  }
+    "scripts": {
+        "build": "node scripts/build.js",
+        "deploy": "npm run build && netlify deploy --prod --no-build --dir dist"
+    },
+    "dependencies": {
+        "node-fetch": "^3.3.2",
+        "socks-proxy-agent": "^10.1.0"
+    }
 }

@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /dashboard.html
+Disallow: /payment-success.html
+Disallow: /wave-payment.html
 
 Sitemap: https://house-of-redemption.netlify.app/sitemap.xml
