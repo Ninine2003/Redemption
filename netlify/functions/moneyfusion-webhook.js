@@ -13,7 +13,9 @@ const { sendPaymentConfirmationEmail } = require("./lib/email");
 
 const SUPABASE_URL = process.env.SUPABASE_URL || "https://mwbmzwohtisnpjayejkw.supabase.co";
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const STATUS_API = "https://www.pay.moneyfusion.net/paiementNotif";
+// NB : le certificat TLS de Money Fusion ne couvre que pay.moneyfusion.net
+// (PAS www.pay.moneyfusion.net), sinon erreur ERR_TLS_CERT_ALTNAME_INVALID.
+const STATUS_API = "https://pay.moneyfusion.net/paiementNotif";
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
@@ -50,6 +52,7 @@ exports.handler = async (event) => {
   }
 
   const newStatus = mapStatus(authoritativeStatus);
+  console.log(`MoneyFusion webhook reçu — ref=${reference} statut="${authoritativeStatus}" -> ${newStatus || "pending(ignoré)"}`);
   if (!newStatus) {
     return { statusCode: 200, body: "Pending" };
   }
@@ -68,16 +71,18 @@ exports.handler = async (event) => {
   }
 
   await updatePaymentStatus(reference, newStatus);
+  console.log(`Paiement ${reference} mis à jour en base : ${newStatus}`);
 
   // Email de confirmation : uniquement sur un paiement réussi.
   if (newStatus === "succeeded" && payment) {
-    await sendPaymentConfirmationEmail({
+    const sent = await sendPaymentConfirmationEmail({
       email: payment.customer_email,
       firstName: payment.customer_first_name,
       reference,
       amount: payment.amount,
       items: Array.isArray(payment.items) ? payment.items : safeParseItems(payment.items),
     });
+    console.log(`Email de confirmation pour ${reference} (${payment.customer_email || "sans email"}) : ${sent ? "envoyé" : "non envoyé"}`);
   }
 
   return { statusCode: 200, body: "OK" };
