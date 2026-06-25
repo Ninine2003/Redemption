@@ -128,7 +128,7 @@
         <h2 id="orderTitle">Finaliser ma commande</h2>
         <p>Renseignez vos informations. L'équipe vous recontacte pour confirmer votre livraison.</p>
         <div class="checkout-trust-list">
-          <span><i class="fas fa-lock"></i> Paiement Wave sécurisé</span>
+          <span><i class="fas fa-lock"></i> Paiement sécurisé Money Fusion</span>
           <span><i class="fab fa-whatsapp"></i> Confirmation WhatsApp</span>
           <span><i class="fas fa-truck-fast"></i> Livraison suivie à Abidjan</span>
         </div>
@@ -156,14 +156,13 @@
         </div>
         <label>Paiement *
           <span class="payment-wave-note">
-            <img src="logo wave/logo wave.png" alt="Wave" />
-            <span>Paiement obligatoire par Wave avant validation.</span>
+            <span>Paiement sécurisé par Money Fusion (Wave, Orange Money, MTN, Moov) avant validation.</span>
           </span>
-          <input type="hidden" name="payment" value="wave" />
+          <input type="hidden" name="payment" value="moneyfusion" />
         </label>
         <label class="privacy-check"><input type="checkbox" name="shareLocation" /> Partager ma position. Optionnel.</label>
         <div id="orderSummary" class="modal-summary"></div>
-        <button id="orderWaveButton" class="btn btn-primary order-wave-btn" type="button">Valider et payer avec Wave</button>
+        <button id="orderWaveButton" class="btn btn-primary order-wave-btn" type="button">Valider et payer</button>
       </div>
       <div id="orderSuccess" class="order-success" hidden>
         <i class="fas fa-check-circle"></i>
